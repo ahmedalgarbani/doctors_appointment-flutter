@@ -1,4 +1,5 @@
 import 'package:doctors_appointment/core/router/router.dart';
+import 'package:doctors_appointment/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,6 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: AppThemeManager.lightTheme,
+      darkTheme: AppThemeManager.darkTheme,
+      debugShowCheckedModeBanner: false,
       routerConfig: AppRouter.router,
     );
   }

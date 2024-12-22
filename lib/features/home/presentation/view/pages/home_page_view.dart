@@ -13,7 +13,7 @@ class HomePageView extends StatelessWidget {
       body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
-              top: KVerticalPadding,
+              
               left: KHorizantalPadding,
               right: KHorizantalPadding),
           child: HomePageViewBody(),

@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_horizantal_list.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_list.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_page_header.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/search_filed.dart';
@@ -38,11 +39,20 @@ class HomePageViewBody extends StatelessWidget {
             height: 10,
           ),
           DoctorList(),
+          SizedBox(
+            height: 10,
+          ),
+          SectionsTitle(
+            title: "Top Rating Doctors",
+            onPressed: () {},
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          DoctorHorizantalList(),
         ],
       ),
     );
   }
 }
-
-
 

@@ -61,4 +61,10 @@ abstract class DumyData {
         imagePath: AppImage.doctor06,
         Speciality: "Brain"),
   ];
+  static final List<String> paymets = [
+    AppImage.AlAwa,
+    AppImage.AlKuraimi,
+    AppImage.AlNajm,
+    AppImage.Wasel
+  ];
 }

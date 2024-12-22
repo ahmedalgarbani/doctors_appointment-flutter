@@ -18,7 +18,7 @@ class _CustomNavigationButtonState extends State<CustomNavigationButton> {
     Icons.person
   ];
 
-  final List<String> labels = ['home', 'category', 'favorite', 'profile'];
+  final List<String> labels = ['home', 'history', 'favorite', 'profile'];
 
   int selectedIndex = 0;
 

@@ -26,6 +26,7 @@ dependencies:
   go_router: ^14.2.0
   hydrated_bloc: ^9.1.5
   sqflite: ^2.3.3+1
+  dots_indicator: ^3.0.0
 
   flutter:
     sdk: flutter

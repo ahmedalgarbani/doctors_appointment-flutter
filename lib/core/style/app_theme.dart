@@ -51,7 +51,6 @@ class AppThemeManager {
       ),
       filled: true,
       fillColor: Colors.transparent,
-      contentPadding: EdgeInsets.all(30),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
         borderSide: BorderSide(color: Colors.white, width: 0.4),

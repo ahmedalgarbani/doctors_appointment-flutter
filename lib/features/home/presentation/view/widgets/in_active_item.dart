@@ -1,10 +1,10 @@
-
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:flutter/material.dart';
 
 class UnActiveItem extends StatelessWidget {
-  const UnActiveItem({super.key, required this.icon});
+  const UnActiveItem({super.key, required this.icon, this.onPressed});
   final IconData icon;
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,8 +16,12 @@ class UnActiveItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(
-        child: Icon(
-          icon,
+        child: IconButton(
+          onPressed: onPressed,
+          icon: Icon(
+            icon,
+            color: AppColor.primaryColor,
+          ),
           color: AppColor.primaryColor,
         ),
       ),

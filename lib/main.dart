@@ -1,8 +1,11 @@
+import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Pref.init();
   runApp(const MyApp());
 }
 

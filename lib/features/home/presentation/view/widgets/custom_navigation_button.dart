@@ -1,16 +1,15 @@
-
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/navigation_item.dart';
 import 'package:flutter/material.dart';
 
-class CustomNavigationButton extends StatefulWidget {
-  CustomNavigationButton({super.key});
+// ignore: must_be_immutable
+class CustomNavigationButton extends StatelessWidget {
+  CustomNavigationButton(
+      {super.key, required this.selectedIndex, required this.onChange});
 
-  @override
-  State<CustomNavigationButton> createState() => _CustomNavigationButtonState();
-}
+  final int selectedIndex;
+  final ValueChanged<int> onChange;
 
-class _CustomNavigationButtonState extends State<CustomNavigationButton> {
   List<IconData> iconPaths = [
     Icons.home,
     Icons.menu,
@@ -19,9 +18,6 @@ class _CustomNavigationButtonState extends State<CustomNavigationButton> {
   ];
 
   final List<String> labels = ['home', 'history', 'favorite', 'profile'];
-
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,16 +27,14 @@ class _CustomNavigationButtonState extends State<CustomNavigationButton> {
       decoration: ShapeDecoration(
         shadows: [
           BoxShadow(
-            color: AppColor.primaryColor.withOpacity(0.2),
-            blurRadius: 25,
+            color: AppColor.primaryColor.withOpacity(0.1),
+            blurRadius: 1,
             offset: Offset(0, -2),
             spreadRadius: 0,
           )
         ],
         shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: AppColor.primaryColor.withOpacity(0.2)
-          ),
+          side: BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(15),
           ),
@@ -54,11 +48,7 @@ class _CustomNavigationButtonState extends State<CustomNavigationButton> {
               flex: index == selectedIndex ? 2 : 1,
               child: GestureDetector(
                 onTap: () {
-                  setState(
-                    () {
-                      selectedIndex = index;
-                    },
-                  );
+                  onChange(index);
                 },
                 child: NaivgationBarItem(
                   icon: iconPaths[index],

@@ -1,4 +1,3 @@
-
 import 'package:doctors_appointment/core/assets_helper/app_vectors.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ class SearchField extends StatelessWidget {
         )
       ]),
       child: TextField(
+          enabled: false,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             hintText: "ابحث عن.......",
@@ -28,6 +28,7 @@ class SearchField extends StatelessWidget {
             filled: true,
             fillColor: Color(0xFF949D9E).withOpacity(0.1),
             border: buildOutline(),
+
             enabledBorder: buildOutline(),
             focusedBorder: buildOutline(),
             prefixIcon: SizedBox(
@@ -35,6 +36,7 @@ class SearchField extends StatelessWidget {
               width: 20,
               child: Center(child: SvgPicture.asset(AppVectors.search_normal)),
             ),
+
             // suffixIcon: SizedBox(
             //   height: 20,
             //   width: 20,
@@ -45,7 +47,8 @@ class SearchField extends StatelessWidget {
 
   OutlineInputBorder buildOutline() {
     return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(width: 1, color: Colors.white));
+      borderRadius: BorderRadius.circular(4),
+      borderSide: BorderSide(width: 1, color: Colors.white),
+    );
   }
 }

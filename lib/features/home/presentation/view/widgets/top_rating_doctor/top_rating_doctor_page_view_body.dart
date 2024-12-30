@@ -1,8 +1,8 @@
 import 'package:doctors_appointment/core/dumy/dumy_data.dart';
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_horizantal_list_item.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/top_starts_list.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_horizantal_list_item.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/top_starts_list.dart';
 import 'package:flutter/material.dart';
 
 class TopRatingDoctorPageViewBody extends StatelessWidget {

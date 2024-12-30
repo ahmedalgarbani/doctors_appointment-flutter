@@ -1,18 +1,18 @@
-
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.title, this.onPressed});
+  const CustomButton({super.key, required this.title, this.onPressed, this.height});
   final String title;
   final VoidCallback? onPressed;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed ?? () {},
       child: Container(
-        height: 60,
+        height:height?? 60,
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         width: double.infinity,

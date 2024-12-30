@@ -1,4 +1,4 @@
-import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_horizantal_list.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_horizantal_list.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteDoctorViewBody extends StatelessWidget {

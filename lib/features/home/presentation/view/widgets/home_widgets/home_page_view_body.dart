@@ -1,10 +1,10 @@
 import 'package:doctors_appointment/core/router/router.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_horizantal_list.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_list.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_page_header.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_horizantal_list.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_list.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/home_page_header.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/search_filed.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/section_title.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/special_list.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/special/special_list.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

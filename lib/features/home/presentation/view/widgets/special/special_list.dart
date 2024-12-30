@@ -1,6 +1,6 @@
 
 import 'package:doctors_appointment/core/dumy/dumy_data.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/special_list_card.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/special/special_list_card.dart';
 import 'package:flutter/material.dart';
 
 class SpecialistList extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:doctors_appointment/features/appointment/presentation/view/pages/appointment_page_view.dart';
 import 'package:doctors_appointment/features/auth/presentation/view/signin_or_login.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/favorite_doctor_view.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/custom_navigation_button.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_page_view_body.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/custom_navigation_button.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/home_page_view_body.dart';
 import 'package:flutter/material.dart';
 
 class HomePageView extends StatefulWidget {

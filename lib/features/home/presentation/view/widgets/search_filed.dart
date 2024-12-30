@@ -1,11 +1,15 @@
-import 'package:doctors_appointment/core/assets_helper/app_vectors.dart';
+// ignore_for_file: must_be_immutable
+
+import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/widgets/puffix_search_icon.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({super.key});
-
+  SearchField({super.key});
+  TextEditingController _searchTextEdit = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,9 +22,9 @@ class SearchField extends StatelessWidget {
         )
       ]),
       child: TextField(
-          enabled: false,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
+        controller: _searchTextEdit,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
             hintText: "ابحث عن.......",
             hintStyle: TextStyles.Regular16.copyWith(
               color: const Color(0xFF949D9E),
@@ -28,20 +32,15 @@ class SearchField extends StatelessWidget {
             filled: true,
             fillColor: Color(0xFF949D9E).withOpacity(0.1),
             border: buildOutline(),
-
             enabledBorder: buildOutline(),
             focusedBorder: buildOutline(),
-            prefixIcon: SizedBox(
-              height: 20,
-              width: 20,
-              child: Center(child: SvgPicture.asset(AppVectors.search_normal)),
-            ),
-
-            // suffixIcon: SizedBox(
-            //   height: 20,
-            //   width: 20,
-            //   child: Center(child: SvgPicture.asset(AppVector.filter_search)),
-          )),
+            prefixIcon: SuffixSearchIcon(
+              onTap: () {
+                GoRouter.of(context)
+                    .push(AppRouter.KSearchPage, extra: _searchTextEdit.text);
+              },
+            )),
+      ),
     );
   }
 

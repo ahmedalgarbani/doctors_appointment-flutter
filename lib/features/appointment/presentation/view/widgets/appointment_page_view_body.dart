@@ -2,7 +2,7 @@ import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/features/appointment/presentation/view/widgets/empty_appointment_view.dart';
 import 'package:doctors_appointment/features/appointment/presentation/view/widgets/past_appointment_view.dart';
 import 'package:doctors_appointment/features/appointment/presentation/view/widgets/tab_header_button.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_page_header.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/home_page_header.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

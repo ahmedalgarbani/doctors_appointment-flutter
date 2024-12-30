@@ -4,6 +4,8 @@ abstract class AppVectors {
 
   static const String logo = '${path}logo${format}';
   static const String search_normal = '${path}search_normal${format}';
+  static const String filter_search = '${path}filter_search${format}';
+  static const String search_empty = '${path}search_empty${format}';
   // specialist
   static const String specialitiesBrain = '${path}specialities-brain${format}';
   static const String specialitiesDentis =

@@ -1,6 +1,6 @@
 import 'package:doctors_appointment/core/dumy/dumy_data.dart';
 import 'package:doctors_appointment/core/router/router.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_list_card.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -10,11 +10,13 @@ import 'package:doctors_appointment/features/home/presentation/view/pages/home_p
 import 'package:doctors_appointment/features/home/presentation/view/pages/top_rating_doctor_page_view.dart';
 import 'package:doctors_appointment/features/notification/presentation/view/pages/notification_page_view.dart';
 import 'package:doctors_appointment/features/onBoarding/presenttation/view/OnBoarding.dart';
+import 'package:doctors_appointment/features/search/presentation/view/pages/search_page_view.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class AppRouter {
   static const String Kroot = '/';
   static const String KHomePage = '/KHomePage';
+  static const String KSearchPage = '/KSearchPage';
   static const String KSplashPage = '/KSplashPage';
   static const String KObBoarding = '/KObBoarding';
   static const String KSignin = '/KSignin';
@@ -75,11 +77,18 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: KSignin,
-        builder: (context, state) =>  SigninPageView(),
+        builder: (context, state) => SigninPageView(),
       ),
       GoRoute(
         path: KSignup,
-        builder: (context, state) =>  SignUpPageView(),
+        builder: (context, state) => SignUpPageView(),
+      ),
+      GoRoute(
+        path: KSearchPage,
+        builder: (context, state) {
+          var extra = state.extra;
+          return SearchPageView(textString: extra as String,);
+        },
       ),
     ],
   );

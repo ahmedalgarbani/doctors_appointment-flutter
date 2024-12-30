@@ -3,10 +3,10 @@ import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/core/widgets/custom_button.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/about_doctor.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/choose_date_snack_bar.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_image.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/doctor_item_list.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_image.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_item_list.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/location_doctor.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/starts_section.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/starts_section.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,5 +1,5 @@
 
-import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_start_list_item.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/top_rating_start_list_item.dart';
 import 'package:flutter/material.dart';
 
 class TopRatingStartsList extends StatefulWidget {

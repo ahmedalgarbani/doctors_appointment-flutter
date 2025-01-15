@@ -1,9 +1,5 @@
-import 'package:doctors_appointment/core/assets_helper/app_image.dart';
-import 'package:doctors_appointment/core/models/doctor_model.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/features/appointment/presentation/view/widgets/appointment_search_filed.dart';
-import 'package:doctors_appointment/features/appointment/presentation/view/widgets/appointment_status.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_horizantal_list_item.dart';
 import 'package:flutter/material.dart';
 
 class PastAppointmentView extends StatelessWidget {
@@ -25,126 +21,15 @@ class PastAppointmentView extends StatelessWidget {
                 color: Colors.black.withOpacity(0.6),
               ),
             ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 2),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 0),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 2),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 1),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 2),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 1),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 0),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 0),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 2),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 0),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 1),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 0),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 1),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 2),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
-            DoctorHorizantalListCard(
-              trailing: AppointmentStatusWidget(status: 0),
-              doctorModel: DoctorModel(
-                name: "Motasem Ahmed",
-                imagePath: AppImage.doctor03,
-                Speciality: "Heart",
-              ),
-            ),
+            
+            // DoctorHorizantalListCard(
+            //   trailing: AppointmentStatusWidget(status: 0),
+            //   doctorModel: DoctorModel(
+            //     name: "Motasem Ahmed",
+            //     imagePath: AppImage.doctor03,
+            //     Speciality: "Heart",
+            //   ),
+            // ),
           ],
         ),
       ),

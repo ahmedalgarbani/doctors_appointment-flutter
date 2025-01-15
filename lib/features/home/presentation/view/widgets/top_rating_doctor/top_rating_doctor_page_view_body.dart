@@ -1,4 +1,3 @@
-import 'package:doctors_appointment/core/dumy/dumy_data.dart';
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_horizantal_list_item.dart';
@@ -42,7 +41,7 @@ class TopRatingDoctorPageViewBody extends StatelessWidget {
                       ),
                     ],
                   )),
-              doctorModel: DumyData.doctorlist[index],
+              doctorModel:null ,
             );
           },
         ),

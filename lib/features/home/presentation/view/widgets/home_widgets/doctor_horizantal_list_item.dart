@@ -1,12 +1,12 @@
-import 'package:doctors_appointment/core/models/doctor_model.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
+import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/in_active_item.dart';
 import 'package:flutter/material.dart';
 
 class DoctorHorizantalListCard extends StatelessWidget {
   const DoctorHorizantalListCard(
-      {super.key, required this.doctorModel, this.trailing, this.onPress});
-  final DoctorModel doctorModel;
+      {super.key, this.doctorModel, this.trailing, this.onPress});
+  final DoctorModel? doctorModel;
   final Widget? trailing;
   final VoidCallback? onPress;
   @override
@@ -20,18 +20,18 @@ class DoctorHorizantalListCard extends StatelessWidget {
           contentPadding: EdgeInsets.only(left: 10, right: 5),
           trailing: trailing ?? UnActiveItem(icon: Icons.favorite_border),
           subtitle: Text(
-            doctorModel.Speciality,
+            '${doctorModel!.specialtyName}',
             style: TextStyles.Bold12.copyWith(color: Colors.grey),
           ),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(
-              doctorModel.imagePath,
+              doctorModel!.imagePath!,
               fit: BoxFit.cover,
             ),
           ),
           title: Text(
-            doctorModel.name,
+            doctorModel!.name,
             style: TextStyles.Bold16.copyWith(color: Colors.black),
           ),
         ),

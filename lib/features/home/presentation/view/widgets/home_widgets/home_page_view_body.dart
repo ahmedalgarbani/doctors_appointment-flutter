@@ -1,15 +1,18 @@
 import 'package:doctors_appointment/core/router/router.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_horizantal_list.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_list.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/home_page_header.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/search_filed.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/section_title.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/special/special_list.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../search/presentation/view/widgets/search_field_page_view.dart';
+import '../../../../data/models/doctor_model.dart';
+import 'doctor_horizantal_list.dart';
+
 class HomePageViewBody extends StatelessWidget {
-  const HomePageViewBody({super.key});
+  const HomePageViewBody({super.key, this.allDoctors});
+  final List<DoctorModel>? allDoctors;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +27,10 @@ class HomePageViewBody extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          GestureDetector(
-            onTap: () {},
-            child: SearchField(),
+          SearchFieldPageView(
+            onPress: () {
+              GoRouter.of(context).push(AppRouter.KSearchPage);
+            },
           ),
           SizedBox(height: 20),
           SectionsTitle(
@@ -49,7 +53,9 @@ class HomePageViewBody extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          DoctorList(),
+          DoctorList(
+            allDoctors: allDoctors!,
+          ),
           SizedBox(
             height: 10,
           ),
@@ -62,7 +68,9 @@ class HomePageViewBody extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          DoctorHorizantalList(),
+          DoctorHorizantalList(
+            allDoctors: allDoctors!,
+          ),
         ],
       ),
     );

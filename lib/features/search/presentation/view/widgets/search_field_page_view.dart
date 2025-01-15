@@ -5,11 +5,14 @@ import '../../../../../core/widgets/suffix_filter_icon.dart';
 import 'filter_bottom_sheet.dart';
 
 class SearchFieldPageView extends StatelessWidget {
-  const SearchFieldPageView({super.key});
+  SearchFieldPageView({super.key, this.onPress,  this.defaultValue});
+  final VoidCallback? onPress;
+  final String? defaultValue;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: defaultValue??'',
       cursorColor: AppColor.primaryColor,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -19,7 +22,9 @@ class SearchFieldPageView extends StatelessWidget {
         errorBorder: _buildOutlinedBorder(),
         focusedBorder: _buildOutlinedBorder(),
         disabledBorder: _buildOutlinedBorder(),
-        prefixIcon: const SuffixSearchIcon(),
+        prefixIcon: SuffixSearchIcon(
+          onTap: onPress ?? () {},
+        ),
         suffixIcon: SuffixFilterIcon(
           onTap: () => _showFilterBottomSheet(context),
         ),
@@ -33,7 +38,7 @@ class SearchFieldPageView extends StatelessWidget {
         left: Radius.circular(15),
         right: Radius.circular(15),
       ),
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(color: AppColor.primaryColor),
     );
   }
 

@@ -22,11 +22,12 @@ class HomePageHeader extends StatelessWidget {
       child: ListTile(
         title: Text(
           title ?? "Docuure app",
-          style: TextStyles.Black20Bold,
+          style: TextStyles.Bold16.copyWith(color: Colors.black),
         ),
         contentPadding: EdgeInsets.zero,
         leading: ClipOval(
-          child: SvgPicture.asset(AppVectors.logo),
+          child: SizedBox(
+              height: 40, width: 40, child: SvgPicture.asset(AppVectors.logo)),
         ),
         trailing: Container(
           width: 50,
@@ -37,7 +38,10 @@ class HomePageHeader extends StatelessWidget {
           child: Center(
             child: IconButton(
               onPressed: onPressed ?? () {},
-              icon: Icon(iconData ?? Icons.notifications,color:AppColor.primaryColor ,),
+              icon: Icon(
+                iconData ?? Icons.notifications,
+                color: AppColor.primaryColor,
+              ),
             ),
           ),
         ),

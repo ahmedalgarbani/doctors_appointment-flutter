@@ -1,7 +1,12 @@
+import 'package:doctors_appointment/core/helpers/build_snacbar.dart';
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
+import 'package:doctors_appointment/core/widgets/custom_progress_hud.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/favorite_doctor_view_body.dart';
+import 'package:doctors_appointment/features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class FavoriteDoctorView extends StatelessWidget {
   const FavoriteDoctorView({super.key});
@@ -9,30 +14,21 @@ class FavoriteDoctorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          "Top Doctors",
-          style: TextStyles.Black20Bold.copyWith(color: Colors.black),
-        ),
-        backgroundColor: Colors.transparent,
-        actions: [
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppColor.secondaryColor),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Center(
-              child: Icon(
-                Icons.sort,
-                color: AppColor.primaryColor,
-              ),
-            ),
-          )
-        ],
+      body: BlocConsumer<FavoritesCubit, FavoritesState>(
+        builder: (context, state) {
+          if (state is FavoritesLoaded) {
+            return FavoriteDoctorViewBody(allDoctors: state.favoritesDoctor!);
+          } else if (state is FavoritesLoading) {
+            return CustomProgressHud(isLoading: true, child: SizedBox());
+          }
+          return const SizedBox();
+        },
+        listener: (BuildContext context, FavoritesState state) {
+          if (state is FavoritesFailure) {
+            buildSnackbar(context, state.message);
+          }
+        },
       ),
-      body: FavoriteDoctorViewBody(),
     );
   }
 }

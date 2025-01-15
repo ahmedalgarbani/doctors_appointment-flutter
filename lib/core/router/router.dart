@@ -28,6 +28,7 @@ abstract class AppRouter {
   static const String KFavoriteDoctorView = '/KFavoriteDoctorView';
   static const String KNotificationPageView = '/KNotificationPageView';
   static const String KTopRatingDoctor = '/KTopRatingDoctor';
+  static const String KSigninOrSignUp = '/KSigninOrSignUp';
 
   static final router = GoRouter(
     routes: [
@@ -81,13 +82,15 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: KSignup,
-        builder: (context, state) => SignUpPageView(),
+        builder: (context, state) => SignupPageView(),
       ),
       GoRoute(
         path: KSearchPage,
         builder: (context, state) {
           var extra = state.extra;
-          return SearchPageView(textString: extra as String,);
+          return SearchPageView(
+            textString: extra as String?,
+          );
         },
       ),
     ],

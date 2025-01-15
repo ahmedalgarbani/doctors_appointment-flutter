@@ -3,18 +3,20 @@ import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../data/models/doctor_model.dart';
 
 class DoctorList extends StatelessWidget {
-  const DoctorList({
-    super.key,
+   DoctorList({
+    super.key, required this.allDoctors,
   });
+   final List<DoctorModel> allDoctors;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: DumyData.doctorlist.asMap().entries.map(
+        children: allDoctors.asMap().entries.map(
           (e) {
             return GestureDetector(
               onTap: () {

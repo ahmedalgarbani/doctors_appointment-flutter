@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Pref {
   static late SharedPreferences _prefs;
-   static Future<void> init() async {
+  static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
@@ -40,5 +40,10 @@ abstract class Pref {
 
   static Future<double> getDouble(String key) async {
     return await _prefs.getDouble(key) ?? 0.0;
+  }
+
+  // Remove
+  static Future<void> remove(String key) async {
+    await _prefs.remove(key);
   }
 }

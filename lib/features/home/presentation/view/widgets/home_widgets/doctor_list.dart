@@ -1,4 +1,3 @@
-import 'package:doctors_appointment/core/dumy/dumy_data.dart';
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_list_card.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,8 @@ class DoctorList extends StatelessWidget {
           (e) {
             return GestureDetector(
               onTap: () {
-                GoRouter.of(context).push(AppRouter.KDoctorDetail);
+                GoRouter.of(context)
+                .push(AppRouter.KDoctorDetail, extra: allDoctors[e.key]);
               },
               child: Container(
                 margin: EdgeInsets.only(right: 15),

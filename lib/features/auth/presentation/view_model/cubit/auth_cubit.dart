@@ -30,8 +30,16 @@ class AuthCubit extends Cubit<AuthCubitState> {
     try {
       final loginedPatient = await _authRepository
           .signinUserWithEmailAndPassword(signinUserRequest: signinUserRequest);
+
       await _authRepository.setAuthUserId(loginedPatient.id!);
-      emit(AuthCubitLoaded(patient: loginedPatient));
+      emit(
+        AuthCubitLoaded(
+          patient: loginedPatient,
+          authUserId: loginedPatient.id,
+          successMessage: "the Signin was successful",
+          isAuthenticated: true
+        ),
+      );
     } catch (e) {
       emit(AuthCubitFailure("Failed to sign in: ${e.toString()}"));
     }

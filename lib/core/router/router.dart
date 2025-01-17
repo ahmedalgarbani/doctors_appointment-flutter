@@ -3,6 +3,7 @@ import 'package:doctors_appointment/features/auth/presentation/view/signup_page_
 import 'package:doctors_appointment/features/auth/presentation/view/signin_page_view.dart';
 import 'package:doctors_appointment/features/checkout/presentation/pages/check_out_page_view.dart';
 import 'package:doctors_appointment/features/checkout/presentation/pages/checkout_done_page_view.dart';
+import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/all_specialties_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/doctor_detail_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/favorite_doctor_view.dart';
@@ -38,7 +39,10 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: KDoctorDetail,
-        builder: (context, state) => const DoctorDetailView(),
+        builder: (context, state) {
+          var extra = state.extra;
+          return DoctorDetailView(doctorModel: extra as DoctorModel);
+        },
       ),
       GoRoute(
         path: KHomePage,

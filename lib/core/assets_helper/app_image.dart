@@ -15,4 +15,5 @@ abstract class AppImage {
   static const String Wasel = '${path}wasell${format}';
   static const String AlKuraimi = '${path}alkuraimi${pngFormat}';
   static const String AlAwa = '${path}akwa${format}';
+  static const String location = '${path}location${format}';
 }

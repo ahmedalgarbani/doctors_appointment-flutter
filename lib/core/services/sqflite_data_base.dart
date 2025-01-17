@@ -38,8 +38,35 @@ class SqfliteDataBase implements DatabaseService {
       Left(SqlFailure(message: "please login first"));
     }
     final favouriteDao = await _appointmentDatabase.favouritesDao();
-     await favouriteDao.insertFavourites(
+    await favouriteDao.insertFavourites(
         doctorId: doctorId, patientId: patientId);
     return const Right(null);
+  }
+
+  @override
+  Future<bool> removeFavorite(
+      {required int doctorId, required int patientId}) async {
+    if (patientId == 0) {
+      return false;
+    }
+    final favouriteDao = await _appointmentDatabase.favouritesDao();
+    await favouriteDao.deleteFavourites(
+        doctorId: doctorId, patientId: patientId);
+    return true;
+  }
+
+  @override
+  Future<bool> isFavorite(
+      {required int doctorId, required int patientId}) async {
+    if (patientId == 0) {
+      return false;
+    }
+    final favouriteDao = await _appointmentDatabase.favouritesDao();
+    var isFav =
+        await favouriteDao.isFavorite(doctorId: doctorId, patientId: patientId);
+    if (!isFav) {
+      return false;
+    }
+    return true;
   }
 }

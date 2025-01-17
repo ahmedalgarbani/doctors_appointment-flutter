@@ -24,39 +24,40 @@ class HomePageViewBody extends StatelessWidget {
               GoRouter.of(context).push(AppRouter.KNotificationPageView);
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SearchFieldPageView(
+            filter: false,
             onPress: () {
               GoRouter.of(context).push(AppRouter.KSearchPage);
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           SectionsTitle(
             title: "Specilty",
             onPressed: () {
               GoRouter.of(context).push(AppRouter.KAllSpecialitesView);
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          SpecialistList(),
-          SizedBox(
+          const SpecialistList(),
+          const SizedBox(
             height: 10,
           ),
           SectionsTitle(
             title: "Nearest Doctors",
             onPressed: () {},
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           DoctorList(
             allDoctors: allDoctors!,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           SectionsTitle(
@@ -65,7 +66,7 @@ class HomePageViewBody extends StatelessWidget {
               GoRouter.of(context).push(AppRouter.KTopRatingDoctor);
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           DoctorHorizantalList(

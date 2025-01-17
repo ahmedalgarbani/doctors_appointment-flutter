@@ -1,4 +1,3 @@
-import 'package:doctors_appointment/core/constant/constant.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/special/all_specialties_view_body.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';

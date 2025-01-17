@@ -9,4 +9,6 @@ abstract class DatabaseService {
   Future<List<SpecialtyModel>> getAllSpecialiest();
   Future<List<DoctorModel>> getAllFavourites(int patientId);
   Future<void> addNewFavorite({required int doctorId, required int patientId});
+  Future<bool> removeFavorite({required int doctorId, required int patientId});
+  Future<bool> isFavorite({required int doctorId, required int patientId});
 }

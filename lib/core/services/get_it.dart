@@ -32,4 +32,9 @@ void setup() {
   getIt.registerSingleton<HomeRepository>(
     HomeRepositoryImpl(getIt.get<DatabaseService>()),
   );
+
+// Search
+
+ 
+
 }

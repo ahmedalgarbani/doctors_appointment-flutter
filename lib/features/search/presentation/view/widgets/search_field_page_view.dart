@@ -5,14 +5,17 @@ import '../../../../../core/widgets/suffix_filter_icon.dart';
 import 'filter_bottom_sheet.dart';
 
 class SearchFieldPageView extends StatelessWidget {
-  SearchFieldPageView({super.key, this.onPress,  this.defaultValue});
+  SearchFieldPageView({super.key, this.onPress, this.defaultValue, this.onChanged, this.filter});
   final VoidCallback? onPress;
   final String? defaultValue;
+  final ValueChanged<String>? onChanged;
+  final bool? filter;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      initialValue: defaultValue??'',
+      onChanged: onChanged,
+      initialValue: defaultValue ?? '',
       cursorColor: AppColor.primaryColor,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -25,7 +28,8 @@ class SearchFieldPageView extends StatelessWidget {
         prefixIcon: SuffixSearchIcon(
           onTap: onPress ?? () {},
         ),
-        suffixIcon: SuffixFilterIcon(
+        suffixIcon:filter==false? SuffixFilterIcon(
+        ): SuffixFilterIcon(
           onTap: () => _showFilterBottomSheet(context),
         ),
       ),

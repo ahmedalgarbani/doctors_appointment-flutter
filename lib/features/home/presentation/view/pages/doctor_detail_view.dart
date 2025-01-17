@@ -1,6 +1,7 @@
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/core/widgets/custom_button.dart';
+import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/about_doctor.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/choose_date_snack_bar.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_image.dart';
@@ -11,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class DoctorDetailView extends StatelessWidget {
-  const DoctorDetailView({super.key});
+  const DoctorDetailView({super.key, required this.doctorModel});
+  final DoctorModel doctorModel;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +37,11 @@ class DoctorDetailView extends StatelessWidget {
                                 bottomRight: Radius.circular(25))),
                         child: Column(
                           children: [
-                            const DoctorImage(),
+                            DoctorImage(
+                                doctorImage: doctorModel.imagePath!,
+                                doctorId: doctorModel.id!),
                             const SizedBox(height: 20),
-                            const DoctorItemList(),
+                             DoctorItemList(doctorModel: doctorModel,),
                             const SizedBox(height: 20),
                           ],
                         ),
@@ -47,21 +51,21 @@ class DoctorDetailView extends StatelessWidget {
                         child: Column(
                           children: [
                             const SizedBox(height: 10),
-                            const Text(
-                              "Ahmed Mohamed AlGarbani",
+                             Text(
+                              doctorModel.name,
                               style: TextStyles.Regular16,
                             ),
                             Text(
-                              "Heart Doctor",
+                              doctorModel.specialtyName!,
                               style: TextStyles.Regular16.copyWith(
                                   color: Colors.grey),
                             ),
                             const SizedBox(height: 16),
                             const StarsSection(),
                             const SizedBox(height: 16),
-                            const AboutDoctor(),
+                             AboutDoctor(about: doctorModel.subTitle??'',),
                             const SizedBox(height: 20),
-                            const LocationDoctor(),
+                             LocationDoctor(),
                           ],
                         ),
                       )

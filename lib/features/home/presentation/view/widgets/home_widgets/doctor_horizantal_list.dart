@@ -14,39 +14,65 @@ import 'package:go_router/go_router.dart';
 import '../../../../../../core/constant/constant.dart';
 
 class DoctorHorizantalList extends StatelessWidget {
-  DoctorHorizantalList({super.key, required this.allDoctors});
-  List<DoctorModel> allDoctors;
+  final List<DoctorModel> allDoctors;
+  DoctorHorizantalList({Key? key, required this.allDoctors}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<FavoritesCubit>(context);
+
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: allDoctors.length,
       itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            GoRouter.of(context).push(AppRouter.KDoctorDetail);
+        return BlocBuilder<FavoritesCubit, FavoritesState>(
+          builder: (context, state) {
+            bool isFavorite = false;
+            if (state is FavoritesLoaded) {
+              isFavorite = state.favoritesDoctor
+                      ?.any((doctor) => doctor.id == allDoctors[index].id) ??
+                  false;
+            }
+
+            return DoctorHorizantalListCard(
+              trailing: IconButton(
+                icon: UnActiveItem(
+                    icon: isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined),
+                onPressed: () => _toggleFavorite(cubit, context, index),
+              ),
+              onPress: () {
+                GoRouter.of(context).push(AppRouter.KDoctorDetail,
+                    extra: allDoctors[index] as DoctorModel);
+              },
+              doctorModel: allDoctors[index],
+            );
           },
-          child: DoctorHorizantalListCard(
-            trailing: UnActiveItem(
-                icon: Icons.favorite_border_outlined,
-                onPressed: () => buildADdItemToFavorite(context, index)),
-            onPress: () {
-              GoRouter.of(context).push(AppRouter.KDoctorDetail);
-            },
-            doctorModel: allDoctors[index],
-          ),
         );
       },
     );
   }
 
-  buildADdItemToFavorite(context, index) async {
-    final cubit = BlocProvider.of<FavoritesCubit>(context);
+  Future<void> _toggleFavorite(
+      FavoritesCubit cubit, BuildContext context, int index) async {
+    final isFavorite = await cubit.isFavorite(doctorId: allDoctors[index].id!);
+
+    if (isFavorite) {
+      _addFavorite(cubit, context, index);
+    } else {
+      _removeFavorite(cubit, context, index);
+    }
+  }
+
+  Future<void> _addFavorite(
+      FavoritesCubit cubit, BuildContext ctx, int index) async {
     final patientId = await Pref.getInt(KauthUserId);
+
     if (patientId == 0) {
       buildSnackbar(
-        context,
+        ctx,
         "You need to login first!",
         color: Colors.redAccent,
       );
@@ -59,12 +85,33 @@ class DoctorHorizantalList extends StatelessWidget {
     );
 
     if (result) {
-      buildSnackbar(context, 'doctor added succesfuly', color: Colors.green);
-    }else{
-      buildSnackbar(context, 'doctor is already aded');
-
+      buildSnackbar(ctx, "Added to favorites!", color: Colors.greenAccent);
+    } else {
+      _removeFavorite(cubit, ctx, index);
     }
 
     cubit.getAllFavorites(patientId);
+  }
+
+  Future<void> _removeFavorite(
+      FavoritesCubit cubit, BuildContext ctx, int index) async {
+    final patientId = await Pref.getInt(KauthUserId);
+
+    if (patientId == 0) {
+      buildSnackbar(
+        ctx,
+        "You need to login first!",
+        color: Colors.redAccent,
+      );
+      return;
+    }
+
+    await cubit.removeFavorite(
+      doctorId: allDoctors[index].id!,
+      patientId: patientId,
+    );
+
+    cubit.getAllFavorites(patientId);
+    buildSnackbar(ctx, "Removed from favorites!", color: Colors.orange);
   }
 }

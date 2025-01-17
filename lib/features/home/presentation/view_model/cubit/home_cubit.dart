@@ -16,6 +16,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       emit(HomeLoading());
       allDoctors = await _homeRepository.getAllDoctors();
+      emit(HomeLoaded(doctors: allDoctors));
     } catch (e) {
       emit(HomeFailure("Failed to fetch doctors: ${e.toString()}"));
       return; 
@@ -38,7 +39,7 @@ class HomeCubit extends Cubit<HomeState> {
       
       await Future.wait([getAllDoctors(), getAllSpecialties()]);
 
-      emit(HomeLoadedWithSpecialties(allDoctors, allSpecialties));
+      emit(HomeLoadedWithSpecialties(doctors: allDoctors, specialties: allSpecialties));
     } catch (e) {
       emit(HomeFailure("Failed to fetch home features: ${e.toString()}"));
     }

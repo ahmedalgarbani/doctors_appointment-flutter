@@ -7,7 +7,7 @@ class FavouritesDao {
 
   Future<List<DoctorModel>> getAllFavourites(int patientId) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
-    SELECT doctors.*, specialties.name AS specialty_name
+    SELECT doctors.*, patient_id AS patientId,specialties.name AS specialty_name
     FROM favourites
     INNER JOIN doctors ON favourites.doctor_id = doctors.id
     INNER JOIN specialties ON doctors.specialty_id = specialties.id
@@ -46,7 +46,24 @@ class FavouritesDao {
         where: 'id = ?', whereArgs: [doctor.id]);
   }
 
-  Future<void> deleteFavourites(int id) async {
-    await _db.delete('favourites', where: 'id = ?', whereArgs: [id]);
+  Future<void> deleteFavourites(
+      {required int doctorId, required int patientId}) async {
+    final result = await _db.delete(
+      'favourites',
+      where: 'doctor_id = ? AND patient_id = ?',
+      whereArgs: [doctorId, patientId],
+    );
+    print(result);
+   
+  }
+
+  Future<bool> isFavorite(
+      {required int doctorId, required int patientId}) async {
+    final List<Map<String, dynamic>> existing = await _db.query(
+      'favourites',
+      where: 'doctor_id = ? AND patient_id = ?',
+      whereArgs: [doctorId, patientId],
+    );
+    return existing.isNotEmpty;
   }
 }

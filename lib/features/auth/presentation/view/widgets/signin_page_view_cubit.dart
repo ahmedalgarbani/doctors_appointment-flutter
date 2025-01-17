@@ -1,6 +1,7 @@
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/widgets/custom_progress_hud.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
+import 'package:doctors_appointment/features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -16,8 +17,11 @@ class SigninPageViewCubit extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthCubitState>(
       listener: (context, state) {
         if (state is AuthCubitLoaded) {
-          buildSnackbar(context, "the Signin was successful",
+          buildSnackbar(
+              context, state.successMessage ?? "the Signin was successfuly",
               color: Colors.green);
+          BlocProvider.of<FavoritesCubit>(context)
+              .getAllFavorites(state.authUserId!);
           GoRouter.of(context).pushReplacement(AppRouter.KHomePage);
         } else if (state is AuthCubitFailure) {
           buildSnackbar(context, state.message);

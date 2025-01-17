@@ -5,7 +5,6 @@ import 'package:doctors_appointment/features/home/presentation/view/pages/favori
 import 'package:doctors_appointment/features/home/presentation/view/pages/home_page_view_cubit.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/custom_navigation_button.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
-import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -72,7 +71,7 @@ class _HomePageViewState extends State<HomePageView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 8, right: 8),
+          padding: EdgeInsets.only(left: 8, right: 8,),
           child: IndexedStack(
             index: selectedIndex,
             children: _pages,

@@ -1,10 +1,9 @@
-
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
 class AboutDoctor extends StatelessWidget {
-  const AboutDoctor({super.key});
-
+  const AboutDoctor({super.key, required this.about});
+  final String about;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +18,7 @@ class AboutDoctor extends StatelessWidget {
           ),
           const SizedBox(height: 8.0),
           Text(
-            "Dr. Ahmed Mohamed AlGarbani is a highly skilled cardiologist with over 24 years of experience. He is dedicated to providing top-quality healthcare and specializes in treating complex heart conditions.",
+            "$about",
             style: TextStyles.Bold12.copyWith(color: Colors.grey),
           ),
         ],

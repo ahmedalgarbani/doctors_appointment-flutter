@@ -35,9 +35,25 @@ class HomeRepositoryImpl extends HomeRepository {
         doctorId: doctorId,
         patientId: patientId,
       );
-      return const Right(null); 
+      return const Right(null);
     } catch (e) {
       return Left(SqlFailure(message: e.toString()));
     }
+  }
+
+  @override
+  Future<bool> deleteFavorite(
+      {required int doctorId, required int patientId}) async {
+    var result = await _databaseService.removeFavorite(
+        doctorId: doctorId, patientId: patientId);
+    return result;
+  }
+
+  Future<bool> isFavorite(
+      {required int doctorId, required int patientId}) async {
+    var result = await _databaseService.isFavorite(
+        doctorId: doctorId, patientId: patientId);
+    
+    return result;
   }
 }

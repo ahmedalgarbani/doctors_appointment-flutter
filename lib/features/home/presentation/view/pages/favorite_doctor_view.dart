@@ -1,6 +1,4 @@
 import 'package:doctors_appointment/core/helpers/build_snacbar.dart';
-import 'package:doctors_appointment/core/style/app_color.dart';
-import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/core/widgets/custom_progress_hud.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/favorite_doctor_view_body.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';

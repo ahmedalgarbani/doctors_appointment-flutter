@@ -4,9 +4,11 @@ import 'package:doctors_appointment/features/home/presentation/view/widgets/home
 import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/top_starts_list.dart';
 import 'package:flutter/material.dart';
 
-class TopRatingDoctorPageViewBody extends StatelessWidget {
-  const TopRatingDoctorPageViewBody({super.key});
+import '../../../../data/models/doctor_model.dart';
 
+class TopRatingDoctorPageViewBody extends StatelessWidget {
+  const TopRatingDoctorPageViewBody({super.key, required this.doctors});
+  final List<DoctorModel> doctors;
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -16,32 +18,33 @@ class TopRatingDoctorPageViewBody extends StatelessWidget {
       ),
       Expanded(
         child: ListView.builder(
-          itemCount: 5,
+          itemCount: doctors.length,
           itemBuilder: (BuildContext context, int index) {
             return DoctorHorizantalListCard(
               trailing: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  width: 60,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColor.primaryColor.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "4",
-                        style: TextStyles.Bold16.copyWith(color: Colors.black),
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: AppColor.primaryColor,
-                      ),
-                    ],
-                  )),
-              doctorModel:null ,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                width: 60,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColor.primaryColor.withOpacity(.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "4",
+                      style: TextStyles.Bold16.copyWith(color: Colors.black),
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: AppColor.primaryColor,
+                    ),
+                  ],
+                ),
+              ),
+              doctorModel: doctors[index],
             );
           },
         ),

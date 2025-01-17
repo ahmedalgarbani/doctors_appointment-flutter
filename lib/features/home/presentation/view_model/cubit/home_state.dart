@@ -15,7 +15,7 @@ class HomeInitial extends HomeState {}
 class HomeLoaded extends HomeState {
   final List<DoctorModel> doctors;
 
-  const HomeLoaded(this.doctors);
+  const HomeLoaded({required this.doctors});
 
   @override
   List<Object> get props => [doctors];
@@ -25,12 +25,11 @@ class HomeLoadedWithSpecialties extends HomeState {
   final List<DoctorModel> doctors;
   final List<SpecialtyModel> specialties;
 
-  HomeLoadedWithSpecialties(this.doctors, this.specialties);
+  const HomeLoadedWithSpecialties({required this.doctors, required this.specialties});
 
   @override
   List<Object> get props => [doctors, specialties];
 }
-
 
 class HomeLoading extends HomeState {}
 

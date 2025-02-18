@@ -13,36 +13,41 @@ class HomeCubit extends Cubit<HomeState> {
   List<SpecialtyModel> allSpecialties = [];
 
   Future<void> getAllDoctors() async {
+    emit(HomeLoading());
     try {
-      emit(HomeLoading());
       allDoctors = await _homeRepository.getAllDoctors();
       emit(HomeLoaded(doctors: allDoctors));
     } catch (e) {
       emit(HomeFailure("Failed to fetch doctors: ${e.toString()}"));
-      return; 
     }
   }
 
   Future<void> getAllSpecialties() async {
+    emit(HomeLoading());
     try {
-      emit(HomeLoading());
       allSpecialties = await _homeRepository.getAllSpecialites();
+      emit(SpecialtiesLoaded(specialties: allSpecialties));
     } catch (e) {
       emit(HomeFailure("Failed to fetch specialties: ${e.toString()}"));
-      return; 
     }
   }
 
   Future<void> getHomeFeatures() async {
-    try {
-      emit(HomeLoading());
-      
-      await Future.wait([getAllDoctors(), getAllSpecialties()]);
+    emit(HomeLoading());
 
-      emit(HomeLoadedWithSpecialties(doctors: allDoctors, specialties: allSpecialties));
+    try {
+      final doctorsFuture = getAllDoctors();
+      final specialtiesFuture = getAllSpecialties();
+
+      await Future.wait([
+        doctorsFuture.catchError((_) {}),
+        specialtiesFuture.catchError((_) {}),
+      ]);
+
+      emit(HomeLoadedWithSpecialties(
+          doctors: allDoctors, specialties: allSpecialties));
     } catch (e) {
       emit(HomeFailure("Failed to fetch home features: ${e.toString()}"));
     }
   }
 }
-

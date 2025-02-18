@@ -29,7 +29,7 @@ class AuthRepositoryImpl extends AuthRepository {
     return await _authService.setAuthUserId(userId);
   }
 
-  Future<void> logout() async {
+  Future<bool> logout() async {
     return await _authService.logout();
   }
 }

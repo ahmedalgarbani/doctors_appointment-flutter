@@ -1,7 +1,5 @@
-
 class Patient {
   int? id;
-  String fullName;
   String birthDate;
   String gender;
   String address;
@@ -10,42 +8,51 @@ class Patient {
   String joinDate;
   String? profilePicture;
   String? notes;
-  String password;
+  String? password;
+  String first_name;
+  String last_name;
 
   Patient({
     this.id,
-    required this.fullName,
+    required this.first_name,
+    required this.last_name,
     required this.birthDate,
     required this.gender,
     required this.address,
     required this.phoneNumber,
     required this.email,
     required this.joinDate,
-    required this.password,
+    this.password,
     this.profilePicture,
     this.notes,
   });
 
   factory Patient.fromJson(Map<String, dynamic> json) {
+    print(json);
+    print(json);
+    print(json);
+    print(json);
     return Patient(
-      id: json['id'],
-      fullName: json['full_name'],
-      birthDate: json['birth_date'],
-      gender: json['gender'],
-      address: json['address'],
-      phoneNumber: json['phone_number'],
-      email: json['email'],
-      joinDate: json['join_date'],
-      profilePicture: json['profile_picture'],
-      notes: json['notes'],
-      password: json['password'],
+      id: json['id'] as int,
+      first_name: json['first_name'] ?? "",
+      last_name: json['last_name'] ?? "",
+      birthDate: json['birth_date'] ?? "",
+      gender: json['gender'] ?? "",
+      address: json['address'] ?? "",
+      phoneNumber: json['mobile_number']?.toString() ?? "",
+      email: json['email'] ?? "",
+      joinDate: json['join_date'] ?? "",
+      profilePicture: json['profile_picture'] ?? "",
+      notes: json['notes'] ?? "",
+      password: json['password'] ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'full_name': fullName,
+      'first_name': first_name,
+      'last_name': last_name,
       'birth_date': birthDate,
       'gender': gender,
       'address': address,
@@ -61,7 +68,8 @@ class Patient {
   toMap() {
     return {
       'id': id,
-      'full_name': fullName,
+      'first_name': first_name,
+      'last_name': last_name,
       'birth_date': birthDate,
       'gender': gender,
       'address': address,
@@ -77,7 +85,8 @@ class Patient {
   factory Patient.fromMap(Map<String, dynamic> map) {
     return Patient(
       id: map['id'],
-      fullName: map['full_name'],
+      first_name: map['first_name'],
+      last_name: map['last_name'],
       birthDate: map['birth_date'],
       gender: map['gender'],
       address: map['address'],

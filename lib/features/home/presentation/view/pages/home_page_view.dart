@@ -1,12 +1,10 @@
 import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/features/appointment/presentation/view/pages/appointment_page_view.dart';
-import 'package:doctors_appointment/features/auth/presentation/view/signin_or_login.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/favorite_doctor_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/home_page_view_cubit.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/custom_navigation_button.dart';
-import 'package:doctors_appointment/features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
+import 'package:doctors_appointment/features/setting/presentation/view/pages/Setting_or_login_view_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constant/constant.dart';
 
@@ -43,21 +41,7 @@ class _HomePageViewState extends State<HomePageView> {
       HomePageViewCubit(),
       AppointmentPageView(),
       FavoriteDoctorView(),
-      if (!isLogin) SigninOrLogin(),
-      if (isLogin)
-        Center(
-          child: TextButton(
-              onPressed: () {
-                setState(() {
-                  Pref.setBool(KIsLogin, false);
-                  Pref.setInt(KauthUserId, 0);
-                  isLogin = false;
-                  authUserId = 0;
-                  BlocProvider.of<FavoritesCubit>(context).getAllFavorites(0);
-                });
-              },
-              child: Text("logout")),
-        )
+      SettingOrLoginViewCubit()
     ];
 
     return Scaffold(
@@ -71,7 +55,10 @@ class _HomePageViewState extends State<HomePageView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 8, right: 8,),
+          padding: EdgeInsets.only(
+            left: 8,
+            right: 8,
+          ),
           child: IndexedStack(
             index: selectedIndex,
             children: _pages,

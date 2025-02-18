@@ -1,15 +1,19 @@
-import 'package:doctors_appointment/core/style/app_color.dart';
-import 'package:doctors_appointment/core/style/text_style.dart';
-import 'package:doctors_appointment/core/widgets/custom_button.dart';
-import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/about_doctor.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/choose_date_snack_bar.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_image.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_item_list.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/location_doctor.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/starts_section.dart';
+import '/core/style/app_color.dart';
+import '/core/style/text_style.dart';
+import '/core/widgets/custom_button.dart';
+import '/features/home/data/models/doctor_model.dart';
+import '/features/home/presentation/view/widgets/about_doctor.dart';
+import '/features/home/presentation/view/widgets/choose_date_snack_bar.dart';
+import '/features/home/presentation/view/widgets/home_widgets/doctor_image.dart';
+import '/features/home/presentation/view/widgets/home_widgets/doctor_item_list.dart';
+import '/features/home/presentation/view/widgets/home_widgets/favorite_button_cubit.dart';
+import '/features/home/presentation/view/widgets/location_doctor.dart';
+import '/features/home/presentation/view/widgets/top_rating_doctor/starts_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../view_model/cubit/favorites_cubit/favorites_cubit.dart';
 
 class DoctorDetailView extends StatelessWidget {
   const DoctorDetailView({super.key, required this.doctorModel});
@@ -18,7 +22,7 @@ class DoctorDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBAr(context),
+      appBar: _buildAppBar(context),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -31,41 +35,45 @@ class DoctorDetailView extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(25),
-                                bottomRight: Radius.circular(25))),
+                          color: AppColor.primaryColor,
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(25),
+                            bottomRight: Radius.circular(25),
+                          ),
+                        ),
                         child: Column(
                           children: [
                             DoctorImage(
-                                doctorImage: doctorModel.imagePath!,
-                                doctorId: doctorModel.id!),
+                              doctorImage: doctorModel.imagePath ?? '',
+                              doctorId: doctorModel.id ?? 0,
+                            ),
                             const SizedBox(height: 20),
-                             DoctorItemList(doctorModel: doctorModel,),
+                            DoctorItemList(doctorModel: doctorModel),
                             const SizedBox(height: 20),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
                             const SizedBox(height: 10),
-                             Text(
+                            Text(
                               doctorModel.name,
                               style: TextStyles.Regular16,
                             ),
                             Text(
-                              doctorModel.specialtyName!,
+                              doctorModel.specialtyName ?? 'Unknown Specialty',
                               style: TextStyles.Regular16.copyWith(
-                                  color: Colors.grey),
+                                color: Colors.grey,
+                              ),
                             ),
                             const SizedBox(height: 16),
                             const StarsSection(),
                             const SizedBox(height: 16),
-                             AboutDoctor(about: doctorModel.subTitle??'',),
+                            AboutDoctor(about: doctorModel.subTitle ?? ''),
                             const SizedBox(height: 20),
-                             LocationDoctor(),
+                            const LocationDoctor(),
                           ],
                         ),
                       )
@@ -78,10 +86,9 @@ class DoctorDetailView extends StatelessWidget {
                 child: CustomButton(
                   onPressed: () {
                     showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return const ChooseDateScnakBar();
-                        });
+                      context: context,
+                      builder: (context) => const ChooseDateScnakBar(),
+                    );
                   },
                   title: "Make Appointment",
                 ),
@@ -93,18 +100,26 @@ class DoctorDetailView extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBAr(context) {
+  AppBar _buildAppBar(BuildContext context) {
+    final favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
+
     return AppBar(
+      actions: [
+        FavoriteButtonCubit(
+            doctorModel: doctorModel,
+            favoritesCubit: favoritesCubit,
+            isDetailButtton: true)
+      ],
       elevation: 0,
       leading: InkWell(
-        onTap: () {
-          GoRouter.of(context).pop();
-        },
+        onTap: () => GoRouter.of(context).pop(),
         child: Container(
-          margin: EdgeInsets.all(7),
+          margin: const EdgeInsets.all(7),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(16)),
-          child: Icon(Icons.arrow_back),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const Icon(Icons.arrow_back),
         ),
       ),
       backgroundColor: AppColor.primaryColor,

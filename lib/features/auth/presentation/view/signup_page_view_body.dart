@@ -171,7 +171,8 @@ class _SignUpPageViewBodyState extends State<SignUpPageViewBody> {
                     final imagePath =
                         await saveImageToSystemFile(imageFile: _pickImage);
                     Patient patient = Patient(
-                        fullName: _fullName,
+                        first_name: _fullName,
+                        last_name: "",
                         birthDate: _birthdate,
                         gender: _gender,
                         address: _address,

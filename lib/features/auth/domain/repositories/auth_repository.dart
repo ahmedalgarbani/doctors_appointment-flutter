@@ -11,5 +11,5 @@ abstract class AuthRepository {
 
   Future<void> setAuthUserId(int userId);
 
-  Future<void> logout();
+  Future<bool> logout();
 }

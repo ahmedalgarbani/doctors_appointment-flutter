@@ -39,6 +39,7 @@ class FavoriteDoctorViewBody extends StatelessWidget {
             ),
           ),
           DoctorHorizantalList(
+            
             allDoctors: allDoctors,
           )
         ],

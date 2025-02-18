@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import '../../../data/models/doctor_model.dart';
 import '../../../data/models/specialist_model.dart';
 
@@ -10,7 +9,15 @@ abstract class HomeState extends Equatable {
   List<Object> get props => [];
 }
 
-class HomeInitial extends HomeState {}
+class HomeInitial extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class HomeLoading extends HomeState {
+  @override
+  List<Object> get props => [];
+}
 
 class HomeLoaded extends HomeState {
   final List<DoctorModel> doctors;
@@ -21,17 +28,25 @@ class HomeLoaded extends HomeState {
   List<Object> get props => [doctors];
 }
 
+class SpecialtiesLoaded extends HomeState {
+  final List<SpecialtyModel> specialties;
+
+  const SpecialtiesLoaded({required this.specialties});
+
+  @override
+  List<Object> get props => [specialties];
+}
+
 class HomeLoadedWithSpecialties extends HomeState {
   final List<DoctorModel> doctors;
   final List<SpecialtyModel> specialties;
 
-  const HomeLoadedWithSpecialties({required this.doctors, required this.specialties});
+  const HomeLoadedWithSpecialties(
+      {required this.doctors, required this.specialties});
 
   @override
   List<Object> get props => [doctors, specialties];
 }
-
-class HomeLoading extends HomeState {}
 
 class HomeFailure extends HomeState {
   final String message;

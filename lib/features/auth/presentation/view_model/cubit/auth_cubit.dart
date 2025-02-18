@@ -9,7 +9,7 @@ part 'auth_cubit_state.dart';
 class AuthCubit extends Cubit<AuthCubitState> {
   final AuthRepository _authRepository;
 
-  AuthCubit(this._authRepository) : super(AuthCubitInitial());
+  AuthCubit(this._authRepository) : super(AuthCubitLoading());
 
   Future<void> createUserWithEmailAndPassword(
       {required Patient patient}) async {
@@ -34,38 +34,37 @@ class AuthCubit extends Cubit<AuthCubitState> {
       await _authRepository.setAuthUserId(loginedPatient.id!);
       emit(
         AuthCubitLoaded(
-          patient: loginedPatient,
-          authUserId: loginedPatient.id,
-          successMessage: "the Signin was successful",
-          isAuthenticated: true
-        ),
+            patient: loginedPatient,
+            authUserId: loginedPatient.id,
+            successMessage: "the Signin was successful",
+            isAuthenticated: true),
       );
     } catch (e) {
       emit(AuthCubitFailure("Failed to sign in: ${e.toString()}"));
     }
   }
 
-  // Future<void> loadAuthUserId() async {
-  //   emit(AuthCubitLoading());
-  //   try {
-  //     final int? userId = await _authRepository.getAuthUserId();
-  //     if (userId != null) {
-  //       emit(AuthCubitLoaded(authUserId: userId, isAuthenticated: true));
-  //     } else {
-  //       emit(AuthCubitLoaded(isAuthenticated: false));
-  //     }
-  //   } catch (e) {
-  //     emit(AuthCubitFailure("Failed to load user ID: ${e.toString()}"));
-  //   }
-  // }
+  Future<void> loadAuthUserId() async {
+    emit(AuthCubitLoading());
+    try {
+      final int? userId = await _authRepository.getAuthUserId();
+      if (userId != 0) {
+        emit(AuthCubitLoaded(authUserId: userId, isAuthenticated: true));
+      } else {
+        emit(AuthCubitLoaded(isAuthenticated: false));
+      }
+    } catch (e) {
+      emit(AuthCubitFailure("Failed to load user ID: ${e.toString()}"));
+    }
+  }
 
-  // Future<void> logout() async {
-  //   emit(AuthCubitLoading());
-  //   try {
-  //     await _authRepository.logout();
-  //     emit(AuthCubitLoaded(isAuthenticated: false));
-  //   } catch (e) {
-  //     emit(AuthCubitFailure("Failed to log out: ${e.toString()}"));
-  //   }
-  // }
+  Future<void> logout() async {
+    emit(AuthCubitLoading());
+    var isLogout = await _authRepository.logout();
+    if (isLogout) {
+      emit(AuthCubitFailure("Failed to logout try again"));
+    } else {
+      emit(AuthCubitLoaded(isAuthenticated: !isLogout));
+    }
+  }
 }

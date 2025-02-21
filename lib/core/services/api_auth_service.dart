@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:doctors_appointment/core/helpers/get_platform.dart';
 import 'package:doctors_appointment/core/network/end_points.dart';
 import 'package:doctors_appointment/core/network/status_code.dart';
@@ -10,16 +11,29 @@ import 'package:doctors_appointment/features/auth/data/sources/auth_service.dart
 
 import '../constant/constant.dart';
 import '../helpers/shared_prefrace.dart';
-import '../network/dio_consumer.dart';
 import 'get_it.dart';
 
 class ApiAuthService extends AuthService {
   @override
-  Future<void> createUserWithEmailAndPassword({required Patient patient}) {
-    // TODO: implement createUserWithEmailAndPassword
-    throw UnimplementedError();
-  }
+Future<void> createUserWithEmailAndPassword({required Patient patient}) async {
+  try {
+    FormData formData = await patient.toFormData();  
 
+    final response = await getIt.get<ApiService>().post(
+      EndPoints.register,
+       formData,  
+      options: Options(
+        headers: {
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        },
+      ),
+    );
+
+    log("User registration successful: ${response.data}");
+  } catch (e) {
+    log("Error during registration: $e");
+  }
+}
   @override
   Future deleteUser(int id) {
     // TODO: implement deleteUser

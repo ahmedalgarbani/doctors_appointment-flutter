@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 class Patient {
   int? id;
   String birthDate;
@@ -28,12 +30,8 @@ class Patient {
   });
 
   factory Patient.fromJson(Map<String, dynamic> json) {
-    print(json);
-    print(json);
-    print(json);
-    print(json);
     return Patient(
-      id: json['id'] as int,
+      id: json['id'] as int?,
       first_name: json['first_name'] ?? "",
       last_name: json['last_name'] ?? "",
       birthDate: json['birth_date'] ?? "",
@@ -65,7 +63,7 @@ class Patient {
     };
   }
 
-  toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'first_name': first_name,
@@ -97,5 +95,31 @@ class Patient {
       notes: map['notes'],
       password: map['password'],
     );
+  }
+
+
+  Future<FormData> toFormData() async {
+    Map<String, dynamic> fields = {
+      "username": email,
+      "email": email,
+      "password": password,
+      "first_name": first_name,
+      "last_name": last_name,
+      "mobile_number": phoneNumber,
+      "address": address,
+      "birth_date": birthDate,
+      "gender": gender,
+      "join_date": joinDate,
+      "weight":"155",
+      "height":"66",
+      "age":"99", 
+      "blood_group":"A-"
+    };
+
+    if (profilePicture != null) {
+      fields["profile_picture"] = await MultipartFile.fromFile(profilePicture!, filename: "profile.jpg");
+    }
+
+    return FormData.fromMap(fields);
   }
 }

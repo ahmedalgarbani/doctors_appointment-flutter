@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/features/auth/data/model/create_user_request.dart';
 import '../constant/constant.dart';
@@ -18,11 +19,11 @@ class SqfliteAuthServiceImple extends AuthService {
   }
 
   @override
-  Future<Patient> signinUserWithEmailAndPassword(
+  Future<Either<Failure,Patient>> signinUserWithEmailAndPassword(
       {required SigninUserRequest signinUserRequest}) async {
     if (signinUserRequest.password.length < 6) {
       throw SqlFailure(
-          message: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.');
+          errorMessage: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.');
     }
 
     try {
@@ -30,9 +31,9 @@ class SqfliteAuthServiceImple extends AuthService {
       var result = await authDao.getPatient(
           email: signinUserRequest.email, password: signinUserRequest.password);
       Pref.setInt(KauthUserId, result?.id ?? 0);
-      return result!;
+      return Right(result!);
     } catch (e) {
-      throw SqlFailure(message: 'حدث خطأ أثناء إنشاء المستخدم.');
+      throw SqlFailure(errorMessage: 'حدث خطأ أثناء إنشاء المستخدم.');
     }
   }
 
@@ -41,14 +42,14 @@ class SqfliteAuthServiceImple extends AuthService {
       {required Patient patient}) async {
     if (patient.password!.length < 6) {
       throw SqlFailure(
-          message: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.');
+          errorMessage: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.');
     }
 
     try {
       var authDao = await _doctorAppointmentDatabase.authDao();
       await authDao.insertPatient(patient);
     } catch (e) {
-      throw SqlFailure(message: 'حدث خطأ أثناء إنشاء المستخدم.');
+      throw SqlFailure(errorMessage: 'حدث خطأ أثناء إنشاء المستخدم.');
     }
   }
 

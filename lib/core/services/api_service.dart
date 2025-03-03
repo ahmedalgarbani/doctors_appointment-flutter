@@ -3,7 +3,7 @@ import 'package:doctors_appointment/core/network/dio_consumer.dart';
 import 'package:doctors_appointment/core/services/get_it.dart';
 import '../network/api_consumer.dart';
 
-class ApiService extends ApiConsumer{
+class ApiService extends ApiConsumer {
   final Dio _dio = DioConsumer(client: getIt.get<Dio>()).client;
 
   Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
@@ -15,12 +15,16 @@ class ApiService extends ApiConsumer{
     }
   }
 
-  Future<Response> post(String endpoint, dynamic data,{Options? options}) async {
+  Future<Response> post(String endpoint, dynamic data,
+      {Options? options}) async {
     try {
-      Response response = await _dio.post(endpoint, data: data,options: options);
+      Response response =
+          await _dio.post(endpoint, data: data, options: options);
       return response;
-    } catch (e) {
-      throw Exception("POST request failed: $e");
+    } on DioException catch (e) {
+      throw e;
+    } catch (ex) {
+      throw Exception(ex);
     }
   }
 
@@ -33,7 +37,8 @@ class ApiService extends ApiConsumer{
     }
   }
 
-  Future<Response> delete(String endpoint, {Map<String, dynamic>? params}) async {
+  Future<Response> delete(String endpoint,
+      {Map<String, dynamic>? params}) async {
     try {
       Response response = await _dio.delete(endpoint, queryParameters: params);
       return response;

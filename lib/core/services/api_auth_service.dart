@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:doctors_appointment/core/error/failure.dart';
 import 'package:doctors_appointment/core/helpers/get_platform.dart';
 import 'package:doctors_appointment/core/network/end_points.dart';
 import 'package:doctors_appointment/core/network/status_code.dart';
@@ -15,25 +17,32 @@ import 'get_it.dart';
 
 class ApiAuthService extends AuthService {
   @override
-Future<void> createUserWithEmailAndPassword({required Patient patient}) async {
-  try {
-    FormData formData = await patient.toFormData();  
+  Future<void> createUserWithEmailAndPassword(
+      {required Patient patient}) async {
+    try {
+      FormData formData = await patient.toFormData();
 
-    final response = await getIt.get<ApiService>().post(
-      EndPoints.register,
-       formData,  
-      options: Options(
-        headers: {
-          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
-        },
-      ),
-    );
+      final response = await getIt.get<ApiService>().post(
+            EndPoints.register,
+            formData,
+            options: Options(
+              headers: {
+                "Content-Type":
+                    "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+              },
+            ),
+          );
 
-    log("User registration successful: ${response.data}");
-  } catch (e) {
-    log("Error during registration: $e");
+      log("User registration successful: ${response.data}");
+    } catch (e) {
+      if (e is DioException) {
+        log("Dio Excption: $e");
+        ServerFailure.fromDiorError(e);
+      }
+      log("Error during registration: $e");
+    }
   }
-}
+
   @override
   Future deleteUser(int id) {
     // TODO: implement deleteUser
@@ -59,12 +68,16 @@ Future<void> createUserWithEmailAndPassword({required Patient patient}) async {
           .post(EndPoints.logout, {"refresh_token": "$refreshToken"});
       if (response.statusCode == StatusCode.logedout) {
         await _clearUserData();
-        log("logedout");
+
         return true;
       } else {
         log("Logout failed: ${response.statusCode} - ${response.data}");
       }
     } catch (e) {
+      if (e is DioException) {
+        log("Dio Exception: $e");
+        ServerFailure.fromDiorError(e);
+      }
       log("Error during logout: $e");
     }
 
@@ -86,29 +99,41 @@ Future<void> createUserWithEmailAndPassword({required Patient patient}) async {
   }
 
   @override
-  Future<Patient> signinUserWithEmailAndPassword(
+  Future<Either<Failure, Patient>> signinUserWithEmailAndPassword(
       {required SigninUserRequest signinUserRequest}) async {
-    var deviceUuid = getUUIDv4();
+    try {
+      final deviceUuid = getUUIDv4();
+      final response = await getIt.get<ApiService>().post(
+        EndPoints.login,
+        {
+          "email": signinUserRequest.email,
+          "password": signinUserRequest.password,
+          "device_id": deviceUuid,
+        },
+      );
 
-    final response = await getIt.get<ApiService>().post(
-      EndPoints.login,
-      {
-        "email": signinUserRequest.email,
-        "password": signinUserRequest.password,
-        "device_id": deviceUuid
-      },
-    );
-    if (response.statusCode == StatusCode.ok) {
-      await Pref.setAccessToken(
-          AccessToken, response.data["data"]["tokens"]["access"]);
-      await Pref.setRefreshToken(
-          RefreshToken, response.data["data"]["tokens"]["refresh"]);
+      if (response.statusCode == StatusCode.ok) {
+        final data = response.data["data"];
 
-      await Pref.saveDeviceId(key: device_id, value: deviceUuid);
+        if (data?["tokens"] == null || data?["user"] == null) {
+          return Left(
+              ServerFailure(errorMessage: "Invalid response structure"));
+        }
 
-      return Patient.fromJson(response.data["data"]["user"]);
-    } else {
-      throw Exception("Failed to login");
+        await Pref.setAccessToken(AccessToken, data["tokens"]["access"]);
+        await Pref.setRefreshToken(RefreshToken, data["tokens"]["refresh"]);
+        await Pref.saveDeviceId(key: device_id, value: deviceUuid);
+
+        return Right(Patient.fromJson(data["user"]));
+      } else {
+        return Left(ServerFailure(errorMessage: "Unexpected response status"));
+      }
+    } on DioException catch (ex) {
+      print(ex);
+      if (ex is DioException) {
+        return Left(ServerFailure.fromDiorError(ex));
+      }
+      return Left(ServerFailure(errorMessage: "hi ahmed "));
     }
   }
 }

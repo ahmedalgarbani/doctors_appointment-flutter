@@ -24,7 +24,7 @@ class SettingOrLoginViewCubit extends StatelessWidget {
       },
       listener: (context, state) {
         if (state is AuthCubitFailure) {
-          buildSnackbar(context, "Something went wrong");
+          buildSnackbar(context, "${state.message}");
         }
       },
     );

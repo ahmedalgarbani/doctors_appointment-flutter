@@ -35,7 +35,7 @@ class SqfliteDataBase implements DatabaseService {
   Future<Either<Failure, void>> addNewFavorite(
       {required int doctorId, required int patientId}) async {
     if (patientId == 0) {
-      Left(SqlFailure(message: "please login first"));
+      Left(SqlFailure(errorMessage: "please login first"));
     }
     final favouriteDao = await _appointmentDatabase.favouritesDao();
     await favouriteDao.insertFavourites(

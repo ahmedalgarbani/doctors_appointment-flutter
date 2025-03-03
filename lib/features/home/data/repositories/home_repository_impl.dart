@@ -37,7 +37,7 @@ class HomeRepositoryImpl extends HomeRepository {
       );
       return const Right(null);
     } catch (e) {
-      return Left(SqlFailure(message: e.toString()));
+      return Left(SqlFailure(errorMessage: e.toString()));
     }
   }
 

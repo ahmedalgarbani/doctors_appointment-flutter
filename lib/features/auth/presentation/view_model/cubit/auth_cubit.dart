@@ -27,21 +27,25 @@ class AuthCubit extends Cubit<AuthCubitState> {
   Future<void> signinUserWithEmailAndPassword(
       {required SigninUserRequest signinUserRequest}) async {
     emit(AuthCubitLoading());
-    try {
-      final loginedPatient = await _authRepository
-          .signinUserWithEmailAndPassword(signinUserRequest: signinUserRequest);
+    final result = await _authRepository.signinUserWithEmailAndPassword(
+        signinUserRequest: signinUserRequest);
 
-      await _authRepository.setAuthUserId(loginedPatient.id!);
-      emit(
-        AuthCubitLoaded(
+    result.fold(
+      (failure) {
+        emit(AuthCubitFailure("Failed to sign in: ${failure.errorMessage}"));
+      },
+      (loginedPatient) async {
+        await _authRepository.setAuthUserId(loginedPatient.id!);
+        emit(
+          AuthCubitLoaded(
             patient: loginedPatient,
             authUserId: loginedPatient.id,
-            successMessage: "the Signin was successful",
-            isAuthenticated: true),
-      );
-    } catch (e) {
-      emit(AuthCubitFailure("Failed to sign in: ${e.toString()}"));
-    }
+            successMessage: "The sign-in was successful",
+            isAuthenticated: true,
+          ),
+        );
+      },
+    );
   }
 
   Future<void> loadAuthUserId() async {

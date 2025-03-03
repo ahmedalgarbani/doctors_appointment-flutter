@@ -17,7 +17,7 @@ import 'get_it.dart';
 
 class ApiAuthService extends AuthService {
   @override
-  Future<void> createUserWithEmailAndPassword(
+  Future<Either<Failure,dynamic>> createUserWithEmailAndPassword(
       {required Patient patient}) async {
     try {
       FormData formData = await patient.toFormData();
@@ -34,12 +34,9 @@ class ApiAuthService extends AuthService {
           );
 
       log("User registration successful: ${response.data}");
-    } catch (e) {
-      if (e is DioException) {
-        log("Dio Excption: $e");
-        ServerFailure.fromDiorError(e);
-      }
-      log("Error during registration: $e");
+      return Right("User registration successful");
+    } on DioException catch (e) {
+      return Left(ServerFailure.fromDiorError(e));
     }
   }
 
@@ -129,11 +126,7 @@ class ApiAuthService extends AuthService {
         return Left(ServerFailure(errorMessage: "Unexpected response status"));
       }
     } on DioException catch (ex) {
-      print(ex);
-      if (ex is DioException) {
-        return Left(ServerFailure.fromDiorError(ex));
-      }
-      return Left(ServerFailure(errorMessage: "hi ahmed "));
+      return Left(ServerFailure.fromDiorError(ex));
     }
   }
 }

@@ -19,7 +19,7 @@ class SqfliteAuthServiceImple extends AuthService {
   }
 
   @override
-  Future<Either<Failure,Patient>> signinUserWithEmailAndPassword(
+  Future<Either<Failure, Patient>> signinUserWithEmailAndPassword(
       {required SigninUserRequest signinUserRequest}) async {
     if (signinUserRequest.password.length < 6) {
       throw SqlFailure(
@@ -38,16 +38,16 @@ class SqfliteAuthServiceImple extends AuthService {
   }
 
   @override
-  Future<void> createUserWithEmailAndPassword(
+  Future<Either<ServerFailure, dynamic>> createUserWithEmailAndPassword(
       {required Patient patient}) async {
     if (patient.password!.length < 6) {
       throw SqlFailure(
           errorMessage: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.');
     }
-
     try {
       var authDao = await _doctorAppointmentDatabase.authDao();
       await authDao.insertPatient(patient);
+      return Right("User registration successful");
     } catch (e) {
       throw SqlFailure(errorMessage: 'حدث خطأ أثناء إنشاء المستخدم.');
     }

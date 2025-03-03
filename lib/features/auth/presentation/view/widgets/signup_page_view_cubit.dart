@@ -14,16 +14,23 @@ class SignupPageViewCubit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthCubitState>(
+      buildWhen: (previous, current) {
+        return current is SignupCubitLoaded || current is SignupCubitFailure || current is SignupCubitLoading;
+      },
+      listenWhen: (previous, current) {
+        return current is SignupCubitLoaded || current is SignupCubitFailure || current is SignupCubitLoading;
+      },
       listener: (context, state) {
-        if (state is AuthCubitLoaded) {
+        if (state is SignupCubitLoaded) {
           GoRouter.of(context).push(AppRouter.KSignin);
-        } else if (state is AuthCubitFailure) {
+        } else if (state is SignupCubitFailure) {
           buildSnackbar(context, state.message);
         }
       },
+      
       builder: (context, state) {
         return CustomProgressHud(
-          isLoading: state is AuthCubitLoaded ? true : false,
+          isLoading: state is SignupCubitLoading ? true : false,
           child: SignUpPageViewBody(),
         );
       },

@@ -7,7 +7,7 @@ import '../../../../core/error/failure.dart';
 
 class FireBaseAuthService extends AuthService {
   @override
-  Future<void> createUserWithEmailAndPassword({required Patient patient}) {
+  Future<Either<Failure,dynamic>> createUserWithEmailAndPassword({required Patient patient}) {
     // TODO: implement createUserWithEmailAndPassword
     throw UnimplementedError();
   }

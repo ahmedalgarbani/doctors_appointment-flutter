@@ -11,7 +11,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   AuthRepositoryImpl(this._authService);
   @override
-  Future<void> createUserWithEmailAndPassword(
+  Future<Either<Failure,dynamic>> createUserWithEmailAndPassword(
       {required Patient patient}) async {
     return await _authService.createUserWithEmailAndPassword(patient: patient);
   }

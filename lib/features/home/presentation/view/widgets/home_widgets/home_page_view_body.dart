@@ -47,21 +47,12 @@ class HomePageViewBody extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          SectionsTitle(
-            title: "Nearest Doctors",
-            onPressed: () {},
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          DoctorList(
-            allDoctors: allDoctors!,
-          ),
+          
           const SizedBox(
             height: 10,
           ),
           SectionsTitle(
-            title: "Top Rating Doctors",
+            title: "Doctors",
             onPressed: () {
               GoRouter.of(context).push(AppRouter.KTopRatingDoctor);
             },

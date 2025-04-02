@@ -11,13 +11,13 @@ class AuthRepositoryImpl extends AuthRepository {
 
   AuthRepositoryImpl(this._authService);
   @override
-  Future<Either<Failure,dynamic>> createUserWithEmailAndPassword(
+  Future<Either<Failure, dynamic>> createUserWithEmailAndPassword(
       {required Patient patient}) async {
     return await _authService.createUserWithEmailAndPassword(patient: patient);
   }
 
   @override
-  Future<Either<Failure,Patient>> signinUserWithEmailAndPassword(
+  Future<Either<Failure, Patient>> signinUserWithEmailAndPassword(
       {required SigninUserRequest signinUserRequest}) async {
     return await _authService.signinUserWithEmailAndPassword(
         signinUserRequest: signinUserRequest);

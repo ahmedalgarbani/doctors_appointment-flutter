@@ -1,7 +1,13 @@
 class EndPoints {
-  static const String baseUrl = "http://192.168.33.34:8000/api/";
+  static const String baseUrl = "http://192.168.1.151:8000/api/";
   static const String refreshToken = "token/refresh/";
   static const String login = "login/";
   static const String logout = "logout/";
   static const String register = "register/";
+  static const String specialties = "specialties/";
+  static const String favorites = "favourites/";
+  static const String removeFavorites = "favourites/remove/";
+  static const String historyBooking = "bookings/history_bookings/";
+  static const String upcommingBooking = "bookings/upcoming_bookings/";
+  static const String createBooking = "bookings/create_booking/";
 }

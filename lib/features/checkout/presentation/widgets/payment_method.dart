@@ -1,4 +1,3 @@
-
 import 'package:doctors_appointment/core/dumy/dumy_data.dart';
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:flutter/material.dart';

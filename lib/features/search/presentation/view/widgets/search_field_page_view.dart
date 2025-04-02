@@ -5,7 +5,12 @@ import '../../../../../core/widgets/suffix_filter_icon.dart';
 import 'filter_bottom_sheet.dart';
 
 class SearchFieldPageView extends StatelessWidget {
-  SearchFieldPageView({super.key, this.onPress, this.defaultValue, this.onChanged, this.filter});
+  SearchFieldPageView(
+      {super.key,
+      this.onPress,
+      this.defaultValue,
+      this.onChanged,
+      this.filter});
   final VoidCallback? onPress;
   final String? defaultValue;
   final ValueChanged<String>? onChanged;
@@ -28,10 +33,11 @@ class SearchFieldPageView extends StatelessWidget {
         prefixIcon: SuffixSearchIcon(
           onTap: onPress ?? () {},
         ),
-        suffixIcon:filter==false? SuffixFilterIcon(
-        ): SuffixFilterIcon(
-          onTap: () => _showFilterBottomSheet(context),
-        ),
+        suffixIcon: filter == false
+            ? SuffixFilterIcon()
+            : SuffixFilterIcon(
+                onTap: () => _showFilterBottomSheet(context),
+              ),
       ),
     );
   }

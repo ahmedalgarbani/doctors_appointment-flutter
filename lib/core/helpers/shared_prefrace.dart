@@ -44,8 +44,6 @@ abstract class Pref {
     return await _prefs.getDouble(key) ?? 0.0;
   }
 
-
-
   // save Access Token
 
   static Future<void> setAccessToken(String key, value) async {
@@ -63,23 +61,25 @@ abstract class Pref {
   static Future<String> getRefreshToken(String key) async {
     return await storage.read(key: key) ?? '';
   }
-  // device id 
-  
-static Future<void> saveDeviceId({required String key,required String value}) async {
-  await storage.write(key: key, value: value);
-}
+  // device id
 
-static Future<String?> loadDeviceId(String key) async {
-  return await storage.read(key: key) ?? '';
-}
+  static Future<void> saveDeviceId(
+      {required String key, required String value}) async {
+    await storage.write(key: key, value: value);
+  }
+
+  static Future<String?> loadDeviceId(String key) async {
+    return await storage.read(key: key) ?? '';
+  }
 
   // Remove
   static Future<void> remove(String key) async {
-  
     await _prefs.remove(key);
   }
+
   // Remove Secure
   static Future<void> removeSecure(String key) async {
-    await storage.delete(key: key);(key);
+    await storage.delete(key: key);
+    (key);
   }
 }

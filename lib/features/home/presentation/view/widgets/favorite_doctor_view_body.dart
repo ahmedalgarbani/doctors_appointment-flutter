@@ -2,19 +2,18 @@ import 'package:doctors_appointment/features/home/presentation/view/widgets/home
 import 'package:flutter/material.dart';
 import '../../../../../core/style/app_color.dart';
 import '../../../../../core/style/text_style.dart';
-import '../../../data/models/doctor_model.dart';
-
+import '../../../data/models/speciality_response/doctor.dart';
 
 class FavoriteDoctorViewBody extends StatelessWidget {
   const FavoriteDoctorViewBody({super.key, required this.allDoctors});
-  final List<DoctorModel> allDoctors;
+  final List<Doctor> allDoctors;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(
               children: [
                 Text(
@@ -27,7 +26,8 @@ class FavoriteDoctorViewBody extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: AppColor.secondaryColor),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: const Center(
                     child: Icon(
                       Icons.sort,
@@ -39,7 +39,6 @@ class FavoriteDoctorViewBody extends StatelessWidget {
             ),
           ),
           DoctorHorizantalList(
-            
             allDoctors: allDoctors,
           )
         ],

@@ -31,7 +31,6 @@ class TopRatingDoctorPageView extends StatelessWidget {
           child: BlocConsumer<HomeCubit, HomeState>(
             builder: (context, state) {
               if (state is HomeLoadedWithSpecialties) {
-               
                 return TopRatingDoctorPageViewBody(doctors: state.doctors);
               } else if (state is HomeLoading) {
                 return CustomProgressHud(isLoading: true, child: SizedBox());

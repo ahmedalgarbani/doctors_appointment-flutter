@@ -8,5 +8,3 @@ class StatusCode {
   static const int conflict = 409;
   static const int internalServerError = 500;
 }
-
-

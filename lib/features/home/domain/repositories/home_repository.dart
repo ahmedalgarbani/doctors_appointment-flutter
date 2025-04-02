@@ -1,18 +1,16 @@
 import 'package:dartz/dartz.dart';
-import 'package:doctors_appointment/features/home/data/models/specialist_model.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../data/models/doctor_model.dart';
+import '../../data/models/speciality_response/doctor.dart';
+import '../../data/models/speciality_response/speciality_response.dart';
 
 abstract class HomeRepository {
-  Future<List<DoctorModel>> getAllDoctors();
-  Future<List<SpecialtyModel>> getAllSpecialites();
-  Future<List<DoctorModel>> getAllFavourites(int patientId);
-  Future<Either<Failure, void>> addNewFavorite(
-      {required int doctorId, required int patientId});
+  Future<List<SpecialityResponse>> getAllSpecialites();
+  Future<List<Doctor>?> getAllFavourites();
+  Future<Either<Failure, bool>> addNewFavorite(
+      {required int doctorId});
   Future<bool> deleteFavorite({
     required int doctorId,
-    required int patientId,
   });
   Future<bool> isFavorite({
     required int doctorId,

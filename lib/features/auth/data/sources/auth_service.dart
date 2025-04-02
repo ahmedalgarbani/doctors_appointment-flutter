@@ -4,9 +4,10 @@ import '../../../../core/error/failure.dart';
 import '../model/signin_user_request.dart';
 
 abstract class AuthService {
-  Future<Either<Failure,dynamic>> createUserWithEmailAndPassword({required Patient patient});
+  Future<Either<Failure, dynamic>> createUserWithEmailAndPassword(
+      {required Patient patient});
 
-  Future<Either<Failure,Patient>> signinUserWithEmailAndPassword(
+  Future<Either<Failure, Patient>> signinUserWithEmailAndPassword(
       {required SigninUserRequest signinUserRequest});
   Future deleteUser(int id);
   Future<int?> getAuthUserId();

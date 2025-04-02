@@ -12,7 +12,7 @@ final class FavoritesInitial extends FavoritesState {}
 final class FavoritesLoading extends FavoritesState {}
 
 final class FavoritesLoaded extends FavoritesState {
-  final List<DoctorModel>? favoritesDoctor;
+  final List<Doctor>? favoritesDoctor;
 
   FavoritesLoaded(this.favoritesDoctor);
 }

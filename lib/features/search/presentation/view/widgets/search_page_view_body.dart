@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/widgets/empty_search.dart';
-import '../../../../home/data/models/doctor_model.dart';
+import '../../../../home/data/models/speciality_response/doctor.dart';
 import 'search_field_page_view.dart';
 
 class SearchPageViewBody extends StatelessWidget {
@@ -35,7 +35,7 @@ class SearchPageViewBody extends StatelessWidget {
           BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {
               bool isEmpty = true;
-              List<DoctorModel> recently = [];
+              List<Doctor> recently = [];
 
               if (state is SearchedDataLoaded) {
                 isEmpty = state.searchedData.isEmpty;

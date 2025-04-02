@@ -22,7 +22,9 @@ class _HomePageViewState extends State<HomePageView> {
 
   Future<void> _checkLoginStatus() async {
     final loginStatus = await Pref.getBool(KIsLogin);
+   
     final authUser = await Pref.getInt(KauthUserId);
+   
     setState(() {
       isLogin = loginStatus;
       authUserId = authUser;

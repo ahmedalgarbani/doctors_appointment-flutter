@@ -16,18 +16,23 @@ class SigninPageViewCubit extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthCubitState>(
       buildWhen: (previous, current) {
-        return current is LoginCubitLoaded || current is LoginCubitFailure || current is LoginCubitLoading;
+        return current is LoginCubitLoaded ||
+            current is LoginCubitFailure ||
+            current is LoginCubitLoading;
       },
       listenWhen: (previous, current) {
-        return current is LoginCubitLoaded || current is LoginCubitFailure || current is LoginCubitLoading;
+        return current is LoginCubitLoaded ||
+            current is LoginCubitFailure ||
+            current is LoginCubitLoading;
       },
       listener: (context, state) {
         if (state is LoginCubitLoaded) {
           buildSnackbar(
               context, state.successMessage ?? "the Signin was successfuly",
               color: Colors.green);
-          BlocProvider.of<FavoritesCubit>(context)
-              .getAllFavorites(state.authUserId!);
+          context.read<FavoritesCubit>()
+              .getAllFavorites();
+          
           GoRouter.of(context).pushReplacement(AppRouter.KHomePage);
         } else if (state is LoginCubitFailure) {
           buildSnackbar(context, state.message);

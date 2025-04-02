@@ -1,4 +1,3 @@
-
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';

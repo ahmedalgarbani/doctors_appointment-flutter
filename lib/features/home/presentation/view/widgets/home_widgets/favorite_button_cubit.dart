@@ -1,4 +1,5 @@
 import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
+import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,10 +11,11 @@ class FavoriteButtonCubit extends StatelessWidget {
   const FavoriteButtonCubit({
     super.key,
     required this.doctorModel,
-    required this.favoritesCubit, this.isDetailButtton,
+    required this.favoritesCubit,
+    this.isDetailButtton,
   });
 
-  final DoctorModel doctorModel;
+  final Doctor doctorModel;
   final FavoritesCubit favoritesCubit;
   final bool? isDetailButtton;
 
@@ -25,7 +27,8 @@ class FavoriteButtonCubit extends StatelessWidget {
           final isFavorite = state.favoritesDoctor!
               .any((doctor) => doctor.id == doctorModel.id);
           return IconButton(
-            icon: UnActiveItem(isDetailButtton:isDetailButtton,
+            icon: UnActiveItem(
+              isDetailButtton: isDetailButtton,
               icon:
                   isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
             ),

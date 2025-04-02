@@ -49,7 +49,6 @@ class _DatePickerInputFieldState extends State<DatePickerInputField> {
         child: TextFormField(
           readOnly: true,
           decoration: InputDecoration(
-            
             hintText: _selectedDate == null
                 ? widget.hintText
                 : DateFormat('yyyy-MM-dd').format(_selectedDate!),

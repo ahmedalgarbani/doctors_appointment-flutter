@@ -1,4 +1,3 @@
-
 import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/top_rating_start_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ class TopRatingStartsList extends StatefulWidget {
 }
 
 class _TopRatingStartsListState extends State<TopRatingStartsList> {
-  int activeIndex = 0; 
+  int activeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class _TopRatingStartsListState extends State<TopRatingStartsList> {
                 });
               },
               child: TopRatingStartsListItem(
-                activeIndex: activeIndex == index, 
+                activeIndex: activeIndex == index,
                 index: index,
                 reverseNumber: reverseNumber,
               ),

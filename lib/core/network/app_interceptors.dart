@@ -42,7 +42,8 @@ class AppIntercepters extends Interceptor {
 
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == StatusCode.unauthorized || err.response?.statusCode == StatusCode.forbidden) {
+    if (err.response?.statusCode == StatusCode.unauthorized  ||
+        err.response?.statusCode == StatusCode.forbidden) {
       String? userRefreshToken = await Pref.getRefreshToken(RefreshToken);
       String? userAccessToken = await Pref.getAccessToken(AccessToken);
       if (userRefreshToken != null) {
@@ -80,10 +81,13 @@ class AppIntercepters extends Interceptor {
   static Future<bool> _refreshToken(String userRefreshToken) async {
     try {
       final response = await getIt.get<ApiService>().post(
+        
         EndPoints.refreshToken,
-        {
+        data:{
           "$refreshTokenRequest": "${userRefreshToken}",
+
         },
+        
         // options: Options(
         //   headers: {
         //     HttpHeaders.authorizationHeader: '',

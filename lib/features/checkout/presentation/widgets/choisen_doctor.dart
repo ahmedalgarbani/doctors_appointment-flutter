@@ -1,4 +1,3 @@
-
 import 'package:doctors_appointment/core/assets_helper/app_image.dart';
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
@@ -30,7 +29,7 @@ class ChosenDoctor extends StatelessWidget {
         ),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
+          child: Image.network(
             AppImage.doctor04,
             fit: BoxFit.cover,
           ),

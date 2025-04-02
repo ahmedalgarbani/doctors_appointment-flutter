@@ -1,11 +1,13 @@
 import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../features/home/data/models/speciality_response/doctor.dart';
+
 class FavouritesDao {
   final Database _db;
   FavouritesDao(this._db);
 
-  Future<List<DoctorModel>> getAllFavourites(int patientId) async {
+  Future<List<Doctor>> getAllFavourites(int patientId) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
     SELECT doctors.*, patient_id AS patientId,specialties.name AS specialty_name
     FROM favourites
@@ -16,7 +18,7 @@ class FavouritesDao {
   ''', [patientId]);
 
     return result.map((e) {
-      return DoctorModel.fromMap(e);
+      return Doctor.fromMap(e);
     }).toList();
   }
 
@@ -41,7 +43,7 @@ class FavouritesDao {
     );
   }
 
-  Future<void> updateFavourites(DoctorModel doctor) async {
+  Future<void> updateFavourites(Doctor doctor) async {
     await _db.update('favourites', doctor.toMap(),
         where: 'id = ?', whereArgs: [doctor.id]);
   }
@@ -54,7 +56,6 @@ class FavouritesDao {
       whereArgs: [doctorId, patientId],
     );
     print(result);
-   
   }
 
   Future<bool> isFavorite(

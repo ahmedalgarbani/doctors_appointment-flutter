@@ -11,23 +11,29 @@ class SettingOrLoginViewCubit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SigninOrLogin();
-    // BlocConsumer<AuthCubit, AuthCubitState>(
-    //   builder: (context, state) {
-    //     if (state is AuthCubitLoaded) {
-    //       return state.isAuthenticated == true
-    //           ? SettingViewPageBody()
-    //           : SigninOrLogin();
-    //     } else if (state is AuthCubitLoading) {
-    //       return const Center(child: CircularProgressIndicator());
-    //     }
-    //     return SigninOrLogin();
-    //   },
-    //   listener: (context, state) {
-    //     if (state is AuthCubitFailure) {
-    //       buildSnackbar(context, "${state.message}");
-    //     }
-    //   },
-    // );
+    return BlocConsumer<AuthCubit, AuthCubitState>(
+      buildWhen: (previous, current) => current is AuthCubitLoaded,
+      listener: (context, state) {
+        if (state is AuthCubitFailure) {
+          buildSnackbar(context, state.message);
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthCubitLoaded) {
+          return state.isAuthenticated
+              ? SettingViewPageBody()
+              : SigninOrLogin();
+        } else if (state is AuthCubitLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is AuthCubitFailure) {
+          return SigninOrLogin();
+        }
+        if (context.read<AuthCubit>().isAuth) {
+          return SettingViewPageBody();
+        } else {
+          return SigninOrLogin();
+        }
+      },
+    );
   }
 }

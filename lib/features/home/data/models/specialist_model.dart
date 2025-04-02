@@ -1,4 +1,3 @@
-
 class SpecialtyModel {
   final int id;
   final String name;
@@ -34,4 +33,3 @@ class SpecialtyModel {
     };
   }
 }
-

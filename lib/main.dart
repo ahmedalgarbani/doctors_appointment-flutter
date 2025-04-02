@@ -35,7 +35,7 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => FavoritesCubit(getIt.get<HomeRepository>())
-            ..getAllFavorites(authPatientId),
+            ..getAllFavorites(),
         )
       ],
       child: const MyApp(),

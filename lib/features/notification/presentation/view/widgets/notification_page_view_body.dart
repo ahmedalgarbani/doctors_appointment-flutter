@@ -20,17 +20,18 @@ class NotificationPageViewBody extends StatelessWidget {
           ),
           NotificationCardItem(
             title: "Appointment Alert",
-            subtitle: "we have a new appointment and will be updated to the new appoi",
+            subtitle:
+                "we have a new appointment and will be updated to the new appoi",
             color: Colors.red,
             iconData: Icons.access_alarm_rounded,
           ),
           NotificationCardItem(
             title: "Appointment Confirm",
-            subtitle: "we have a new appointment and will be updated to the new appoi",
+            subtitle:
+                "we have a new appointment and will be updated to the new appoi",
             color: Color.fromARGB(255, 3, 90, 252),
             iconData: Icons.done,
           ),
-          
         ],
       ),
     );

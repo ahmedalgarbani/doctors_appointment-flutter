@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:doctors_appointment/core/assets_helper/app_image.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
+import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +41,8 @@ class SettingViewPageBody extends StatelessWidget {
         _buildSettingsTile(Icons.storage, "Data Sources", onTap: () {}),
         _buildSettingsTile(Icons.logout, "Sign Out", onTap: () {
           context.read<AuthCubit>().logout();
-          BlocProvider.of<FavoritesCubit>(context).getAllFavorites(0);
+          context.read<FavoritesCubit>().getAllFavorites(isLogout: true);
+          context.read<HomeCubit>().getHomeFeatures();
         }, iconColor: Colors.red),
         const SizedBox(height: 20),
         Center(

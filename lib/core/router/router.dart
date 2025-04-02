@@ -3,7 +3,6 @@ import 'package:doctors_appointment/features/auth/presentation/view/signup_page_
 import 'package:doctors_appointment/features/auth/presentation/view/signin_page_view.dart';
 import 'package:doctors_appointment/features/checkout/presentation/pages/check_out_page_view.dart';
 import 'package:doctors_appointment/features/checkout/presentation/pages/checkout_done_page_view.dart';
-import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/all_specialties_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/doctor_detail_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/favorite_doctor_view.dart';
@@ -13,6 +12,8 @@ import 'package:doctors_appointment/features/notification/presentation/view/page
 import 'package:doctors_appointment/features/onBoarding/presenttation/view/OnBoarding.dart';
 import 'package:doctors_appointment/features/search/presentation/view/pages/search_page_view.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../features/home/data/models/speciality_response/doctor.dart';
 
 abstract class AppRouter {
   static const String Kroot = '/';
@@ -41,7 +42,7 @@ abstract class AppRouter {
         path: KDoctorDetail,
         builder: (context, state) {
           var extra = state.extra;
-          return DoctorDetailView(doctorModel: extra as DoctorModel);
+          return DoctorDetailView(doctorModel: extra as Doctor);
         },
       ),
       GoRoute(

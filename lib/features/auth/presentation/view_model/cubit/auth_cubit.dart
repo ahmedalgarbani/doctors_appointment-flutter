@@ -9,7 +9,9 @@ part 'auth_cubit_state.dart';
 class AuthCubit extends Cubit<AuthCubitState> {
   final AuthRepository _authRepository;
 
-  AuthCubit(this._authRepository) : super(AuthCubitInitial());
+  AuthCubit(this._authRepository) : super(AuthCubitLoading());
+
+  bool isAuth = false;
 
   Future<void> createUserWithEmailAndPassword(
       {required Patient patient}) async {
@@ -19,6 +21,7 @@ class AuthCubit extends Cubit<AuthCubitState> {
         await _authRepository.createUserWithEmailAndPassword(patient: patient);
     result.fold(
       (l) {
+        isAuth = false;
         emit(SignupCubitFailure("Failed to create user: ${l.errorMessage}"));
       },
       (r) {
@@ -40,7 +43,9 @@ class AuthCubit extends Cubit<AuthCubitState> {
         emit(LoginCubitFailure("Failed to sign in: ${failure.errorMessage}"));
       },
       (loggedInPatient) async {
+        isAuth = true;
         await _authRepository.setAuthUserId(loggedInPatient.id!);
+        await loadAuthUserId();
         emit(LoginCubitLoaded(
           patient: loggedInPatient,
           authUserId: loggedInPatient.id,
@@ -55,8 +60,7 @@ class AuthCubit extends Cubit<AuthCubitState> {
     emit(AuthCubitLoading());
     try {
       final int? userId = await _authRepository.getAuthUserId();
-      emit(
-          AuthCubitLoaded(authUserId: userId, isAuthenticated: userId != null));
+      emit(AuthCubitLoaded(authUserId: userId, isAuthenticated: isAuth));
     } catch (e) {
       emit(AuthCubitFailure("Failed to load user ID: ${e.toString()}"));
     }
@@ -66,7 +70,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
     emit(AuthCubitLoading());
     bool isLoggedOut = await _authRepository.logout();
     if (isLoggedOut) {
-      emit(AuthCubitLoaded(isAuthenticated: false));
+      isAuth = false;
+      emit(AuthCubitLoaded(isAuthenticated: isAuth, authUserId: null));
     } else {
       emit(AuthCubitFailure("Failed to logout, please try again."));
     }

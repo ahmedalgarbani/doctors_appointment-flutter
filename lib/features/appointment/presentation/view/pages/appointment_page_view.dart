@@ -1,6 +1,11 @@
 import 'package:doctors_appointment/core/constant/constant.dart';
-import 'package:doctors_appointment/features/appointment/presentation/view/widgets/appointment_page_view_body.dart';
+import 'package:doctors_appointment/core/services/get_it.dart';
+import 'package:doctors_appointment/features/appointment/domain/repositories/appointment_repo.dart';
+import 'package:doctors_appointment/features/appointment/presentation/viewModel/cubit/appointment_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'appointment_cubit_builder.dart';
 
 class AppointmentPageView extends StatelessWidget {
   const AppointmentPageView({super.key});
@@ -12,9 +17,13 @@ class AppointmentPageView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(
               left: KHorizantalPadding, right: KHorizantalPadding),
-          child: AppointmentPageViewBody(),
+          child: BlocProvider(
+            create: (context) => AppointmentCubit(getIt.get<AppointmentRepo>()),
+            child: AppointmentCubitBuilder(),
+          ),
         ),
       ),
     );
   }
 }
+

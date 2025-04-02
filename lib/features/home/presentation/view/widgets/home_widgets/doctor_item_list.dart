@@ -1,20 +1,17 @@
-
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_item.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../data/models/doctor_model.dart';
+import '../../../../data/models/speciality_response/doctor.dart';
 
 class DoctorItemList extends StatelessWidget {
   const DoctorItemList({super.key, required this.doctorModel});
-  final DoctorModel doctorModel;
-
-  
+  final Doctor doctorModel;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children:  [
+      children: [
         DoctorItem(
           icon: Icons.favorite,
           count: "155",

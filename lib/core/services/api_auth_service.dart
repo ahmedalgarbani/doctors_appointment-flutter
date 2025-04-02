@@ -17,28 +17,31 @@ import 'get_it.dart';
 
 class ApiAuthService extends AuthService {
   @override
-  Future<Either<Failure,dynamic>> createUserWithEmailAndPassword(
-      {required Patient patient}) async {
-    try {
-      FormData formData = await patient.toFormData();
+  Future<Either<Failure, dynamic>> createUserWithEmailAndPassword({
+  required Patient patient,
+}) async {
+  try {
+    final formData = await patient.toFormData();
 
-      final response = await getIt.get<ApiService>().post(
-            EndPoints.register,
-            formData,
-            options: Options(
-              headers: {
+    final response = await getIt.get<ApiService>().postFormData(
+      EndPoints.register,
+      data: formData,
+      options: Options(
+        headers: {
                 "Content-Type":
                     "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
               },
-            ),
-          );
+      ),
+    );
 
-      log("User registration successful: ${response.data}");
-      return Right("User registration successful");
-    } on DioException catch (e) {
-      return Left(ServerFailure.fromDiorError(e));
-    }
+    log("User registration successful: ${response.data}");
+    return Right(response.data);
+  } on DioException catch (e) {
+    return Left(ServerFailure.fromDiorError(e));
+  } catch (ex) {
+    return Left(ServerFailure(errorMessage:  ex.toString()));
   }
+}
 
   @override
   Future deleteUser(int id) {
@@ -57,15 +60,15 @@ class ApiAuthService extends AuthService {
       String? refreshToken = await Pref.getRefreshToken(RefreshToken);
       if (refreshToken == null) {
         await _clearUserData();
+
         return true;
       }
 
       final response = await getIt
           .get<ApiService>()
-          .post(EndPoints.logout, {"refresh_token": "$refreshToken"});
+          .post(EndPoints.logout, data:{"refresh_token": "$refreshToken"});
       if (response.statusCode == StatusCode.logedout) {
         await _clearUserData();
-
         return true;
       } else {
         log("Logout failed: ${response.statusCode} - ${response.data}");
@@ -102,7 +105,7 @@ class ApiAuthService extends AuthService {
       final deviceUuid = getUUIDv4();
       final response = await getIt.get<ApiService>().post(
         EndPoints.login,
-        {
+       data: {
           "email": signinUserRequest.email,
           "password": signinUserRequest.password,
           "device_id": deviceUuid,

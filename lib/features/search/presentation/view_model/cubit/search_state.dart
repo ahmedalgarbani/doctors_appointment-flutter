@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../../home/data/models/doctor_model.dart';
+import '../../../../home/data/models/speciality_response/doctor.dart';
 
 abstract class SearchState extends Equatable {
   const SearchState();
@@ -13,7 +13,7 @@ class SearchInitial extends SearchState {
 }
 
 class SearchedDataLoaded extends SearchState {
-  final List<DoctorModel> searchedData;
+  final List<Doctor> searchedData;
 
   const SearchedDataLoaded({required this.searchedData});
 
@@ -22,7 +22,7 @@ class SearchedDataLoaded extends SearchState {
 }
 
 class SearchedDataFilter extends SearchState {
-  final List<DoctorModel> searchedDataFiltered;
+  final List<Doctor> searchedDataFiltered;
 
   const SearchedDataFilter({required this.searchedDataFiltered});
 

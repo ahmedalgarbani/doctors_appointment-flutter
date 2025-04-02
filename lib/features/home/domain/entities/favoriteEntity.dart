@@ -1,3 +1,1 @@
-class FavoriteEntity {
-  
-}
+class FavoriteEntity {}

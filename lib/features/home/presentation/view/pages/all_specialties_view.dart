@@ -4,7 +4,7 @@ import 'package:doctors_appointment/features/home/presentation/view_model/cubit/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/specialist_model.dart';
+import '../../../data/models/speciality_response/speciality_response.dart';
 
 class AllSpecialtiesView extends StatefulWidget {
   const AllSpecialtiesView({super.key});
@@ -14,7 +14,7 @@ class AllSpecialtiesView extends StatefulWidget {
 }
 
 class _AllSpecialtiesViewState extends State<AllSpecialtiesView> {
-  List<SpecialtyModel> allSpecialites = [];
+  List<SpecialityResponse> allSpecialites = [];
 
   @override
   void initState() {

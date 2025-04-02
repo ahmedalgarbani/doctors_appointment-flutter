@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DoctorImage extends StatelessWidget {
-  const DoctorImage({super.key, required this.doctorImage, required this.doctorId});
+  const DoctorImage(
+      {super.key, required this.doctorImage, required this.doctorId});
   final String doctorImage;
   final int doctorId;
 
@@ -17,7 +18,7 @@ class DoctorImage extends StatelessWidget {
         ),
         child: Hero(
           tag: 'doctor-${doctorId}',
-          child: Image.asset(
+          child: Image.network(
             doctorImage,
             fit: BoxFit.cover,
           ),

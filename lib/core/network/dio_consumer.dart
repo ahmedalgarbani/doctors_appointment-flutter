@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'app_interceptors.dart';
 import 'end_points.dart';
 
-class DioConsumer  {
+class DioConsumer {
   final Dio client;
 
   DioConsumer({required this.client}) {
@@ -31,7 +31,4 @@ class DioConsumer  {
       client.interceptors.add(LogInterceptor(responseBody: true));
     }
   }
-
-
- 
 }

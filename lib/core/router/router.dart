@@ -1,8 +1,8 @@
 import 'package:doctors_appointment/features/Splash/presenttation/view/splash_page.dart';
 import 'package:doctors_appointment/features/auth/presentation/view/signup_page_view.dart';
 import 'package:doctors_appointment/features/auth/presentation/view/signin_page_view.dart';
-import 'package:doctors_appointment/features/checkout/presentation/pages/check_out_page_view.dart';
-import 'package:doctors_appointment/features/checkout/presentation/pages/checkout_done_page_view.dart';
+import 'package:doctors_appointment/features/checkout/presentation/view/pages/check_out_page_view.dart';
+import 'package:doctors_appointment/features/checkout/presentation/view/pages/checkout_done_page_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/all_specialties_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/doctor_detail_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/favorite_doctor_view.dart';
@@ -51,7 +51,12 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: KCheckOutPageView,
-        builder: (context, state) => const CheckOutPageView(),
+        builder: (context, state) {
+          var extra = state.extra as Map<String, dynamic>;
+         return CheckOutPageView(
+              bookingDetail:extra,
+          );
+        },
       ),
       GoRoute(
         path: KAllSpecialitesView,

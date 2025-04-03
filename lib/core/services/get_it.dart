@@ -7,6 +7,8 @@ import 'package:doctors_appointment/features/appointment/domain/repositories/app
 import 'package:doctors_appointment/features/auth/data/repos/auth_repository_impl.dart';
 import 'package:doctors_appointment/features/auth/data/sources/auth_service.dart';
 import 'package:doctors_appointment/features/auth/domain/repositories/auth_repository.dart';
+import 'package:doctors_appointment/features/checkout/data/repositories/payment_repository.dart';
+import 'package:doctors_appointment/features/checkout/domain/repositories/payment_repository_implement.dart';
 import 'package:doctors_appointment/features/home/data/repositories/home_repository_impl.dart';
 import 'package:doctors_appointment/features/home/data/sources/home_services_api.dart';
 import 'package:doctors_appointment/features/home/domain/repositories/home_repository.dart';
@@ -37,6 +39,10 @@ void setup() {
 
   getIt.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(getIt.get<AuthService>()),
+  );
+
+  getIt.registerSingleton<PaymentRepository>(
+    PaymentRepositoryImpl(),
   );
 
   getIt.registerSingleton<AppointmentRepo>(

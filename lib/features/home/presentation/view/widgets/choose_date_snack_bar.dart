@@ -14,7 +14,7 @@ class ChooseDateScnakBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       width: double.infinity,
       height: 250,
       child: Column(
@@ -23,15 +23,15 @@ class ChooseDateScnakBar extends StatelessWidget {
             "October",
             style: TextStyles.Bold16.copyWith(color: Colors.black),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(5, (index) {
               return Container(
-                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                decoration: const BoxDecoration(
                   boxShadow: [
                     BoxShadow(
                       color: Color.fromARGB(84, 0, 0, 0),
@@ -60,7 +60,7 @@ class ChooseDateScnakBar extends StatelessWidget {
               );
             }),
           ),
-          Spacer(),
+          const Spacer(),
           CustomButton(
             title: "Complete",
             onPressed: () {

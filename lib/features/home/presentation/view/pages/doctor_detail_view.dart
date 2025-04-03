@@ -1,10 +1,10 @@
 import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
 
+import '../widgets/doctor_scedual_bottom_sheet.dart';
 import '/core/style/app_color.dart';
 import '/core/style/text_style.dart';
 import '/core/widgets/custom_button.dart';
 import '/features/home/presentation/view/widgets/about_doctor.dart';
-import '/features/home/presentation/view/widgets/choose_date_snack_bar.dart';
 import '/features/home/presentation/view/widgets/home_widgets/doctor_image.dart';
 import '/features/home/presentation/view/widgets/home_widgets/doctor_item_list.dart';
 import '/features/home/presentation/view/widgets/home_widgets/favorite_button_cubit.dart';
@@ -35,9 +35,9 @@ class DoctorDetailView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: AppColor.primaryColor,
-                          borderRadius: const BorderRadius.only(
+                          borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(25),
                             bottomRight: Radius.circular(25),
                           ),
@@ -46,7 +46,7 @@ class DoctorDetailView extends StatelessWidget {
                           children: [
                             DoctorImage(
                               doctorImage: doctorModel.photo ?? '',
-                              doctorId: doctorModel.id!.toInt() ?? 0,
+                              doctorId: doctorModel.id!.toInt(),
                             ),
                             const SizedBox(height: 20),
                             DoctorItemList(doctorModel: doctorModel),
@@ -88,7 +88,9 @@ class DoctorDetailView extends StatelessWidget {
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
-                      builder: (context) => const ChooseDateScnakBar(),
+                      builder: (context) => DoctorScedualBottomSheet(
+                        doctorModel: doctorModel,
+                      ),
                     );
                   },
                   title: "Make Appointment",

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -23,16 +22,13 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
       result.fold(
         (failure) {
-          log("🚨 Error: ${failure.errorMessage}");
           emit(AppointmentFailure(errorMessage: failure.errorMessage));
         },
         (bookings) {
           upcomingBookings = bookings["upcoming"] ?? [];
           historyBookings = bookings["history"] ?? [];
 
-          log("✅ Upcoming Bookings: ${upcomingBookings.length}");
-          log("✅ History Bookings: ${historyBookings.length}");
-          
+ 
           emit(AppointmentSuccess(
             upcomingBookings: upcomingBookings,
             historyBookings: historyBookings,
@@ -40,7 +36,6 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         },
       );
     } catch (e) {
-      log("❌ Exception: $e");
       emit(AppointmentFailure(errorMessage: e.toString()));
     }
   }

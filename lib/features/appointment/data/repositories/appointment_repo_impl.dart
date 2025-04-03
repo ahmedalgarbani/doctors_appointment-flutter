@@ -20,8 +20,6 @@ class AppointmentRepoImpl implements AppointmentRepo {
       final upcomingBookings = await _fetchBookings(EndPoints.upcommingBooking);
       final historyBookings = await _fetchBookings(EndPoints.historyBooking);
 
-      log("📅 Upcoming Bookings: ${upcomingBookings.length}");
-      log("📜 History Bookings: ${historyBookings.length}");
 
       return Right({
         "upcoming": upcomingBookings,
@@ -42,8 +40,8 @@ class AppointmentRepoImpl implements AppointmentRepo {
         throw ServerFailure(errorMessage: "Failed to fetch bookings");
       }
     } on DioException catch (e) {
-      log("❌ DioException: ${e.response?.data ?? e.message}");
-      // log("❌ DioException: ${ServerFailure.fromDiorError(e)}");
+      log(" DioException: ${e.response?.data ?? e.message}");
+      // log(" DioException: ${ServerFailure.fromDiorError(e)}");
       throw ServerFailure.fromDiorError(e);
     }
   }

@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../core/router/router.dart';
 import '../../../../../core/style/text_style.dart';
 import '../../../../../core/widgets/custom_button.dart';
+import '../../../../../core/widgets/date_picker_input_field.dart';
 import '../../../../search/presentation/view/widgets/filter_card.dart';
 import '../../../data/models/speciality_response/hospital.dart';
 
@@ -25,7 +29,10 @@ class DoctorScedualBottomSheet extends StatefulWidget {
 class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
   Hospital? _selectedHospital;
   String? _selectedDay;
+  String? _selectedDay_id;
   String? _selectedTime;
+  String? _selectedTime_id;
+  String? _bookingDate;
 
   @override
   void initState() {
@@ -76,6 +83,8 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
         _selectedHospital = hospital;
         _selectedDay = null;
         _selectedTime = null;
+        _selectedDay_id = null;
+        _selectedTime_id = null;
       }
     });
   }
@@ -84,12 +93,39 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
     setState(() {
       _selectedDay = day;
       _selectedTime = null;
+      _selectedTime_id = null;
+
+      try {
+        final schedule = widget.doctorModel.schedules!.firstWhere(
+          (s) =>
+              s.hospital?.id == _selectedHospital!.id &&
+              s.dayName == _selectedDay,
+        );
+        _selectedDay_id = schedule.id?.toString();
+      } catch (e) {
+        _selectedDay_id = null;
+      }
     });
   }
 
   void _selectTime(String time) {
     setState(() {
       _selectedTime = time;
+
+      try {
+        final schedule = widget.doctorModel.schedules!.firstWhere(
+          (s) =>
+              s.hospital?.id == _selectedHospital!.id &&
+              s.dayName == _selectedDay,
+        );
+
+        final shift = schedule.shifts!.firstWhere((shift) =>
+            "${shift.startTime ?? ''} - ${shift.endTime ?? ''}" == time);
+
+        _selectedTime_id = shift.id?.toString();
+      } catch (e) {
+        _selectedTime_id = null;
+      }
     });
   }
 
@@ -97,6 +133,8 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
     setState(() {
       _selectedDay = null;
       _selectedTime = null;
+      _selectedDay_id = null;
+      _selectedTime_id = null;
     });
   }
 
@@ -140,6 +178,17 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
                     [],
               ),
             ),
+            const SizedBox(height: 20),
+            const Text(
+              'Booking Date',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            DatePickerInputField(
+                hintText: "birthDate",
+                onDateSelected: (date) {
+                  _bookingDate = DateFormat('yyyy-MM-dd').format(date);
+                },
+              ),
             const SizedBox(height: 20),
             const Text(
               'Days',
@@ -194,20 +243,31 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
               const SizedBox(height: 20),
             ],
             CustomButton(
-
               height: 55,
               title: "Apply",
               onPressed: () {
-                if(_selectedHospital == null || _selectedDay == null || _selectedTime == null){
-
-                }else{
-                  GoRouter.of(context)
-                    .pushReplacement(AppRouter.KCheckOutPageView, extra: {
-                  'hospital': _selectedHospital,
-                  'doctor': widget.doctorModel,
-                  'day': _selectedDay,
-                  'time': _selectedTime,
-                });
+                if (_selectedHospital != null &&
+                    _selectedDay != null &&
+                    _selectedTime != null &&
+                    _selectedDay_id != null &&
+                    _selectedTime_id != null) {
+                     
+                  GoRouter.of(context).pushReplacement(
+                    AppRouter.KCheckOutPageView,
+                    extra: {
+                      'hospital': _selectedHospital,
+                      'doctor': widget.doctorModel,
+                      'day': _selectedDay,
+                      'day_id': _selectedDay_id,
+                      'time': _selectedTime,
+                      'time_id': _selectedTime_id,
+                      'booking_date': _bookingDate,
+                    },
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please select all fields')),
+                  );
                 }
               },
             ),

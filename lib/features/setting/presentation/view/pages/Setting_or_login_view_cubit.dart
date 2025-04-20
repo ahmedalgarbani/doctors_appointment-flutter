@@ -2,12 +2,26 @@ import 'package:doctors_appointment/core/helpers/build_snacbar.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../auth/presentation/view/signin_or_login.dart';
 import '../widgets/setting_view_page_body.dart';
 
-class SettingOrLoginViewCubit extends StatelessWidget {
+class SettingOrLoginViewCubit extends StatefulWidget {
   const SettingOrLoginViewCubit({super.key});
+
+  @override
+  State<SettingOrLoginViewCubit> createState() =>
+      _SettingOrLoginViewCubitState();
+}
+
+class _SettingOrLoginViewCubitState extends State<SettingOrLoginViewCubit> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("hello --------------------------");
+      context.read<AuthCubit>().loadAuthUserId();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +33,12 @@ class SettingOrLoginViewCubit extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is AuthCubitLoaded) {
+        if (state is AuthCubitLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is AuthCubitLoaded) {
           return state.isAuthenticated
               ? SettingViewPageBody()
               : SigninOrLogin();
-        } else if (state is AuthCubitLoading) {
-          return const Center(child: CircularProgressIndicator());
         } else if (state is AuthCubitFailure) {
           return SigninOrLogin();
         }

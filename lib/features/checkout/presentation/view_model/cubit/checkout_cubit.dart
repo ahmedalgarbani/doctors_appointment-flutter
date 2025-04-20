@@ -14,7 +14,6 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     try {
       final result =
           await paymentRepository.getPaymentMethods(hospital: hospital);
-      log(result.toString());
       result.fold(
         (failure) => emit(CheckoutFailure(message: failure.errorMessage)),
         (payments) => emit(CheckoutSuccess(payments: payments)),
@@ -23,4 +22,36 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       emit(CheckoutFailure(message: "cannot fetch payments method"));
     }
   }
+  Future<void> makePayment() async {
+    emit(CheckoutLoading());
+    try {
+      final result = await paymentRepository.makePayment();
+      result.fold(
+        (failure) => emit(CheckoutFailure(message: failure.errorMessage)),
+        (payments) => emit(CheckoutSuccess(payments: payments)),
+      );
+    } catch (e) {
+      emit(CheckoutFailure(message: "cannot fetch payments method"));
+    }
+  }
+Future<bool> makeappointment({Map<String, dynamic>? data}) async {
+  log(data.toString());
+  try {
+    final result = await paymentRepository.makeappointment(data: data!);
+
+    return result.fold(
+      (failure) {
+log(failure.errorMessage);
+        return false;
+      },
+      (_) {
+        return true;
+      },
+    );
+  } catch (e) {
+    return false;
+  }
+}
+
+  
 }

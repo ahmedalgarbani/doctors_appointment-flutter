@@ -11,7 +11,6 @@ class BookingModel {
   final int appointmentTime;
   final String bookingDate;
   final String amount;
-  final bool isOnline;
   final String status;
   final String createdAt;
   final String updatedAt;
@@ -34,7 +33,6 @@ class BookingModel {
     required this.appointmentTime,
     required this.bookingDate,
     required this.amount,
-    required this.isOnline,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
@@ -59,7 +57,6 @@ class BookingModel {
       appointmentTime: json["appointment_time"],
       bookingDate: json["booking_date"],
       amount: json["amount"],
-      isOnline: json["is_online"],
       status: json["status"],
       createdAt: json["created_at"],
       updatedAt: json["updated_at"],
@@ -85,7 +82,6 @@ class BookingModel {
       "appointment_time": appointmentTime,
       "booking_date": bookingDate,
       "amount": amount,
-      "is_online": isOnline,
       "status": status,
       "created_at": createdAt,
       "updated_at": updatedAt,

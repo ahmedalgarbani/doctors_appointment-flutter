@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 abstract class Failure {
@@ -45,8 +47,9 @@ class ServerFailure extends Failure {
       return ServerFailure(
           errorMessage: 'There is a problem with server, please try later');
     } else if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      if (response != null && response['message'] != null) {
-        return ServerFailure(errorMessage: response['message']);
+      if (response != null) {
+        //!TODO
+        return ServerFailure(errorMessage: "Invalid credentials");
       } else if (response != null && response['error'] != null) {
         return ServerFailure(errorMessage: response['error'][0]);
       } else if (response != null &&

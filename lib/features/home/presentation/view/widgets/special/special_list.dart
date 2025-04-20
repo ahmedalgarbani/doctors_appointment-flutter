@@ -34,7 +34,7 @@ class _SpecialistListState extends State<SpecialistList> {
           return GestureDetector(
             onTap: () {
               setState(() {
-                print(e.key);
+
                 context.read<HomeCubit>().getAllDoctors(id: e.key);
               });
             },

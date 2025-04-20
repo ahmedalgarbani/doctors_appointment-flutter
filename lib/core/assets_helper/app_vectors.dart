@@ -18,4 +18,9 @@ abstract class AppVectors {
   // OnBoarding
   static const String FirstPageImg = '${path}Doctors-amico${format}';
   static const String SecondPageImg = '${path}Doctors-pana${format}';
+
+  //  some vectors
+  static const String no_internet_connection =
+      '${path}internet-connection${format}';
+
 }

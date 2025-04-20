@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctors_appointment/core/error/failure.dart';
 import 'package:doctors_appointment/core/network/dio_consumer.dart';
@@ -7,14 +9,17 @@ import '../network/api_consumer.dart';
 class ApiService extends ApiConsumer {
   final Dio _dio = DioConsumer(client: getIt.get<Dio>()).client;
 
-  Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
-    try {
-      Response response = await _dio.get(endpoint, queryParameters: params);
-      return response;
-    } catch (e) {
-      throw Exception("GET request failed: $e");
-    }
+Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
+  try {
+    final Response response = await _dio.get(endpoint, queryParameters: params);
+    return response;
+  } on DioException catch (e) {
+    throw ServerFailure.fromDiorError(e);
+  } catch (ex) {
+    throw ServerFailure(errorMessage: ex.toString());
   }
+}
+
 Future<Response> post(
   String endpoint, {
   Map<String, dynamic>? data,
@@ -24,6 +29,7 @@ Future<Response> post(
     final response = await _dio.post(endpoint, data: data, options: options);
     return response;
   } on DioException catch (e) {
+    log(e.toString());
     throw ServerFailure.fromDiorError(e);
   } catch (ex) {
     throw Exception(ex.toString());

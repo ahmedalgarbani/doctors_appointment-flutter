@@ -22,8 +22,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
         EndPoints.getPaymentMethod,
         data: {"hospital_id": hospital},
       );
-      log(response.toString());
-      log(response.statusCode.toString());
+   
       if (response.statusCode == 200) {
         List<dynamic> data = response.data;
 
@@ -41,5 +40,39 @@ class PaymentRepositoryImpl implements PaymentRepository {
       return Left(
           ServerFailure(errorMessage: "Failed to fetch payment methods: $e"));
     }
+  }
+
+  
+  @override
+  Future<Either<Failure, List<PaymentMethodModel>>> makePayment() {
+    // TODO: implement makePayment
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<Either<Failure, void>> makeappointment({Map<String, dynamic>? data}) async{
+  try {
+    log(data.toString());
+    final response = await _apiService.post(
+      EndPoints.createBooking,
+      data: data,
+    );
+       log(response.toString());
+      log(response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+     
+      return Right(response.data);
+    } else {
+      return Left(ServerFailure(errorMessage:  'Unexpected status: ${response.statusCode}'));
+    }
+  } on DioException catch (e) {
+    return Left(ServerFailure(errorMessage:  e.response?.data.toString() ?? 'Unknown error'));
+  } catch (e) {
+    log(e.toString());
+    log(ServerFailure(errorMessage:  'Something went wrong: $e').toString());
+    return Left(ServerFailure.fromResponse( 404, e));
+  }
+
   }
 }

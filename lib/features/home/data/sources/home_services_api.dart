@@ -13,34 +13,36 @@ import '../models/speciality_response/speciality_response.dart';
 
 class HomeServicesApi extends DatabaseService {
   @override
-  Future<Either<Failure, bool>> addNewFavorite({required int doctorId})async {
-   try{
-   var result = await getIt.get<ApiService>().post(EndPoints.favorites, data:{"doctor": doctorId});
-   
-    return Right(true);
-   }catch(e){
-   return  Left(ServerFailure(errorMessage: "Error Occure while add favorite"),);
-   }
-   
+  Future<Either<Failure, bool>> addNewFavorite({required int doctorId}) async {
+    try {
+      var result = await getIt
+          .get<ApiService>()
+          .post(EndPoints.favorites, data: {"doctor": doctorId});
+
+      return Right(true);
+    } catch (e) {
+      return Left(
+        ServerFailure(errorMessage: "Error Occure while add favorite"),
+      );
+    }
   }
 
   @override
-  Future<List<Doctor>?> getAllFavourites() async{
-    
-    try{
-      Response response = await getIt.get<ApiService>().get(EndPoints.favorites);
+  Future<List<Doctor>?> getAllFavourites() async {
+    try {
+      Response response =
+          await getIt.get<ApiService>().get(EndPoints.favorites);
       if (response.data is Map<String, dynamic> &&
           response.data.containsKey('results')) {
         List<dynamic> results = response.data['results'];
-        List<Doctor>? result = results.map((e) => Doctor.fromMap(e['doctor_data'])).toList();
- 
+        List<Doctor>? result =
+            results.map((e) => Doctor.fromMap(e['doctor_data'])).toList();
+
         return result;
       }
     } catch (e) {
-      log("here errors [${e.toString()}]");
       return [];
     }
-    
   }
 
   @override
@@ -55,7 +57,7 @@ class HomeServicesApi extends DatabaseService {
         return results.map((e) => SpecialityResponse.fromMap(e)).toList();
       }
     } catch (e) {
-      log("here errorss [${e.toString()}]");
+      log(e.toString());
     }
     return [];
   }
@@ -68,12 +70,13 @@ class HomeServicesApi extends DatabaseService {
 
   @override
   Future<bool> removeFavorite({required int doctorId}) {
-    try{
-      getIt.get<ApiService>().delete(EndPoints.removeFavorites, data: {"doctor": doctorId});
+    try {
+      getIt
+          .get<ApiService>()
+          .delete(EndPoints.removeFavorites, data: {"doctor": doctorId});
       return Future.value(true);
-    }catch(e){
+    } catch (e) {
       return Future.value(false);
     }
-    
   }
 }

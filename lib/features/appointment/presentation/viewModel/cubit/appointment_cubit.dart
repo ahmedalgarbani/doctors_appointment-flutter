@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -15,9 +17,17 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   List<BookingModel> historyBookings = [];
   List<BookingModel> upcomingBookings = [];
 
-  Future<void> getBookings() async {
+  Future<void> getBookings({bool isLogout = false}) async {
     emit(AppointmentLoading());
     try {
+      if (isLogout) {
+        upcomingBookings = [];
+        historyBookings = [];
+        emit(AppointmentSuccess(
+          upcomingBookings: upcomingBookings,
+          historyBookings: historyBookings,
+        ));
+      }
       final result = await _appointmentRepo.getBookings();
 
       result.fold(
@@ -27,8 +37,8 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         (bookings) {
           upcomingBookings = bookings["upcoming"] ?? [];
           historyBookings = bookings["history"] ?? [];
-
- 
+          log(upcomingBookings.toString());
+          log(historyBookings.toString());
           emit(AppointmentSuccess(
             upcomingBookings: upcomingBookings,
             historyBookings: historyBookings,

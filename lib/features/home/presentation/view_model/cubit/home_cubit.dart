@@ -33,13 +33,14 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getAllSpecialties() async {
     emit(HomeLoading());
     try {
+      print("home loaded");
       allSpecialties = await _homeRepository.getAllSpecialites();
       emit(SpecialtiesLoaded(specialties: allSpecialties));
     } catch (e) {
       emit(HomeFailure("Failed to fetch specialties: ${e.toString()}"));
     }
   }
-
+// ahmed888@gmail.com
   Future<void> getHomeFeatures() async {
     emit(HomeLoading());
 

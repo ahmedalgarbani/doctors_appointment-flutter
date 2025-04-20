@@ -20,7 +20,6 @@ class AppointmentRepoImpl implements AppointmentRepo {
       final upcomingBookings = await _fetchBookings(EndPoints.upcommingBooking);
       final historyBookings = await _fetchBookings(EndPoints.historyBooking);
 
-
       return Right({
         "upcoming": upcomingBookings,
         "history": historyBookings,
@@ -33,6 +32,7 @@ class AppointmentRepoImpl implements AppointmentRepo {
   Future<List<BookingModel>> _fetchBookings(String endpoint) async {
     try {
       Response response = await _apiService.get(endpoint);
+
       if (response.statusCode == 200) {
         List<dynamic> jsonList = response.data["results"];
         return BookingModel.fromJsonList(jsonList);
@@ -40,8 +40,7 @@ class AppointmentRepoImpl implements AppointmentRepo {
         throw ServerFailure(errorMessage: "Failed to fetch bookings");
       }
     } on DioException catch (e) {
-      log(" DioException: ${e.response?.data ?? e.message}");
-      // log(" DioException: ${ServerFailure.fromDiorError(e)}");
+      log(" DioException: ${ServerFailure.fromDiorError(e)}");
       throw ServerFailure.fromDiorError(e);
     }
   }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:doctors_appointment/core/assets_helper/app_image.dart';
+import 'package:doctors_appointment/features/appointment/presentation/viewModel/cubit/appointment_cubit.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,18 @@ import '../../../../../core/router/router.dart';
 import '../../../../home/presentation/view/widgets/home_widgets/home_page_header.dart';
 import '../../../../home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 
-class SettingViewPageBody extends StatelessWidget {
+class SettingViewPageBody extends StatefulWidget {
+  @override
+  State<SettingViewPageBody> createState() => _SettingViewPageBodyState();
+}
+
+class _SettingViewPageBodyState extends State<SettingViewPageBody> {
+  initState() {
+    super.initState();
+    log("hello from profile");
+    // context.read<AuthCubit>().loadAuthUserId();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -42,6 +54,7 @@ class SettingViewPageBody extends StatelessWidget {
         _buildSettingsTile(Icons.logout, "Sign Out", onTap: () {
           context.read<AuthCubit>().logout();
           context.read<FavoritesCubit>().getAllFavorites(isLogout: true);
+          context.read<AppointmentCubit>().getBookings(isLogout: true);
           context.read<HomeCubit>().getHomeFeatures();
         }, iconColor: Colors.red),
         const SizedBox(height: 20),

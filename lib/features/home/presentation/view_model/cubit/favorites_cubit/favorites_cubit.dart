@@ -22,14 +22,12 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     try {
       if (isLogout) {
         favorites = [];
-        log(favorites!.length.toString());
 
         emit(FavoritesLoaded(favorites));
 
       } else {
         favorites = await _homeRepository.getAllFavourites();
         if (favorites != null) {
-          log(favorites!.length.toString());
           emit(FavoritesLoaded(favorites));
         }
       }

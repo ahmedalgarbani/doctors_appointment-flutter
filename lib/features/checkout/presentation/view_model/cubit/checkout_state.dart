@@ -20,11 +20,11 @@ class CheckoutLoading extends CheckoutState {
 }
 
 class CheckoutSuccess extends CheckoutState {
-  final List<PaymentMethodModel> payments;
-  const CheckoutSuccess({required this.payments});
+  final List<PaymentMethodModel>? payments;
+  const CheckoutSuccess({ this.payments});
 
   @override
-  List<Object> get props => [payments];
+  List<Object> get props => [payments!];
 }
 
 class CheckoutFailure extends CheckoutState {

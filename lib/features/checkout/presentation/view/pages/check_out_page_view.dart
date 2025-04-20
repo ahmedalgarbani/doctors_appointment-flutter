@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctors_appointment/core/constant/constant.dart';
 import 'package:doctors_appointment/core/helpers/build_snacbar.dart';
 import 'package:doctors_appointment/core/services/get_it.dart';
@@ -61,6 +59,7 @@ class CheckoutPageViewBodyBlocBuilder extends StatelessWidget {
               .read<CheckoutCubit>()
               .fetchPaymentMethods(hospital: (bookingDetail['hospital'] as Hospital).id as int);
         } else if (state is CheckoutFailure) {
+          
           buildSnackbar(context, state.message);
         }
       },
@@ -74,7 +73,7 @@ class CheckoutPageViewBodyBlocBuilder extends StatelessWidget {
           } else if (state is CheckoutSuccess) {
             return CheckOutPageViewBody(
               bookingDetail: bookingDetail,
-              paymentMethod: state.payments,
+              paymentMethod: state.payments!,
             );
           } else if (state is CheckoutFailure) {
             return Center(child: Text(state.message));

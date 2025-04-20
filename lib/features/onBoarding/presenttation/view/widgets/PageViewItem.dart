@@ -1,9 +1,11 @@
+import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/constant/constant.dart';
 import '../../../../../core/router/router.dart';
 
 class PageViewItem extends StatelessWidget {
@@ -34,7 +36,7 @@ class PageViewItem extends StatelessWidget {
               visible: isVisible,
               child: GestureDetector(
                 onTap: () {
-                  // Prf.setBool(kIsOnBoardingViewSeen, true);
+                  Pref.setBool(kIsOnBoardingViewSeen, true);
 
                   GoRouter.of(context).pushReplacement(AppRouter.KHomePage);
                 },

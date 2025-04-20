@@ -17,10 +17,7 @@ class AppointmentPageView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(
               left: KHorizantalPadding, right: KHorizantalPadding),
-          child: BlocProvider(
-            create: (context) => AppointmentCubit(getIt.get<AppointmentRepo>()),
-            child: AppointmentCubitBuilder(),
-          ),
+          child: AppointmentCubitBuilder(),
         ),
       ),
     );

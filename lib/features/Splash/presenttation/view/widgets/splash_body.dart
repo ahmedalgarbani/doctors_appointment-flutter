@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctors_appointment/core/assets_helper/app_vectors.dart';
 import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/core/router/router.dart';
@@ -20,9 +22,10 @@ class _SplashBodyState extends State<SplashBody>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
-  checkStatus(){
-    context.read<AuthCubit>().loadAuthUserId();
-    context.read<AuthCubit>().isAuth;
+  checkStatus() async{
+   await context.read<AuthCubit>().loadAuthUserId();
+   await context.read<AuthCubit>().isAuth;
+    log("user status ${context.read<AuthCubit>().isAuth}");
   }
   @override
   void initState() {
@@ -68,6 +71,7 @@ checkStatus();
 
   void Redirect() async {
     bool IsOnBoardingViewSeen = await Pref.getBool(kIsOnBoardingViewSeen);
+    log("IsOnBoardingViewSeen $IsOnBoardingViewSeen");
     await Future.delayed(const Duration(milliseconds: 3000));
     await _controller.reverse();
     if (IsOnBoardingViewSeen) {

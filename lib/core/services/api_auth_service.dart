@@ -17,14 +17,15 @@ import 'get_it.dart';
 
 class ApiAuthService extends AuthService {
   @override
-  Future<Either<Failure,dynamic>> createUserWithEmailAndPassword(
-      {required Patient patient}) async {
+  Future<Either<Failure, dynamic>> createUserWithEmailAndPassword({
+    required Patient patient,
+  }) async {
     try {
-      FormData formData = await patient.toFormData();
+      final formData = await patient.toFormData();
 
-      final response = await getIt.get<ApiService>().post(
+      final response = await getIt.get<ApiService>().postFormData(
             EndPoints.register,
-            formData,
+            data: formData,
             options: Options(
               headers: {
                 "Content-Type":
@@ -34,9 +35,11 @@ class ApiAuthService extends AuthService {
           );
 
       log("User registration successful: ${response.data}");
-      return Right("User registration successful");
+      return Right(response.data);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDiorError(e));
+    } catch (ex) {
+      return Left(ServerFailure(errorMessage: ex.toString()));
     }
   }
 
@@ -48,24 +51,36 @@ class ApiAuthService extends AuthService {
 
   @override
   Future<int?> getAuthUserId() async {
-    return await Pref.getInt(KauthUserId);
+    try {
+      final response = await getIt.get<ApiService>().get(EndPoints.profile);
+      if (response.statusCode == 200) {
+        return Patient.fromJson(response.data['result']).id;
+      } else {
+        log("Failed to fetch user ID: ${response.statusCode} - ${response.data}");
+        return 0;
+      }
+    } on Exception catch (e) {
+      return 0;
+    } catch (e) {
+      return 0;
+    }
   }
 
   @override
   Future<bool> logout() async {
     try {
-      String? refreshToken = await Pref.getRefreshToken(RefreshToken);
-      if (refreshToken == null) {
+      String refreshToken = await Pref.getRefreshToken(RefreshToken);
+      if (refreshToken == null || refreshToken.isEmpty) {
         await _clearUserData();
+
         return true;
       }
 
       final response = await getIt
           .get<ApiService>()
-          .post(EndPoints.logout, {"refresh_token": "$refreshToken"});
+          .post(EndPoints.logout, data: {"refresh_token": "$refreshToken"});
       if (response.statusCode == StatusCode.logedout) {
         await _clearUserData();
-
         return true;
       } else {
         log("Logout failed: ${response.statusCode} - ${response.data}");
@@ -75,7 +90,7 @@ class ApiAuthService extends AuthService {
         log("Dio Exception: $e");
         ServerFailure.fromDiorError(e);
       }
-      log("Error during logout: $e");
+      log("Error during logout: ${ServerFailure.fromResponse(401, e)}");
     }
 
     return false;
@@ -102,7 +117,7 @@ class ApiAuthService extends AuthService {
       final deviceUuid = getUUIDv4();
       final response = await getIt.get<ApiService>().post(
         EndPoints.login,
-        {
+        data: {
           "email": signinUserRequest.email,
           "password": signinUserRequest.password,
           "device_id": deviceUuid,
@@ -127,6 +142,12 @@ class ApiAuthService extends AuthService {
       }
     } on DioException catch (ex) {
       return Left(ServerFailure.fromDiorError(ex));
+    }on ServerFailure catch(e){
+      return Left(ServerFailure.fromResponse(401,e));
+
+    }catch(e){
+      return Left(ServerFailure.fromResponse(401,e));
+
     }
   }
 }

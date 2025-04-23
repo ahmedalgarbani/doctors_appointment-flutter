@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class StarsSection extends StatelessWidget {
@@ -10,8 +9,10 @@ class StarsSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         5,
-        (_) => const Icon(Icons.star_outlined, color: Colors.orange),
+        (index) => const Icon(Icons.star_outlined, color: Colors.orange),
       ),
     );
   }
 }
+
+

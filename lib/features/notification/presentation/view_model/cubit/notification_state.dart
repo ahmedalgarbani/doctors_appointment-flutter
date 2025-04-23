@@ -8,3 +8,19 @@ abstract class NotificationState extends Equatable {
 }
 
 class NotificationInitial extends NotificationState {}
+
+
+
+class NotificationLoading extends NotificationState {}
+
+class NotificationLoaded extends NotificationState {
+  final List<NotificationsEntity> notifications;
+
+  NotificationLoaded(this.notifications);
+}
+
+class NotificationError extends NotificationState {
+  final String message;
+
+  NotificationError(this.message);
+}

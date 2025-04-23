@@ -16,8 +16,7 @@ class AppThemeManager {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
-        borderSide:
-            BorderSide(color: Color.fromARGB(255, 3, 2, 2), width: 0.4),
+        borderSide: BorderSide(color: Color.fromARGB(255, 3, 2, 2), width: 0.4),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -57,8 +56,8 @@ class AppThemeManager {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
-        borderSide: BorderSide(
-            color: Color.fromARGB(255, 235, 235, 235), width: 1.0),
+        borderSide:
+            BorderSide(color: Color.fromARGB(255, 235, 235, 235), width: 1.0),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

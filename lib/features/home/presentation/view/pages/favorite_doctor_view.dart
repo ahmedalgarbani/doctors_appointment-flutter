@@ -15,10 +15,11 @@ class FavoriteDoctorView extends StatelessWidget {
           if (state is FavoritesLoaded) {
             return FavoriteDoctorViewBody(allDoctors: state.favoritesDoctor!);
           } else if (state is FavoritesLoading) {
-            var allDoctors = context.read<FavoritesCubit>().favorites;
+            var allDoctors = context.watch<FavoritesCubit>().favorites;
             return FavoriteDoctorViewBody(allDoctors: allDoctors ?? []);
           }
           return const SizedBox();
+          
         },
         listener: (BuildContext context, FavoritesState state) {
           if (state is FavoritesFailure) {

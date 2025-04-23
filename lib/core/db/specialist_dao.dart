@@ -23,6 +23,4 @@ class SpecialistDao {
   Future<int> deleteSpecialty(int id) async {
     return await _db.delete('specialties', where: 'id = ?', whereArgs: [id]);
   }
-
-
 }

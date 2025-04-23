@@ -46,7 +46,8 @@ final class LoginCubitLoaded extends AuthCubitState {
   });
 
   @override
-  List<Object?> get props => [patient, successMessage, authUserId, isAuthenticated];
+  List<Object?> get props =>
+      [patient, successMessage, authUserId, isAuthenticated];
 }
 
 final class LoginCubitFailure extends AuthCubitState {

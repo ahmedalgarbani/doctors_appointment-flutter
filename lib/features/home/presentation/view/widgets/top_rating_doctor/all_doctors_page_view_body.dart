@@ -4,11 +4,11 @@ import 'package:doctors_appointment/features/home/presentation/view/widgets/home
 import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/top_starts_list.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../data/models/doctor_model.dart';
+import '../../../../data/models/speciality_response/doctor.dart';
 
-class TopRatingDoctorPageViewBody extends StatelessWidget {
-  const TopRatingDoctorPageViewBody({super.key, required this.doctors});
-  final List<DoctorModel> doctors;
+class AllDoctorsPageViewBody extends StatelessWidget {
+  const AllDoctorsPageViewBody({super.key, required this.doctors});
+  final List<Doctor> doctors;
   @override
   Widget build(BuildContext context) {
     return Column(children: [

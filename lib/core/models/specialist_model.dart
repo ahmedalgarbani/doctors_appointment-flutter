@@ -6,5 +6,9 @@ class SpecialistModel {
   final Color color;
   final String imagePath;
 
-  SpecialistModel({required this.title, required this.doctorNumber, required this.color, required this.imagePath});
+  SpecialistModel(
+      {required this.title,
+      required this.doctorNumber,
+      required this.color,
+      required this.imagePath});
 }

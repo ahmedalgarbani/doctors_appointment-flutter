@@ -25,7 +25,7 @@ class AuthDao {
         return null;
       }
     } catch (e) {
-      print('Error fetching patient: $e');
+
       return null;
     }
   }

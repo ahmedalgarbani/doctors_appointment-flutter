@@ -23,7 +23,7 @@ class DatePickerInputField extends StatefulWidget {
 }
 
 class _DatePickerInputFieldState extends State<DatePickerInputField> {
-  DateTime? _selectedDate;
+  String? _selectedDate;
 
   void _pickDate() async {
     final DateTime? pickedDate = await showDatePicker(
@@ -35,7 +35,7 @@ class _DatePickerInputFieldState extends State<DatePickerInputField> {
 
     if (pickedDate != null) {
       setState(() {
-        _selectedDate = pickedDate;
+        _selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
       widget.onDateSelected(pickedDate);
     }
@@ -49,10 +49,9 @@ class _DatePickerInputFieldState extends State<DatePickerInputField> {
         child: TextFormField(
           readOnly: true,
           decoration: InputDecoration(
-            
             hintText: _selectedDate == null
                 ? widget.hintText
-                : DateFormat('yyyy-MM-dd').format(_selectedDate!),
+                : DateFormat('yyyy-MM-dd').format(DateTime.parse(_selectedDate!)), 
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(1),
               borderSide: BorderSide(

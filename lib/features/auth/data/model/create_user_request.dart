@@ -97,7 +97,6 @@ class Patient {
     );
   }
 
-
   Future<FormData> toFormData() async {
     Map<String, dynamic> fields = {
       "username": email,
@@ -110,14 +109,15 @@ class Patient {
       "birth_date": birthDate,
       "gender": gender,
       "join_date": joinDate,
-      "weight":"155",
-      "height":"66",
-      "age":"99", 
-      "blood_group":"A-"
+      "weight": "155",
+      "height": "66",
+      "age": "99",
+      "blood_group": "A-"
     };
 
     if (profilePicture != null) {
-      fields["profile_picture"] = await MultipartFile.fromFile(profilePicture!, filename: "profile.jpg");
+      fields["profile_picture"] = await MultipartFile.fromFile(profilePicture!,
+          filename: "profile.jpg");
     }
 
     return FormData.fromMap(fields);

@@ -4,8 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:doctors_appointment/core/constant/constant.dart';
 import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/core/network/status_code.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+
+import '../../features/auth/presentation/view_model/cubit/auth_cubit.dart';
+import '../router/router.dart';
 import '../services/api_service.dart';
 import '../services/get_it.dart';
 import 'end_points.dart';
@@ -42,18 +47,41 @@ class AppIntercepters extends Interceptor {
 
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == StatusCode.unauthorized || err.response?.statusCode == StatusCode.forbidden) {
-      String? userRefreshToken = await Pref.getRefreshToken(RefreshToken);
-      String? userAccessToken = await Pref.getAccessToken(AccessToken);
-      if (userRefreshToken != null) {
-        bool success = await _refreshToken(userRefreshToken);
-        if (success) {
-          return handler.resolve(await _retry(err.requestOptions));
+  if (err.response?.statusCode == StatusCode.unauthorized) {
+    final refreshToken = await Pref.getRefreshToken(RefreshToken);
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      if (await _refreshToken(refreshToken)) {
+        try {
+          final response = await _retry(err.requestOptions);
+          handler.resolve(response);
+          return; 
+        } catch (e) {
+          await _logout();
+          handler.next(err); 
+          return;
         }
+      } else {
+        await _logout();
+        handler.next(err); 
+        return;
       }
+    } else {
+      await _logout();
+      handler.next(err); 
+      return;
     }
-    super.onError(err, handler);
   }
+  handler.next(err);
+}
+
+Future<void> _logout() async {
+    await Pref.remove(KauthUserId);
+    await Pref.remove(KIsLogin);
+    await Pref.removeSecure(AccessToken);
+    await Pref.removeSecure(RefreshToken);
+    await Pref.remove(device_id);
+}
+
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
     String? newAccessToken = await Pref.getAccessToken(AccessToken);
@@ -80,10 +108,13 @@ class AppIntercepters extends Interceptor {
   static Future<bool> _refreshToken(String userRefreshToken) async {
     try {
       final response = await getIt.get<ApiService>().post(
+        
         EndPoints.refreshToken,
-        {
+        data:{
           "$refreshTokenRequest": "${userRefreshToken}",
+
         },
+        
         // options: Options(
         //   headers: {
         //     HttpHeaders.authorizationHeader: '',
@@ -93,7 +124,7 @@ class AppIntercepters extends Interceptor {
 
       if (response.statusCode == StatusCode.ok) {
         final responseData = response.data;
-        log("response [$responseData]");
+        // log("response [$responseData]");
         final String? newAccessToken = responseData["access"];
         final String? newRefreshToken = responseData["refresh"];
 
@@ -103,10 +134,14 @@ class AppIntercepters extends Interceptor {
           return true;
         }
       } else {
-        debugPrint("Unexpected response: ${response.data}");
+            return false;
+
+        // debugPrint("Unexpected response: ${response.data}");
       }
     } catch (e) {
-      debugPrint("Error refreshing token: $e");
+          return false;
+
+      // debugPrint("Error refreshing token: $e");
     }
     return false;
   }

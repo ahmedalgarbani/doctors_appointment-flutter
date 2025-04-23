@@ -15,10 +15,14 @@ class SignupPageViewCubit extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthCubitState>(
       buildWhen: (previous, current) {
-        return current is SignupCubitLoaded || current is SignupCubitFailure || current is SignupCubitLoading;
+        return current is SignupCubitLoaded ||
+            current is SignupCubitFailure ||
+            current is SignupCubitLoading;
       },
       listenWhen: (previous, current) {
-        return current is SignupCubitLoaded || current is SignupCubitFailure || current is SignupCubitLoading;
+        return current is SignupCubitLoaded ||
+            current is SignupCubitFailure ||
+            current is SignupCubitLoading;
       },
       listener: (context, state) {
         if (state is SignupCubitLoaded) {
@@ -27,7 +31,6 @@ class SignupPageViewCubit extends StatelessWidget {
           buildSnackbar(context, state.message);
         }
       },
-      
       builder: (context, state) {
         return CustomProgressHud(
           isLoading: state is SignupCubitLoading ? true : false,

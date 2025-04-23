@@ -1,9 +1,9 @@
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
-import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../data/models/speciality_response/doctor.dart';
 import '../../../view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import 'favorite_button_cubit.dart';
 
@@ -15,7 +15,7 @@ class DoctorHorizantalListCard extends StatelessWidget {
     this.onPress,
   });
 
-  final DoctorModel doctorModel;
+  final Doctor doctorModel;
   final Widget? trailing;
   final VoidCallback? onPress;
 
@@ -43,8 +43,9 @@ class DoctorHorizantalListCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  doctorModel.imagePath!,
+                child: Image.network(
+                  doctorModel.photo!=null?
+                  doctorModel.photo!:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-978409_1280.png',
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
@@ -56,33 +57,35 @@ class DoctorHorizantalListCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      doctorModel.name,
+                      doctorModel.fullName ?? 'sadasdas',
                       style: TextStyles.Bold16.copyWith(color: Colors.black),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      doctorModel.specialtyName ?? '',
+                      doctorModel.fullName ?? '',
                       style: TextStyles.Bold12.copyWith(color: Colors.grey),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5),
-                    Text(
-                      'Price: \$ ${500}',
-                      style: TextStyles.Bold16.copyWith(color: Colors.green),
-                    ),
+                    // Text(
+                    //   'Price: \$ ${doctorModel.pricing}',
+                    //   style: TextStyles.Bold16.copyWith(color: Colors.green),
+                    // ),
                     const SizedBox(height: 5),
                     Row(
                       children: List.generate(5, (index) {
                         return Icon(
-                          Icons.star,
-                          color: index < 2 ? Colors.amber : Colors.grey[300],
-                          size: 16,
-                        );
-                      }),
-                    ),
+                            Icons.star,
+                            color: (doctorModel.rating != null && index < doctorModel.rating!.toInt())
+                                ? Colors.amber
+                                : Colors.grey[300],
+                            size: 16,
+                          );
+                      },),
+                    )
                   ],
                 ),
               ),

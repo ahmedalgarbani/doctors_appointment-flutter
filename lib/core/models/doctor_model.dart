@@ -3,5 +3,6 @@ class DoctorModel {
   final String imagePath;
   final String Speciality;
 
- const DoctorModel({required this.name, required this.imagePath, required this.Speciality});
+  const DoctorModel(
+      {required this.name, required this.imagePath, required this.Speciality});
 }

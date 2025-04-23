@@ -3,7 +3,8 @@ import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.title, this.onPressed, this.height});
+  const CustomButton(
+      {super.key, required this.title, this.onPressed, this.height});
   final String title;
   final VoidCallback? onPressed;
   final double? height;
@@ -12,7 +13,7 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed ?? () {},
       child: Container(
-        height:height?? 60,
+        height: height ?? 60,
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         width: double.infinity,

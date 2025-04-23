@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 void buildSnackbar(BuildContext context, String message, {Color? color}) {
-  
   if (context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

@@ -1,28 +1,30 @@
 import 'package:doctors_appointment/core/helpers/build_snacbar.dart';
-import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/home/data/models/speciality_response/doctor.dart';
 import '../../features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import '../constant/constant.dart';
 import 'shared_prefrace.dart';
 
 abstract class FavoriteToggle {
-
-  static Future<void> toggleFavorite(BuildContext context,
-      FavoritesCubit cubit, DoctorModel doctorModel) async {
-    final isFavorite = await cubit.isFavorite(doctorId: doctorModel.id!);
+  static Future<void> toggleFavorite(
+      BuildContext context, FavoritesCubit cubit, Doctor doctorModel) async {
+    final isFavorite =
+        await cubit.isFavorite(doctorId: doctorModel.id!.toInt());
 
     if (isFavorite) {
-      addFavorite(context, cubit, doctorModel);
-    } else {
       removeFavorite(context, cubit, doctorModel);
+    } else {
+      addFavorite(context, cubit, doctorModel);
     }
   }
 
- static Future<void> addFavorite(BuildContext ctx, FavoritesCubit cubit,DoctorModel doctorModel) async {
+  static Future<void> addFavorite(
+      BuildContext ctx, FavoritesCubit cubit, Doctor doctorModel) async {
     final patientId = await Pref.getInt(KauthUserId);
+    final userStatus = await Pref.getBool(KIsLogin);
 
-    if (patientId == 0) {
+    if (patientId == 0 || userStatus == false) {
       buildSnackbar(
         ctx,
         "You need to login first!",
@@ -32,20 +34,20 @@ abstract class FavoriteToggle {
     }
 
     final result = await cubit.addNewFavorite(
-      patientId: patientId,
-      doctorId: doctorModel.id!,
+      doctorId: doctorModel.id!.toInt(),
     );
 
     if (result) {
       buildSnackbar(ctx, "Added to favorites!", color: Colors.greenAccent);
     } else {
-      removeFavorite(ctx, cubit,doctorModel);
+      removeFavorite(ctx, cubit, doctorModel);
     }
 
-    cubit.getAllFavorites(patientId);
+    cubit.getAllFavorites();
   }
 
- static Future<void> removeFavorite(BuildContext ctx, FavoritesCubit cubit,DoctorModel doctorModel) async {
+  static Future<void> removeFavorite(
+      BuildContext ctx, FavoritesCubit cubit, Doctor doctorModel) async {
     final patientId = await Pref.getInt(KauthUserId);
 
     if (patientId == 0) {
@@ -59,10 +61,9 @@ abstract class FavoriteToggle {
 
     await cubit.removeFavorite(
       doctorId: doctorModel.id!,
-      patientId: patientId,
     );
 
-    cubit.getAllFavorites(patientId);
+    cubit.getAllFavorites();
     buildSnackbar(ctx, "Removed from favorites!", color: Colors.orange);
   }
 }

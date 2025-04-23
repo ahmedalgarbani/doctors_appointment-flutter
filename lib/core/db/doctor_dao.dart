@@ -1,13 +1,13 @@
-import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../features/home/data/models/speciality_response/doctor.dart';
 
 class DoctorDao {
   final Database _db;
   DoctorDao(this._db);
 
- 
-Future<List<DoctorModel>> getAllDoctors() async {
-  final List<Map<String, Object?>> result = await _db.rawQuery('''
+  Future<List<Doctor>> getAllDoctors() async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
     SELECT doctors.*, specialties.name AS specialty_name
     FROM doctors
     INNER JOIN specialties
@@ -15,16 +15,16 @@ Future<List<DoctorModel>> getAllDoctors() async {
     ORDER BY doctors.id DESC
   ''');
 
-  return result.map((e) {
-    return DoctorModel.fromMap(e); 
-  }).toList();
-}
+    return result.map((e) {
+      return Doctor.fromMap(e);
+    }).toList();
+  }
 
-  Future<void> insertDoctor(DoctorModel doctor) async {
+  Future<void> insertDoctor(Doctor doctor) async {
     await _db.insert('doctors', doctor.toMap());
   }
 
-  Future<void> updateDoctor(DoctorModel doctor) async {
+  Future<void> updateDoctor(Doctor doctor) async {
     await _db.update('doctors', doctor.toMap(),
         where: 'id = ?', whereArgs: [doctor.id]);
   }
@@ -32,5 +32,4 @@ Future<List<DoctorModel>> getAllDoctors() async {
   Future<void> deleteDoctor(int id) async {
     await _db.delete('doctors', where: 'id = ?', whereArgs: [id]);
   }
-
 }

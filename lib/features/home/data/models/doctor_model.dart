@@ -16,7 +16,7 @@ class DoctorModel {
   final String? specialtyName;
 
   const DoctorModel({
-     this.id,
+    this.id,
     required this.name,
     required this.birthday,
     required this.phoneNumber,

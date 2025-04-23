@@ -1,12 +1,11 @@
-
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../data/models/doctor_model.dart';
+import '../../../../data/models/speciality_response/doctor.dart';
 
 class DoctorListCard extends StatelessWidget {
   const DoctorListCard({super.key, required this.doctorModel});
-  final DoctorModel doctorModel;
+  final Doctor doctorModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,8 +23,8 @@ class DoctorListCard extends StatelessWidget {
             flex: 2,
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(
-                doctorModel.imagePath!,
+              child: Image.network(
+                doctorModel.photo!,
                 fit: BoxFit.cover,
               ),
             ),
@@ -35,14 +34,14 @@ class DoctorListCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  doctorModel.name,
+                  doctorModel.fullName??'',
                   style: TextStyles.Bold12,
                 ),
                 SizedBox(
                   height: 5,
                 ),
                 Text(
-                  doctorModel.specialtyName.toString(),
+                  doctorModel.fullName.toString(),
                   style:
                       TextStyles.Bold12.copyWith(fontWeight: FontWeight.w400),
                 ),

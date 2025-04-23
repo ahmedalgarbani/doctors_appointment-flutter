@@ -1,6 +1,6 @@
+import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
 import 'package:equatable/equatable.dart';
-import '../../../data/models/doctor_model.dart';
-import '../../../data/models/specialist_model.dart';
+import '../../../data/models/speciality_response/speciality_response.dart';
 
 abstract class HomeState extends Equatable {
   const HomeState();
@@ -20,7 +20,7 @@ class HomeLoading extends HomeState {
 }
 
 class HomeLoaded extends HomeState {
-  final List<DoctorModel> doctors;
+  final List<Doctor> doctors;
 
   const HomeLoaded({required this.doctors});
 
@@ -29,17 +29,25 @@ class HomeLoaded extends HomeState {
 }
 
 class SpecialtiesLoaded extends HomeState {
-  final List<SpecialtyModel> specialties;
+  final List<SpecialityResponse> specialties;
 
   const SpecialtiesLoaded({required this.specialties});
 
   @override
   List<Object> get props => [specialties];
 }
+class DoctorsLoaded extends HomeState {
+  final List<Doctor> doctors;
+
+  const DoctorsLoaded({required this.doctors});
+
+  @override
+  List<Object> get props => [doctors];
+}
 
 class HomeLoadedWithSpecialties extends HomeState {
-  final List<DoctorModel> doctors;
-  final List<SpecialtyModel> specialties;
+  final List<Doctor> doctors;
+  final List<SpecialityResponse> specialties;
 
   const HomeLoadedWithSpecialties(
       {required this.doctors, required this.specialties});

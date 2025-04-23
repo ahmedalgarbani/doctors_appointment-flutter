@@ -1,43 +1,54 @@
-
-import 'package:doctors_appointment/core/style/app_color.dart';
-import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/style/text_style.dart';
+
 class NotificationCardItem extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final Color color;
+  final IconData iconData;
+  final bool isRead;
+
   const NotificationCardItem({
     super.key,
     required this.title,
     required this.subtitle,
     required this.color,
     required this.iconData,
+    this.isRead = false,
   });
-  final String title, subtitle;
-  final Color color;
-  final IconData iconData;
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: AppColor.secondaryColor.withOpacity(.8),
-      elevation: 0,
-      child: ListTile(
-        title: Text(
-          title,
-          style: TextStyles.Bold16.copyWith(color: Colors.black),
-        ),
-        subtitle: Text(
-          subtitle,
-        ),
-        leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          child: Center(
-            child: Icon(
-              iconData,
-              color: Colors.white,
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: isRead ? Colors.grey.shade100 : Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          )
+        ],
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: color.withOpacity(0.15),
+            child: Icon(iconData, color: color),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(subtitle, style: TextStyles.Regular16),
+              ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

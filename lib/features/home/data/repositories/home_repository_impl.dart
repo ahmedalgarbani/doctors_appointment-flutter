@@ -1,41 +1,36 @@
 import 'package:dartz/dartz.dart';
 import 'package:doctors_appointment/core/services/database_service.dart';
-import 'package:doctors_appointment/features/home/data/models/doctor_model.dart';
-import 'package:doctors_appointment/features/home/data/models/specialist_model.dart';
 import 'package:doctors_appointment/features/home/domain/repositories/home_repository.dart';
 
 import '../../../../core/error/failure.dart';
+import '../models/speciality_response/doctor.dart';
+import '../models/speciality_response/speciality_response.dart';
 
 class HomeRepositoryImpl extends HomeRepository {
   final DatabaseService _databaseService;
 
   HomeRepositoryImpl(this._databaseService);
-  @override
-  Future<List<DoctorModel>> getAllDoctors() async {
-    return await _databaseService.getAllDoctors();
-  }
 
   @override
-  Future<List<SpecialtyModel>> getAllSpecialites() async {
+  Future<List<SpecialityResponse>> getAllSpecialites() async {
     return await _databaseService.getAllSpecialiest();
   }
 
   @override
-  Future<List<DoctorModel>> getAllFavourites(int patientId) async {
-    return await _databaseService.getAllFavourites(patientId);
+  Future<List<Doctor>?> getAllFavourites() async {
+    return await _databaseService.getAllFavourites();
   }
 
   @override
-  Future<Either<Failure, void>> addNewFavorite({
+  Future<Either<Failure, bool>> addNewFavorite({
     required int doctorId,
-    required int patientId,
   }) async {
     try {
       await _databaseService.addNewFavorite(
+        
         doctorId: doctorId,
-        patientId: patientId,
       );
-      return const Right(null);
+      return const Right(true);
     } catch (e) {
       return Left(SqlFailure(errorMessage: e.toString()));
     }
@@ -43,9 +38,9 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   Future<bool> deleteFavorite(
-      {required int doctorId, required int patientId}) async {
+      {required int doctorId}) async {
     var result = await _databaseService.removeFavorite(
-        doctorId: doctorId, patientId: patientId);
+        doctorId: doctorId);
     return result;
   }
 
@@ -53,7 +48,7 @@ class HomeRepositoryImpl extends HomeRepository {
       {required int doctorId, required int patientId}) async {
     var result = await _databaseService.isFavorite(
         doctorId: doctorId, patientId: patientId);
-    
+
     return result;
   }
 }

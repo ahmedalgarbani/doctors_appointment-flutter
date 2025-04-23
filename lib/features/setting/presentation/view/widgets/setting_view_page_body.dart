@@ -20,7 +20,6 @@ class SettingViewPageBody extends StatefulWidget {
 class _SettingViewPageBodyState extends State<SettingViewPageBody> {
   initState() {
     super.initState();
-    log("hello from profile");
     // context.read<AuthCubit>().loadAuthUserId();
   }
 

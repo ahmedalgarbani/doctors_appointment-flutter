@@ -14,7 +14,8 @@ import 'package:doctors_appointment/features/home/data/sources/home_services_api
 import 'package:doctors_appointment/features/home/domain/repositories/home_repository.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../features/auth/presentation/view_model/cubit/auth_cubit.dart';
+import '../../features/notification/data/repositories/notification_repo_impl.dart';
+import '../../features/notification/domain/repositories/notification_repo.dart';
 import '../network/app_interceptors.dart';
 import 'database_service.dart';
 
@@ -58,7 +59,9 @@ void setup() {
     HomeRepositoryImpl(getIt.get<DatabaseService>()),
   );
 
-
+  getIt.registerSingleton<NotificationRepository>(
+    NotificationRepositoryImpl()
+  );
 
 }
 

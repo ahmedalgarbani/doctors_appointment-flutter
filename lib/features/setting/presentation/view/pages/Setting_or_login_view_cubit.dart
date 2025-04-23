@@ -18,7 +18,6 @@ class _SettingOrLoginViewCubitState extends State<SettingOrLoginViewCubit> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      print("hello --------------------------");
       context.read<AuthCubit>().loadAuthUserId();
     });
   }

@@ -1,7 +1,9 @@
+import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/dumy/dumy_data.dart';
+import '../../../../../core/router/router.dart';
 import '../../../../../core/style/text_style.dart';
 import '../../../../../core/widgets/custom_button.dart';
 import '../../../../home/presentation/view/widgets/top_rating_doctor/top_starts_list.dart';
@@ -15,11 +17,6 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  final Map<String, List<String>> filters = {
-    'Gender': ['Male', 'Female', 'Other'],
-    'Specialist': DumyData.specialist.map((s) => s.title).toList(),
-  };
-
   final Map<String, List<String>> activeFilters = {
     'Gender': [],
     'Specialist': [],
@@ -37,18 +34,22 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, List<String>> filters = {
+      'Gender': ['Male', 'Female', 'Other'],
+      'Specialist':
+          context.read<HomeCubit>().allSpecialties.map((e) => e.name!).toList(),
+    };
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'Top Stars',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          const Text('Top Stars',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: TopRatingStartsList(),
           ),
@@ -87,10 +88,20 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             );
           }).toList(),
           CustomButton(
-            height: 55,
-            title: "Apply",
-            onPressed: () => GoRouter.of(context).pop(),
-          ),
+              height: 55,
+              title: "Apply",
+              onPressed: () {
+                final genderFilters = activeFilters['Gender'];
+                final specialistFilters = activeFilters['Specialist'];
+
+                // context.read<HomeCubit>().filterDoctors(
+                //       genders: genderFilters,
+                //       specialties: specialistFilters,
+                //     );
+
+                GoRouter.of(context).pop();
+                GoRouter.of(context).pushReplacement(AppRouter.KallDoctors);
+              }),
           TextButton(
             onPressed: () {
               setState(() {

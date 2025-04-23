@@ -43,22 +43,25 @@ class CheckOutPageView extends StatelessWidget {
   }
 }
 
-class CheckoutPageViewBodyBlocBuilder extends StatelessWidget {
+class CheckoutPageViewBodyBlocBuilder extends StatefulWidget {
   const CheckoutPageViewBodyBlocBuilder(
       {super.key, required this.bookingDetail});
   final Map<String, dynamic> bookingDetail;
 
   @override
+  State<CheckoutPageViewBodyBlocBuilder> createState() => _CheckoutPageViewBodyBlocBuilderState();
+}
+
+class _CheckoutPageViewBodyBlocBuilderState extends State<CheckoutPageViewBodyBlocBuilder> {
+  initState() {
+    super.initState();
+    context.read<CheckoutCubit>().fetchPaymentMethods(hospital: widget.bookingDetail['hospital'].id);
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocListener<CheckoutCubit, CheckoutState>(
       listener: (context, state) {
-
-        if (state is CheckoutLoading) {
-          
-          context
-              .read<CheckoutCubit>()
-              .fetchPaymentMethods(hospital: (bookingDetail['hospital'] as Hospital).id as int);
-        } else if (state is CheckoutFailure) {
+ if (state is CheckoutFailure) {
           
           buildSnackbar(context, state.message);
         }
@@ -68,11 +71,11 @@ class CheckoutPageViewBodyBlocBuilder extends StatelessWidget {
           if (state is CheckoutLoading) {
             context
                 .read<CheckoutCubit>()
-                .fetchPaymentMethods(hospital: bookingDetail['hospital'].id);
+                .fetchPaymentMethods(hospital: widget.bookingDetail['hospital'].id);
             return Center(child: CircularProgressIndicator());
           } else if (state is CheckoutSuccess) {
             return CheckOutPageViewBody(
-              bookingDetail: bookingDetail,
+              bookingDetail: widget.bookingDetail,
               paymentMethod: state.payments!,
             );
           } else if (state is CheckoutFailure) {

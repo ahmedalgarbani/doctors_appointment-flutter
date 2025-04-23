@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctors_appointment/core/helpers/build_snacbar.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +7,10 @@ import '../constant/constant.dart';
 import 'shared_prefrace.dart';
 
 abstract class FavoriteToggle {
-  static Future<void> toggleFavorite(BuildContext context, FavoritesCubit cubit,
-      Doctor doctorModel) async {
-    final isFavorite = await cubit.isFavorite(doctorId: doctorModel.id!.toInt());
+  static Future<void> toggleFavorite(
+      BuildContext context, FavoritesCubit cubit, Doctor doctorModel) async {
+    final isFavorite =
+        await cubit.isFavorite(doctorId: doctorModel.id!.toInt());
 
     if (isFavorite) {
       removeFavorite(context, cubit, doctorModel);
@@ -23,8 +22,9 @@ abstract class FavoriteToggle {
   static Future<void> addFavorite(
       BuildContext ctx, FavoritesCubit cubit, Doctor doctorModel) async {
     final patientId = await Pref.getInt(KauthUserId);
+    final userStatus = await Pref.getBool(KIsLogin);
 
-    if (patientId == 0) {
+    if (patientId == 0 || userStatus == false) {
       buildSnackbar(
         ctx,
         "You need to login first!",
@@ -34,7 +34,6 @@ abstract class FavoriteToggle {
     }
 
     final result = await cubit.addNewFavorite(
-     
       doctorId: doctorModel.id!.toInt(),
     );
 

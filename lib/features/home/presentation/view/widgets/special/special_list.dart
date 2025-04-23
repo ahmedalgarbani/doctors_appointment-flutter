@@ -3,7 +3,10 @@ import 'package:doctors_appointment/features/home/presentation/view/widgets/spec
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../../../core/helpers/build_snacbar.dart';
+import '../../../../../../core/router/router.dart';
 import '../../../../data/models/speciality_response/speciality_response.dart';
 
 class SpecialistList extends StatefulWidget {
@@ -33,10 +36,13 @@ class _SpecialistListState extends State<SpecialistList> {
         children: _allSpecialties.asMap().entries.map((e) {
           return GestureDetector(
             onTap: () {
-              setState(() {
-
-                context.read<HomeCubit>().getAllDoctors(id: e.key);
-              });
+              if (_allSpecialties![e.key].doctors!.length == 0 ||
+                  _allSpecialties![e.key].doctors?.length == null) {
+                buildSnackbar(context, "لايوجد اطباء في هذا القسم");
+              } else {
+                GoRouter.of(context).push(AppRouter.KallDoctors,
+                    extra: _allSpecialties![e.key].doctors);
+              }
             },
             child: Container(
               margin: EdgeInsets.only(right: 15),

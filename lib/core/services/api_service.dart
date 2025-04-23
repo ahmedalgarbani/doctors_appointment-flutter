@@ -32,6 +32,7 @@ Future<Response> post(
     log(e.toString());
     throw ServerFailure.fromDiorError(e);
   } catch (ex) {
+    log(ex.toString());
     throw Exception(ex.toString());
   }
 }

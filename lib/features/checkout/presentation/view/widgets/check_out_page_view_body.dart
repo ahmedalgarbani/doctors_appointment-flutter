@@ -177,7 +177,6 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
       if (!mounted) return;
 
       if (result) {
-        context.read<AppointmentCubit>().getBookings();
         GoRouter.of(context).pushReplacement(AppRouter.KCheckOutDonePageView);
       } else {
         buildSnackbar(context, "You should login");

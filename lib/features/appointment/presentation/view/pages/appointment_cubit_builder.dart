@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,27 +22,25 @@ class _AppointmentCubitBuilderState extends State<AppointmentCubitBuilder> {
   @override
   void initState() {
     super.initState();
+
     getAppointmnets();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppointmentCubit, AppointmentState>(
-
       builder: (context, state) {
         if (state is AppointmentLoading) {
-          context.read<AppointmentCubit>().getBookings();
           return Center(child: CircularProgressIndicator());
         } else if (state is AppointmentFailure) {
           return AppointmentPageViewBody(
             history: [],
             upcooming: [],
           );
-          
         } else if (state is AppointmentSuccess) {
           return AppointmentPageViewBody(
-            history: state.historyBookings??[],
-            upcooming: state.upcomingBookings??[],
+            history: state.historyBookings ?? [],
+            upcooming: state.upcomingBookings ?? [],
           );
           // return Column(
           //   children: [

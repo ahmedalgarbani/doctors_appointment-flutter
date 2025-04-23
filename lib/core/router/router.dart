@@ -7,7 +7,7 @@ import 'package:doctors_appointment/features/home/presentation/view/pages/all_sp
 import 'package:doctors_appointment/features/home/presentation/view/pages/doctor_detail_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/favorite_doctor_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/home_page_view.dart';
-import 'package:doctors_appointment/features/home/presentation/view/pages/top_rating_doctor_page_view.dart';
+import 'package:doctors_appointment/features/home/presentation/view/pages/all_doctors_page_view.dart';
 import 'package:doctors_appointment/features/notification/presentation/view/pages/notification_page_view.dart';
 import 'package:doctors_appointment/features/onBoarding/presenttation/view/OnBoarding.dart';
 import 'package:doctors_appointment/features/search/presentation/view/pages/search_page_view.dart';
@@ -29,7 +29,7 @@ abstract class AppRouter {
   static const String KAllSpecialitesView = '/KAllSpecialitesView';
   static const String KFavoriteDoctorView = '/KFavoriteDoctorView';
   static const String KNotificationPageView = '/KNotificationPageView';
-  static const String KTopRatingDoctor = '/KTopRatingDoctor';
+  static const String KallDoctors = '/KallDoctors';
   static const String KSigninOrSignUp = '/KSigninOrSignUp';
 
   static final router = GoRouter(
@@ -53,8 +53,8 @@ abstract class AppRouter {
         path: KCheckOutPageView,
         builder: (context, state) {
           var extra = state.extra as Map<String, dynamic>;
-         return CheckOutPageView(
-              bookingDetail:extra,
+          return CheckOutPageView(
+            bookingDetail: extra,
           );
         },
       ),
@@ -75,9 +75,13 @@ abstract class AppRouter {
         builder: (context, state) => const NotificationPageView(),
       ),
       GoRoute(
-        path: KTopRatingDoctor,
-        builder: (context, state) => const TopRatingDoctorPageView(),
-      ),
+          path: KallDoctors,
+          builder: (context, state) {
+            List<Doctor>? extra = state.extra as List<Doctor>?;
+            return AllDoctorsPageView(
+              allDoctors: extra,
+            );
+          }),
       GoRoute(
         path: KSplashPage,
         builder: (context, state) => const SplashPage(),

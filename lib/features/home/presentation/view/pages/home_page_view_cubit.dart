@@ -15,7 +15,6 @@ class HomePageViewCubit extends StatefulWidget {
 
 class _HomePageViewCubitState extends State<HomePageViewCubit> {
   getHomeFeatures(){
-    
     context.read<HomeCubit>().getHomeFeatures();
     context.read<FavoritesCubit>().getAllFavorites();
   }

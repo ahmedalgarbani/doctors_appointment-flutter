@@ -10,6 +10,8 @@ class EndPoints {
   static const String historyBooking = "bookings/history_bookings/";
   static const String upcommingBooking = "bookings/upcoming_bookings/";
   static const String createBooking = "bookings/create_booking/";
-  static const String getPaymentMethod = "hospital-payment-methods/active_payment_methods/";
+  static const String getPaymentMethod =
+      "hospital-payment-methods/active_payment_methods/";
   static const String profile = "profile/";
+  static const String notifications = "notifications/";
 }

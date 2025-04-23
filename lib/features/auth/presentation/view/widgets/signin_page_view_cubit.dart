@@ -1,16 +1,27 @@
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/widgets/custom_progress_hud.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
-import 'package:doctors_appointment/features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/helpers/build_snacbar.dart';
+import '../../../../home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import 'signin_page_view_body.dart';
 
-class SigninPageViewCubit extends StatelessWidget {
+class SigninPageViewCubit extends StatefulWidget {
   const SigninPageViewCubit({super.key});
+
+  @override
+  State<SigninPageViewCubit> createState() => _SigninPageViewCubitState();
+}
+
+class _SigninPageViewCubitState extends State<SigninPageViewCubit> {
+
+  initState() {
+    super.initState();
+      context.read<FavoritesCubit>().getAllFavorites();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +41,7 @@ class SigninPageViewCubit extends StatelessWidget {
           buildSnackbar(
               context, state.successMessage ?? "the Signin was successfuly",
               color: Colors.green);
-          context.read<FavoritesCubit>()
-              .getAllFavorites();
+        
           
           GoRouter.of(context).pushReplacement(AppRouter.KHomePage);
         } else if (state is LoginCubitFailure) {

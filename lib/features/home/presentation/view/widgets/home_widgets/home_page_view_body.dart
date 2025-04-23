@@ -61,18 +61,15 @@ class HomePageViewBody extends StatelessWidget {
               }
             },
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          SectionsTitle(
-            title: "Doctors",
-            onPressed: () {
-              GoRouter.of(context).push(AppRouter.KTopRatingDoctor);
-            },
-          ),
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          // SectionsTitle(
+          //   title: "Doctors",
+          //   onPressed: () {
+          //     GoRouter.of(context).push(AppRouter.KallDoctors);
+          //   },
+          // ),
           const SizedBox(
             height: 10,
           ),
@@ -82,9 +79,21 @@ class HomePageViewBody extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is DoctorsLoaded)
-                return DoctorHorizantalList(
-                  allDoctors: state.doctors,
-                );
+                return Column(children: [
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  SectionsTitle(
+                    title: "Doctors",
+                    onPressed: () {
+                      GoRouter.of(context)
+                          .push(AppRouter.KallDoctors, extra: state.doctors);
+                    },
+                  ),
+                  DoctorHorizantalList(
+                    allDoctors: state.doctors,
+                  ),
+                ]);
 
               return SizedBox();
             },

@@ -41,7 +41,7 @@ void main() async {
             ..getAllFavorites(),
         ),
         BlocProvider(
-                      create: (context) => AppointmentCubit(getIt.get<AppointmentRepo>())..getBookings(),
+                      create: (context) => AppointmentCubit(getIt.get<AppointmentRepo>()),
         ),
    
       ],

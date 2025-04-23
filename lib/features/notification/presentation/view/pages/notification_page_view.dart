@@ -1,6 +1,10 @@
+import 'package:doctors_appointment/core/services/get_it.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
-import 'package:doctors_appointment/features/notification/presentation/view/widgets/notification_page_view_body.dart';
+import 'package:doctors_appointment/features/notification/domain/repositories/notification_repo.dart';
+import 'package:doctors_appointment/features/notification/presentation/view/widgets/notification_page_view_body_bloc_consumer.dart';
+import 'package:doctors_appointment/features/notification/presentation/view_model/cubit/notification_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotificationPageView extends StatelessWidget {
   const NotificationPageView({super.key});
@@ -20,7 +24,10 @@ class NotificationPageView extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-          child: NotificationPageViewBody(),
+          child: BlocProvider(
+            create: (context) => NotificationCubit(getIt.get<NotificationRepository>()),
+            child: NotificationPageViewBodyBlocConsumer(),
+          ),
         ),
       ),
     );

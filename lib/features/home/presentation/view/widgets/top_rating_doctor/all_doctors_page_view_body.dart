@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../data/models/speciality_response/doctor.dart';
 
-class TopRatingDoctorPageViewBody extends StatelessWidget {
-  const TopRatingDoctorPageViewBody({super.key, required this.doctors});
+class AllDoctorsPageViewBody extends StatelessWidget {
+  const AllDoctorsPageViewBody({super.key, required this.doctors});
   final List<Doctor> doctors;
   @override
   Widget build(BuildContext context) {

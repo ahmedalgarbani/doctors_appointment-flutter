@@ -14,4 +14,6 @@ class EndPoints {
       "hospital-payment-methods/active_payment_methods/";
   static const String profile = "profile/";
   static const String notifications = "notifications/";
+  static const String doctor_search = "doctors/";
+  static const String doctor_filter = "doctors/filter/";
 }

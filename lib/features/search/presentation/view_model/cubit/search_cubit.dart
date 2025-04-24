@@ -1,46 +1,55 @@
-import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
-import 'package:doctors_appointment/features/home/domain/repositories/home_repository.dart';
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
+
+import '../../../domain/repositories/search_repository.dart';
 import 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  final HomeRepository _homeRepository;
-  SearchCubit(this._homeRepository) : super(const SearchInitial());
+  final SearchRepository _searchRepository;
+
+  SearchCubit(this._searchRepository) : super(const SearchInitial());
 
   Future<void> search(String query) async {
     if (query.isEmpty) {
-      emit(SearchEmpty(isEmpty: true));
-    } else {
-      // final allDoctors = await _homeRepository.getAllDoctors();
-      final allDoctors = [];
-      final searchedData = allDoctors
-          .where((element) =>
-              element..toLowerCase().contains(query.toLowerCase()))
-          .toList() as List<Doctor>;
-      emit(SearchedDataLoaded(searchedData: searchedData));
+      emit(const SearchEmpty(isEmpty: true));
+      return;
+    }
+    try {
+      final List<Doctor> results = await _searchRepository.searchDoctors(query);
+      emit(SearchedDataLoaded(searchedData: results));
+    } catch (e) {
+      log(e.toString());
+      emit(const SearchEmpty(isEmpty: true));
     }
   }
 
-  Future<void> filter(String query) async {
-    if (query.isEmpty) {
-      emit(SearchEmpty(isEmpty: true));
-    } else {
-      // final allDoctors = await _homeRepository.getAllDoctors();
-      final allDoctors = [];
+  Future<void> filter({
+    List<String>? genders,
+    List<String>? specialties,
+    int? stars,
+  }) async {
+    if ((genders == null || genders.isEmpty) &&
+        (specialties == null || specialties.isEmpty) &&
+        stars == null) {
+      emit(const SearchEmpty(isEmpty: true));
+      return;
+    }
 
-      final searchedData = allDoctors
-          .where(
-            (element) =>
-                element.specialtyName.toString().toLowerCase().contains(
-                      query.toLowerCase(),
-                    ),
-          )
-          .toList() as List<Doctor>;
-      emit(SearchedDataFilter(searchedDataFiltered: searchedData));
+    try {
+      final List<Doctor> results = await _searchRepository.filterDoctors(
+        genders: genders,
+        specialties: specialties,
+        starts: stars?.toString(),
+      );
+      emit(SearchedDataFilter(searchedDataFiltered: results));
+    } catch (_) {
+      emit(const SearchEmpty(isEmpty: true));
     }
   }
 
   void clearSearch() {
-    emit(SearchInitial());
+    emit(const SearchInitial());
   }
 }

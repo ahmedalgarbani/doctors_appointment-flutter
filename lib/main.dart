@@ -1,4 +1,3 @@
-
 import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/services/get_it.dart';
@@ -14,6 +13,8 @@ import 'features/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'features/home/domain/repositories/home_repository.dart';
 import 'features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import 'features/home/presentation/view_model/cubit/home_cubit.dart';
+import 'features/search/domain/repositories/search_repository.dart';
+import 'features/search/presentation/view_model/cubit/search_cubit.dart';
 import 'features/setting/presentation/view/pages/Setting_or_login_view_cubit.dart';
 
 void main() async {
@@ -37,13 +38,15 @@ void main() async {
           )..loadAuthUserId(),
         ),
         BlocProvider(
-          create: (context) => FavoritesCubit(getIt.get<HomeRepository>())
-            ..getAllFavorites(),
+          create: (context) =>
+              FavoritesCubit(getIt.get<HomeRepository>())..getAllFavorites(),
         ),
         BlocProvider(
-                      create: (context) => AppointmentCubit(getIt.get<AppointmentRepo>()),
+          create: (context) => AppointmentCubit(getIt.get<AppointmentRepo>()),
         ),
-   
+        BlocProvider(
+          create: (_) => SearchCubit(getIt.get<SearchRepository>()),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -54,7 +57,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: AppThemeManager.lightTheme,

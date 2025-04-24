@@ -12,10 +12,6 @@ class AllDoctorsPageViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: TopRatingStartsList(),
-      ),
       Expanded(
         child: ListView.builder(
           itemCount: doctors.length,

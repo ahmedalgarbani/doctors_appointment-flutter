@@ -12,6 +12,8 @@ import 'package:doctors_appointment/features/checkout/domain/repositories/paymen
 import 'package:doctors_appointment/features/home/data/repositories/home_repository_impl.dart';
 import 'package:doctors_appointment/features/home/data/sources/home_services_api.dart';
 import 'package:doctors_appointment/features/home/domain/repositories/home_repository.dart';
+import 'package:doctors_appointment/features/search/data/repositories/search_repo_imple.dart';
+import 'package:doctors_appointment/features/search/domain/repositories/search_repository.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/notification/data/repositories/notification_repo_impl.dart';
@@ -46,6 +48,9 @@ void setup() {
   getIt.registerSingleton<PaymentRepository>(
     PaymentRepositoryImpl(),
   );
+  getIt.registerSingleton<SearchRepository>(
+    SearchRepositoryImpl(),
+  );
 
   getIt.registerSingleton<AppointmentRepo>(
     AppointmentRepoImpl(),
@@ -59,10 +64,7 @@ void setup() {
     HomeRepositoryImpl(getIt.get<DatabaseService>()),
   );
 
-  getIt.registerSingleton<NotificationRepository>(
-    NotificationRepositoryImpl()
-  );
-
+  getIt.registerSingleton<NotificationRepository>(NotificationRepositoryImpl());
 }
 
 

@@ -25,6 +25,7 @@ class _SplashBodyState extends State<SplashBody>
   checkStatus() async{
    await context.read<AuthCubit>().loadAuthUserId();
    await context.read<AuthCubit>().isAuth;
+  //  main
     log("user status ${context.read<AuthCubit>().isAuth}");
   }
   @override

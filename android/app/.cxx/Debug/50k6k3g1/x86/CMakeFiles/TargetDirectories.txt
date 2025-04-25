@@ -1,0 +1,2 @@
+C:/Users/HP/Desktop/doctor_flutter/doctors_appointment-flutter/android/app/.cxx/Debug/50k6k3g1/x86/CMakeFiles/edit_cache.dir
+C:/Users/HP/Desktop/doctor_flutter/doctors_appointment-flutter/android/app/.cxx/Debug/50k6k3g1/x86/CMakeFiles/rebuild_cache.dir

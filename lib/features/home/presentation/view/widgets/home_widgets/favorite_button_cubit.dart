@@ -12,7 +12,7 @@ class FavoriteButtonCubit extends StatelessWidget {
     super.key,
     required this.doctorModel,
     required this.favoritesCubit,
-    this.isDetailButtton,
+    this.isDetailButtton, required int iconSize,
   });
 
   final Doctor doctorModel;

@@ -38,60 +38,70 @@ class DoctorHorizantalListCard extends StatelessWidget {
         ),
         color: Color.fromARGB(255, 225, 236, 251),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  doctorModel.photo!=null?
-                  doctorModel.photo!:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-978409_1280.png',
-                  height: 80,
-                  width: 80,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      doctorModel.fullName ?? 'sadasdas',
-                      style: TextStyles.Bold16.copyWith(color: Colors.black),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      doctorModel.photo!=null?
+                      doctorModel.photo!:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-978409_1280.png',
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      doctorModel.fullName ?? '',
-                      style: TextStyles.Bold12.copyWith(color: Colors.grey),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          doctorModel.fullName ?? 'د. غير معروف',
+                          style: TextStyles.Bold16.copyWith(color: Colors.black),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          doctorModel.fullName ?? 'تخصص غير محدد',
+                          style: TextStyles.Bold12.copyWith(color: Colors.grey),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 5),
-                    // Text(
-                    //   'Price: \$ ${doctorModel.pricing}',
-                    //   style: TextStyles.Bold16.copyWith(color: Colors.green),
-                    // ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: List.generate(5, (index) {
-                        return Icon(
-                            Icons.star,
-                            color: (doctorModel.rating != null && index < doctorModel.rating!.toInt())
-                                ? Colors.amber
-                                : Colors.grey[300],
-                            size: 16,
-                          );
-                      },),
-                    )
-                  ],
-                ),
+                  ),
+                  trailing ??
+                      FavoriteButtonCubit(
+                          doctorModel: doctorModel, 
+                          favoritesCubit: favoritesCubit
+                      ),
+                ],
               ),
-              trailing ??
-                  FavoriteButtonCubit(
-                      doctorModel: doctorModel, favoritesCubit: favoritesCubit)
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Text(
+                  //   'ريال ${doctorModel.pricing ?? 'غير محدد'}',
+                  //   style: TextStyles.Bold16.copyWith(
+                  //     color: Colors.blue,
+                  //     fontWeight: FontWeight.bold
+                  //   ),
+                  // ),
+                  Row(
+                    children: List.generate(5, (index) {
+                      return Icon(
+                        Icons.star,
+                        color: (doctorModel.rating != null && index < doctorModel.rating!.toInt())
+                            ? Colors.amber
+                            : Colors.grey[300],
+                        size: 18,
+                      );
+                    }),
+                  )
+                ],
+              ),
             ],
           ),
         ),

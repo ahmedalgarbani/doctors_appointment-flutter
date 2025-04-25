@@ -8,23 +8,32 @@ import 'package:go_router/go_router.dart';
 
 class DoctorHorizantalList extends StatelessWidget {
   final List<Doctor> allDoctors;
+
   DoctorHorizantalList({Key? key, required this.allDoctors}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: allDoctors.length,
-      itemBuilder: (context, index) {
-        return DoctorHorizantalListCard(
-          onPress: () {
-            GoRouter.of(context).push(AppRouter.KDoctorDetail,
-                extra: allDoctors[index] as Doctor);
-          },
-          doctorModel: allDoctors[index],
-        );
-      },
+    return SizedBox(
+      height: 270,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: allDoctors.length,
+        itemBuilder: (context, index) {
+          return Container(
+            width: 180,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            child: DoctorHorizantalListCard(
+              onPress: () {
+                GoRouter.of(context).push(
+                  AppRouter.KDoctorDetail,
+                  extra: allDoctors[index],
+                );
+              },
+              doctorModel: allDoctors[index],
+            ),
+          );
+        },
+      ),
     );
   }
 }

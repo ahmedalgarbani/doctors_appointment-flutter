@@ -90,6 +90,8 @@ class HomePageViewBody extends StatelessWidget {
                           .push(AppRouter.KallDoctors, extra: state.doctors);
                     },
                   ),
+                  const SizedBox(height: 10),
+
                   DoctorHorizantalList(
                     allDoctors: state.doctors,
                   ),

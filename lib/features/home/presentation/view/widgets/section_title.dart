@@ -3,8 +3,12 @@ import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
 class SectionsTitle extends StatelessWidget {
-  const SectionsTitle(
-      {super.key, required this.title, required this.onPressed});
+  const SectionsTitle({
+    super.key,
+    required this.title,
+    required this.onPressed,
+  });
+
   final String title;
   final VoidCallback onPressed;
 
@@ -16,14 +20,20 @@ class SectionsTitle extends StatelessWidget {
           title,
           style: TextStyles.Black20Bold,
         ),
-        Spacer(),
+        const Spacer(),
         InkWell(
           onTap: onPressed,
-          child: Text(
-            "see all",
-            style: TextStyles.Regular16.copyWith(color: AppColor.primaryColor),
+          child: Row(
+            children: [
+              Text(
+                "عرض الكل",
+                style:
+                    TextStyles.Regular16.copyWith(color: AppColor.primaryColor),
+              ),
+              const SizedBox(width: 8),
+            ],
           ),
-        )
+        ),
       ],
     );
   }

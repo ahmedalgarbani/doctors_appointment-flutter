@@ -32,7 +32,8 @@ class SpecialistCard extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          Text("${specialistModel!.doctors?.length} doctors", style: TextStyles.Bold16)
+          Text("${specialistModel!.doctors?.length} doctors",
+              style: TextStyles.Bold16)
         ],
       ),
     );

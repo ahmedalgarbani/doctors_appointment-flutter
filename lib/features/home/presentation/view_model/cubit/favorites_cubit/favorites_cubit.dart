@@ -92,4 +92,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       return false;
     }
   }
+
+  void toggleFavorite(int int) {}
 }

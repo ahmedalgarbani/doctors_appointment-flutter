@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DoctorImage extends StatelessWidget {
   const DoctorImage(
-      {super.key, required this.doctorImage, required this.doctorId});
+      {super.key, required this.doctorImage, required this.doctorId, required int size});
   final String doctorImage;
   final int doctorId;
 

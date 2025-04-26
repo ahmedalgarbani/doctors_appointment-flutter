@@ -26,42 +26,82 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(16.0),
       children: [
-        HomePageHeader(
-          iconData: Icons.edit,
-          title: "Profile",
-          onPressed: () {
-            GoRouter.of(context).push(AppRouter.KNotificationPageView);
-          },
+        // Header Section (Profile)
+        _buildProfileHeader(),
+        const SizedBox(height: 24),
+
+        // Main Sections (Combining both designs)
+        _buildSectionCard(
+          title: "الأقسام",
+          children: [
+            // _buildListTile(Icons.article, "مقالات طبية", onTap: () {}),
+            _buildListTile(Icons.favorite, "المفضلة", onTap: () {}),
+            _buildListTile(Icons.calendar_today, "مواعيدي", onTap: () {}),
+          ],
         ),
-        _buildProfileSection(),
-        const Divider(),
-        _buildSettingsTile(Icons.person, "Account Settings", onTap: () {}),
-        const SizedBox(height: 10),
-        _buildSectionHeader("Preferences"),
-        _buildSettingsTile(Icons.notifications, "Notifications", onTap: () {}),
-        _buildSettingsTile(Icons.palette, "Appearance", onTap: () {}),
-        const SizedBox(height: 10),
-        _buildSectionHeader("Resources"),
-        _buildSettingsTile(Icons.support_agent, "Contact Support",
-            onTap: () {}),
-        _buildSettingsTile(Icons.star, "Rate in App Store", onTap: () {}),
-        _buildSettingsTile(Icons.alternate_email, "Follow @LumaHQ",
-            onTap: () {}),
-        _buildSettingsTile(Icons.storage, "Data Sources", onTap: () {}),
-        _buildSettingsTile(Icons.logout, "Sign Out", onTap: () {
-          context.read<AuthCubit>().logout();
-          context.read<FavoritesCubit>().getAllFavorites(isLogout: true);
-          context.read<AppointmentCubit>().getBookings(isLogout: true);
-          context.read<HomeCubit>().getHomeFeatures();
-        }, iconColor: Colors.red),
-        const SizedBox(height: 20),
+
+        const SizedBox(height: 16),
+
+        _buildSectionCard(
+          title: "التفضيلات",
+          children: [
+            _buildListTile(Icons.notifications, "الإشعارات", onTap: () {}),
+            _buildListTile(Icons.palette, "المظهر", onTap: () {}),
+          ],
+        ),
+
+        const SizedBox(height: 16),
+
+        _buildSectionCard(
+          title: "عن التطبيق",
+          children: [
+            _buildListTile(Icons.privacy_tip, "سياسة الخصوصية", onTap: () {}),
+            _buildListTile(Icons.description, "شروط الاستخدام", onTap: () {}),
+            _buildListTile(Icons.info, "من نحن", onTap: () {}),
+          ],
+        ),
+
+        const SizedBox(height: 16),
+
+        _buildSectionCard(
+          title: "التواصل",
+          children: [
+            _buildListTile(Icons.support_agent, "تواصل معنا", onTap: () {}),
+            _buildListTile(Icons.star, "تقييم", onTap: () {}),
+            _buildListTile(Icons.share, "مشاركة", onTap: () {}),
+          ],
+        ),
+
+        const SizedBox(height: 16),
+
+        // Logout and FAQ
+        _buildSectionCard(
+          children: [
+            _buildListTile(
+              Icons.logout,
+              "تسجيل خروج",
+              onTap: () {
+                context.read<AuthCubit>().logout();
+                context.read<FavoritesCubit>().getAllFavorites(isLogout: true);
+                context.read<AppointmentCubit>().getBookings(isLogout: true);
+                context.read<HomeCubit>().getHomeFeatures();
+              },
+              textColor: Colors.red,
+              iconColor: Colors.red,
+            ),
+            _buildListTile(Icons.help, "الأسئلة الشائعة", onTap: () {}),
+          ],
+        ),
+
+        const SizedBox(height: 24),
+
+        // Footer
         Center(
           child: Column(
             children: [
-              const Text("Version 1.0.3 ",
-                  style: TextStyle(color: Colors.grey)),
+              const Text("Version 1.0.3", style: TextStyle(color: Colors.grey)),
               TextButton(
                 onPressed: () {},
                 child: const Text("Terms & Privacy",
@@ -74,39 +114,109 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
     );
   }
 
-  Widget _buildSettingsTile(IconData icon, String title,
-      {VoidCallback? onTap, Color? iconColor}) {
+  Widget _buildProfileHeader() {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: AssetImage(
+                  'assets/images/profile.png'), // Replace with your image
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "John Smith",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "AhmedMohamed@gmail.com",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                GoRouter.of(context).push(AppRouter.KNotificationPageView);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionCard({String? title, required List<Widget> children}) {
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 16, top: 12, left: 16),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.right,
+              ),
+            ),
+          ...children,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListTile(
+    IconData icon,
+    String title, {
+    VoidCallback? onTap,
+    Color? textColor,
+    Color? iconColor,
+  }) {
     return ListTile(
-      leading: Icon(icon, color: iconColor ?? Colors.black),
-      title: Text(title),
-      trailing:
-          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+      leading: Icon(icon, color: iconColor ?? Theme.of(context).primaryColor),
+      title: Text(
+        title,
+        style: TextStyle(color: textColor ?? Colors.black),
+        textAlign: TextAlign.right,
+      ),
+      trailing: Icon(Icons.arrow_forward_ios, size: 16),
       onTap: onTap,
     );
   }
+}
 
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Text(title,
-          style: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey)),
-    );
-  }
-
-  Widget _buildProfileSection() {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: AssetImage(AppImage.AlKuraimi),
-      ),
-      title: Text(
-        "John Smith",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(
-        "AhmedMohamed@gmail.com",
-        style: TextStyle(color: Colors.grey),
-      ),
-    );
-  }
+Widget _buildProfileSection() {
+  return ListTile(
+    leading: CircleAvatar(
+      backgroundImage: AssetImage(AppImage.AlKuraimi),
+    ),
+    title: Text(
+      "John Smith",
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+    subtitle: Text(
+      "AhmedMohamed@gmail.com",
+      style: TextStyle(color: Colors.grey),
+    ),
+  );
 }

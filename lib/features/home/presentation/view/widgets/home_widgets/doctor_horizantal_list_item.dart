@@ -1,5 +1,4 @@
 import 'package:doctors_appointment/core/router/router.dart';
-import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -31,69 +30,124 @@ class DoctorHorizantalListCard extends StatelessWidget {
               extra: doctorModel,
             );
           },
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        color: Color.fromARGB(255, 225, 236, 251),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  doctorModel.photo!=null?
-                  doctorModel.photo!:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-978409_1280.png',
-                  height: 80,
-                  width: 80,
-                  fit: BoxFit.cover,
+      child: SizedBox(
+        width: 175,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // البطاقة الرئيسية
+            Container(
+              margin: const EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFE0F7FA), Color(0xFFFFFFFF)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 12,
+                    spreadRadius: 2,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 30),
+                  Center(
+                    child: trailing ??
+                        FavoriteButtonCubit(
+                          doctorModel: doctorModel,
+                          favoritesCubit: favoritesCubit,
+                        ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'د. ${doctorModel.fullName ?? 'غير معروف'}',
+                    style: const TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    doctorModel.fullName ?? 'تخصص غير محدد',
+                    style: const TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 13,
+                      color: Colors.grey,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 10),
+                  Divider(
+                    color: Colors.grey[300],
+                    thickness: 1,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(5, (index) {
+                      return Icon(
+                        Icons.star_rounded,
+                        color: (doctorModel.rating != null &&
+                                index < doctorModel.rating!.toInt())
+                            ? Colors.amber
+                            : Colors.grey[300],
+                        size: 18,
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            ),
+
+            // صورة الطبيب فوق البطاقة
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        doctorModel.photo ??
+                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-978409_1280.png',
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      doctorModel.fullName ?? 'sadasdas',
-                      style: TextStyles.Bold16.copyWith(color: Colors.black),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      doctorModel.fullName ?? '',
-                      style: TextStyles.Bold12.copyWith(color: Colors.grey),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 5),
-                    // Text(
-                    //   'Price: \$ ${doctorModel.pricing}',
-                    //   style: TextStyles.Bold16.copyWith(color: Colors.green),
-                    // ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: List.generate(5, (index) {
-                        return Icon(
-                            Icons.star,
-                            color: (doctorModel.rating != null && index < doctorModel.rating!.toInt())
-                                ? Colors.amber
-                                : Colors.grey[300],
-                            size: 16,
-                          );
-                      },),
-                    )
-                  ],
-                ),
-              ),
-              trailing ??
-                  FavoriteButtonCubit(
-                      doctorModel: doctorModel, favoritesCubit: favoritesCubit)
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

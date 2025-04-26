@@ -7,7 +7,8 @@ import 'pricing.dart';
 import 'review.dart';
 import 'schedule.dart';
 
-class Doctor extends Equatable {
+class 
+Doctor extends Equatable {
   final num? id;
   final DateTime? createdAt;
   final DateTime? updatedAt;

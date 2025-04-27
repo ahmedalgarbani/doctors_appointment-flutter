@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctors_appointment/core/assets_helper/app_image.dart';
 import 'package:doctors_appointment/features/appointment/presentation/viewModel/cubit/appointment_cubit.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/router/router.dart';
-import '../../../../home/presentation/view/widgets/home_widgets/home_page_header.dart';
 import '../../../../home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 
 class SettingViewPageBody extends StatefulWidget {
@@ -18,7 +15,8 @@ class SettingViewPageBody extends StatefulWidget {
 }
 
 class _SettingViewPageBodyState extends State<SettingViewPageBody> {
-  initState() {
+  @override
+  void initState() {
     super.initState();
     // context.read<AuthCubit>().loadAuthUserId();
   }
@@ -28,32 +26,37 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-        // Header Section (Profile)
-        _buildProfileHeader(),
+        _buildProfileHeader(context),
         const SizedBox(height: 24),
-
-        // Main Sections (Combining both designs)
+        _buildSectionCard(
+          title: "الإعدادات",
+          children: [
+            _buildListTile(Icons.person, "تعديل بيانات المستخدم", onTap: () {
+              // GoRouter.of(context).push(AppRouter.KEditProfileView);
+            }),
+          ],
+        ),
+        const SizedBox(height: 16),
         _buildSectionCard(
           title: "الأقسام",
           children: [
-            // _buildListTile(Icons.article, "مقالات طبية", onTap: () {}),
-            _buildListTile(Icons.favorite, "المفضلة", onTap: () {}),
+            _buildListTile(Icons.favorite, "المفضلة", onTap: () {
+              GoRouter.of(context).push(AppRouter.KFavoriteDoctorView);
+            }),
             _buildListTile(Icons.calendar_today, "مواعيدي", onTap: () {}),
           ],
         ),
-
         const SizedBox(height: 16),
-
         _buildSectionCard(
           title: "التفضيلات",
           children: [
-            _buildListTile(Icons.notifications, "الإشعارات", onTap: () {}),
+            _buildListTile(Icons.notifications, "الإشعارات", onTap: () {
+              GoRouter.of(context).push(AppRouter.KNotificationPageView);
+            }),
             _buildListTile(Icons.palette, "المظهر", onTap: () {}),
           ],
         ),
-
         const SizedBox(height: 16),
-
         _buildSectionCard(
           title: "عن التطبيق",
           children: [
@@ -62,9 +65,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
             _buildListTile(Icons.info, "من نحن", onTap: () {}),
           ],
         ),
-
         const SizedBox(height: 16),
-
         _buildSectionCard(
           title: "التواصل",
           children: [
@@ -73,10 +74,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
             _buildListTile(Icons.share, "مشاركة", onTap: () {}),
           ],
         ),
-
         const SizedBox(height: 16),
-
-        // Logout and FAQ
         _buildSectionCard(
           children: [
             _buildListTile(
@@ -94,18 +92,17 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
             _buildListTile(Icons.help, "الأسئلة الشائعة", onTap: () {}),
           ],
         ),
-
         const SizedBox(height: 24),
-
-        // Footer
         Center(
           child: Column(
             children: [
               const Text("Version 1.0.3", style: TextStyle(color: Colors.grey)),
               TextButton(
                 onPressed: () {},
-                child: const Text("Terms & Privacy",
-                    style: TextStyle(color: Colors.blue)),
+                child: const Text(
+                  "Terms & Privacy",
+                  style: TextStyle(color: Colors.blue),
+                ),
               ),
             ],
           ),
@@ -114,46 +111,77 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
     );
   }
 
-  Widget _buildProfileHeader() {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage(
-                  'assets/images/profile.png'), // Replace with your image
+  Widget _buildProfileHeader(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: 60),
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-            const SizedBox(width: 16),
-            Expanded(
+            child: const Padding(
+              padding: EdgeInsets.fromLTRB(24, 70, 24, 24),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     "John Smith",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  SizedBox(height: 12),
                   Text(
                     "AhmedMohamed@gmail.com",
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    "+967 777 123 456",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
                   ),
                 ],
               ),
             ),
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                GoRouter.of(context).push(AppRouter.KNotificationPageView);
-              },
-            ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: const CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/images/profile.png'),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -171,7 +199,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
               padding: const EdgeInsets.only(right: 16, top: 12, left: 16),
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
@@ -199,24 +227,8 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
         style: TextStyle(color: textColor ?? Colors.black),
         textAlign: TextAlign.right,
       ),
-      trailing: Icon(Icons.arrow_forward_ios, size: 16),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: onTap,
     );
   }
-}
-
-Widget _buildProfileSection() {
-  return ListTile(
-    leading: CircleAvatar(
-      backgroundImage: AssetImage(AppImage.AlKuraimi),
-    ),
-    title: Text(
-      "John Smith",
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-    subtitle: Text(
-      "AhmedMohamed@gmail.com",
-      style: TextStyle(color: Colors.grey),
-    ),
-  );
 }

@@ -176,4 +176,6 @@ Doctor extends Equatable {
       rating,
     ];
   }
+
+  get name => null;
 }

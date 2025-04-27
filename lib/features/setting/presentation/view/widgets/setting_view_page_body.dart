@@ -58,24 +58,6 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
         ),
         const SizedBox(height: 16),
         _buildSectionCard(
-          title: "عن التطبيق",
-          children: [
-            _buildListTile(Icons.privacy_tip, "سياسة الخصوصية", onTap: () {}),
-            _buildListTile(Icons.description, "شروط الاستخدام", onTap: () {}),
-            _buildListTile(Icons.info, "من نحن", onTap: () {}),
-          ],
-        ),
-        const SizedBox(height: 16),
-        _buildSectionCard(
-          title: "التواصل",
-          children: [
-            _buildListTile(Icons.support_agent, "تواصل معنا", onTap: () {}),
-            _buildListTile(Icons.star, "تقييم", onTap: () {}),
-            _buildListTile(Icons.share, "مشاركة", onTap: () {}),
-          ],
-        ),
-        const SizedBox(height: 16),
-        _buildSectionCard(
           children: [
             _buildListTile(
               Icons.logout,
@@ -89,24 +71,9 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
               textColor: Colors.red,
               iconColor: Colors.red,
             ),
-            _buildListTile(Icons.help, "الأسئلة الشائعة", onTap: () {}),
           ],
         ),
         const SizedBox(height: 24),
-        Center(
-          child: Column(
-            children: [
-              const Text("Version 1.0.3", style: TextStyle(color: Colors.grey)),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Terms & Privacy",
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }

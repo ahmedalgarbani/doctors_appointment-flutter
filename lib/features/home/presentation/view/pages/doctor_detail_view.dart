@@ -3,16 +3,10 @@ import '../widgets/doctor_scedual_bottom_sheet.dart';
 import '/core/style/app_color.dart';
 import '/core/style/text_style.dart';
 import '/core/widgets/custom_button.dart';
-import '/features/home/presentation/view/widgets/about_doctor.dart';
 import '/features/home/presentation/view/widgets/home_widgets/doctor_image.dart';
 import '/features/home/presentation/view/widgets/home_widgets/doctor_item_list.dart';
-import '/features/home/presentation/view/widgets/home_widgets/favorite_button_cubit.dart';
-import '/features/home/presentation/view/widgets/location_doctor.dart';
-import '/features/home/presentation/view/widgets/top_rating_doctor/starts_section.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import '../../view_model/cubit/favorites_cubit/favorites_cubit.dart';
 
 class DoctorDetailView extends StatefulWidget {
   const DoctorDetailView({super.key, required this.doctorModel});
@@ -25,14 +19,29 @@ class DoctorDetailView extends StatefulWidget {
 class _DoctorDetailViewState extends State<DoctorDetailView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  double _averageRating = 4.5;
-  int _reviewCount = 24;
   TextEditingController _reviewController = TextEditingController();
+
+  List<Map<String, dynamic>> _reviews = [];
+
+  double _currentRating = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+
+    _reviews = [
+      {
+        'name': 'أحمد',
+        'comment': 'طبيب رائع وخدمة ممتازة.',
+        'rating': 5.0,
+      },
+      {
+        'name': 'سارة',
+        'comment': 'تعامل جيد ولكن الانتظار طويل.',
+        'rating': 3.5,
+      },
+    ];
   }
 
   @override
@@ -48,77 +57,10 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
       appBar: _buildAppBar(context),
       body: Column(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: AppColor.primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // اسم الطبيب
-                          Text(
-                            widget.doctorModel.fullName ?? '',
-                            style: TextStyles.Regular16.copyWith(
-                                fontWeight: FontWeight.bold),
-                          ),
-                          // التخصص
-                          Text(
-                            widget.doctorModel.fullName ?? 'التخصص غير معروف',
-                            style: TextStyles.Regular16.copyWith(
-                                color: Colors.grey),
-                          ),
-                          const SizedBox(height: 8),
-                          // التقييمات (نجوم)
-                          const StarsSection(),
-                        ],
-                      ),
-                    ),
-                    // المستشفيات مع السعر
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          'المستشفيات:',
-                          style: TextStyles.Regular16.copyWith(
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        Text('• مستشفى 1 - 50\$'),
-                        Text('• مستشفى 2 - 60\$'),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                DoctorItemList(doctorModel: widget.doctorModel),
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
-          Container(
-            color: Colors.white,
-            child: TabBar(
-              controller: _tabController,
-              labelColor: AppColor.primaryColor,
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: AppColor.primaryColor,
-              tabs: const [
-                Tab(text: 'نظرة عامة'),
-                Tab(text: 'المواقع'),
-                Tab(text: 'التقييمات'),
-              ],
-            ),
-          ),
+          _buildDoctorHeader(),
+          _buildBookButton(),
+          const SizedBox(height: 5),
+          _buildTabBar(),
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -127,20 +69,6 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
                 _buildLocationsTab(),
                 _buildReviewsTab(),
               ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            child: CustomButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => DoctorScedualBottomSheet(
-                    doctorModel: widget.doctorModel,
-                  ),
-                );
-              },
-              title: "حدد موعد",
             ),
           ),
         ],
@@ -154,6 +82,125 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
       centerTitle: true,
       backgroundColor: AppColor.primaryColor,
       elevation: 0,
+    );
+  }
+
+  Widget _buildDoctorHeader() {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColor.primaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                DoctorImage(
+                  doctorImage: widget.doctorModel.photo ?? '',
+                  doctorId: widget.doctorModel.id!.toInt(),
+                  size: 5,
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.doctorModel.fullName ?? '',
+                        style: TextStyles.Regular16.copyWith(
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        widget.doctorModel.subTitle ?? 'التخصص غير معروف',
+                        style:
+                            TextStyles.Regular16.copyWith(color: Colors.grey),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: List.generate(5, (index) {
+                          return Icon(
+                            Icons.star_rounded,
+                            color: (widget.doctorModel.rating != null &&
+                                    index < widget.doctorModel.rating!.toInt())
+                                ? Colors.amber
+                                : Colors.grey[300],
+                            size: 18,
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            DoctorItemList(doctorModel: widget.doctorModel),
+            const SizedBox(height: 15),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: TabBar(
+        controller: _tabController,
+        onTap: (index) => setState(() {}),
+        labelColor: Colors.white,
+        unselectedLabelColor: AppColor.primaryColor,
+        indicator: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColor.primaryColor,
+        ),
+        tabs: [
+          Tab(child: _buildTabItem(Icons.info_outline, 'نظرة عامة', 0)),
+          Tab(child: _buildTabItem(Icons.local_hospital, 'مستشفى', 1)),
+          Tab(child: _buildTabItem(Icons.star_outline, 'التقييمات', 2)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabItem(IconData icon, String text, int tabIndex) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 20),
+          if (_tabController.index == tabIndex)
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'Satoshi',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -172,8 +219,6 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
             widget.doctorModel.subTitle ?? 'لا توجد نبذة عن الطبيب.',
             style: TextStyles.Regular16.copyWith(color: Colors.grey),
           ),
-          const SizedBox(height: 20),
-          // const LocationDoctor(),
         ],
       ),
     );
@@ -253,61 +298,43 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
+                      Text(name,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16)),
                       const SizedBox(height: 4),
-                      Text(
-                        location,
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
+                      Text(location, style: TextStyle(color: Colors.grey[600])),
                     ],
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            const Text(
-              'المواعيد المتاحة:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            const Text('المواعيد المتاحة:',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            ...schedules.map(
-              (schedule) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${schedule['day']}:',
-                        style: const TextStyle(fontWeight: FontWeight.w500)),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 4),
-                      child: Text(
-                        '${schedule['time']} (المواعيد المتاحة: ${schedule['slots']})',
-                        style: TextStyle(color: Colors.grey[700]),
+            ...schedules.map((schedule) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${schedule['day']}:',
+                          style: const TextStyle(fontWeight: FontWeight.w500)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, top: 4),
+                        child: Text(
+                            '${schedule['time']} (المواعيد المتاحة: ${schedule['slots']})',
+                            style: TextStyle(color: Colors.grey[700])),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                    ],
+                  ),
+                )),
             const SizedBox(height: 8),
-            const Text(
-              'السعر:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              '\$$price',
-              style: const TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
+            const Text('السعر:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('\$$price',
+                style: const TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18)),
           ],
         ),
       ),
@@ -328,29 +355,38 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
   }
 
   List<Widget> _buildReviews() {
-    return List.generate(_reviewCount, (index) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+    return List.generate(_reviews.length, (index) {
+      final review = _reviews[index];
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 20,
               backgroundImage: AssetImage('assets/images/alkuraimi.png'),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'الاسم المستخدم',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Text(review['name'],
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: List.generate(5, (i) {
+                      return Icon(
+                        Icons.star,
+                        color: i < review['rating'].round()
+                            ? Colors.amber
+                            : Colors.grey[300],
+                        size: 16,
+                      );
+                    }),
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    'التعليق على الخدمة...',
-                    style: TextStyle(color: Colors.grey),
-                  ),
+                  const SizedBox(height: 4),
+                  Text(review['comment'],
+                      style: const TextStyle(color: Colors.grey)),
                 ],
               ),
             ),
@@ -361,33 +397,70 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
   }
 
   Widget _buildAddReviewSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        children: [
-          const Text('أضف تقييمك'),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _reviewController,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: 'اكتب تعليقك هنا...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('أضف تقييمك:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(5, (index) {
+            return IconButton(
+              icon: Icon(
+                index < _currentRating ? Icons.star : Icons.star_border,
+                color: Colors.amber,
               ),
-            ),
+              onPressed: () {
+                setState(() {
+                  _currentRating = index + 1.0;
+                });
+              },
+            );
+          }),
+        ),
+        TextField(
+          controller: _reviewController,
+          maxLines: 3,
+          decoration: InputDecoration(
+            hintText: 'اكتب تعليقك هنا...',
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
-          const SizedBox(height: 8),
-          CustomButton(
-            onPressed: () {
+        ),
+        const SizedBox(height: 8),
+        CustomButton(
+          onPressed: () {
+            if (_currentRating > 0 && _reviewController.text.isNotEmpty) {
               setState(() {
-                _reviewCount++;
+                _reviews.add({
+                  'name': 'مستخدم جديد',
+                  'comment': _reviewController.text,
+                  'rating': _currentRating,
+                });
                 _reviewController.clear();
+                _currentRating = 0;
               });
-            },
-            title: 'إرسال التقييم',
-          ),
-        ],
+            }
+          },
+          title: 'إرسال',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBookButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      child: CustomButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => DoctorScedualBottomSheet(
+              doctorModel: widget.doctorModel,
+            ),
+          );
+        },
+        title: "احجز موعد",
       ),
     );
   }

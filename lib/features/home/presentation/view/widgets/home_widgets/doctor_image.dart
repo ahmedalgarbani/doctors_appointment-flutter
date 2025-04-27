@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class DoctorImage extends StatelessWidget {
   const DoctorImage(
-      {super.key, required this.doctorImage, required this.doctorId, required int size});
+      {super.key,
+      required this.doctorImage,
+      required this.doctorId,
+      required int size});
   final String doctorImage;
   final int doctorId;
 
@@ -11,8 +14,8 @@ class DoctorImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        height: 150,
-        width: 140,
+        height: 100,
+        width: 100,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white, width: 2),
         ),

@@ -23,13 +23,18 @@ class SigninPageViewBody extends StatefulWidget {
 
 class _SigninPageViewBodyState extends State<SigninPageViewBody> {
   late String _email;
-
   late String _password;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness ==
+        Brightness.dark; // التحقق من الوضع الداكن
+
     return Scaffold(
+      backgroundColor:
+          isDarkMode ? AppColor.darkBackground : AppColor.lightBackground,
       bottomNavigationBar: _buttonText(context),
       appBar: BaseAppBar(
         hideBack: false,
@@ -53,7 +58,7 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
                 height: 30,
               ),
               CustomFormFiled(
-                hintText: "Email",
+                hintText: "البريد الإلكتروني",
                 textInputType: TextInputType.emailAddress,
                 onSaved: (value) {
                   _email = value!;
@@ -63,7 +68,7 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
                 height: 20,
               ),
               CustomFormFiled(
-                hintText: "Password",
+                hintText: "كلمة المرور",
                 textInputType: TextInputType.text,
                 obscureText: true,
                 onSaved: (value) {
@@ -77,7 +82,7 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
                 padding: const EdgeInsets.only(left: 16.0),
                 child: Align(
                   child: Text(
-                    "Recovery password",
+                    "استعادة كلمة المرور",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),
                   alignment: Alignment.topLeft,
@@ -104,9 +109,9 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
                     });
                   }
                 },
-                title: "Sign In",
+                title: "تسجيل الدخول",
                 height: 60,
-              )
+              ),
             ],
           ),
         ),
@@ -114,17 +119,20 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
     );
   }
 
+  // العنوان الخاص بتسجيل الدخول
   Text _signTitle() {
     return Text(
-      "Sign In",
+      "تسجيل الدخول",
       style: TextStyle(
         fontSize: 25,
         fontWeight: FontWeight.bold,
+        color: AppColor.primaryColor,
       ),
       textAlign: TextAlign.center,
     );
   }
 
+  // الزر الخاص بالتسجيل
   _buttonText(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30),
@@ -132,7 +140,7 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "not a member ?",
+            "ليس لديك حساب؟",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           TextButton(
@@ -140,7 +148,7 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
               GoRouter.of(context).pushReplacement(AppRouter.KSignup);
             },
             child: Text(
-              "register now",
+              "سجل الآن",
               style: TextStyles.Bold16.copyWith(color: AppColor.primaryColor),
             ),
           ),
@@ -149,17 +157,20 @@ class _SigninPageViewBodyState extends State<SigninPageViewBody> {
     );
   }
 
+  // وصف الدعم
   _supportDescription() {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Text(
-        'If you need any support',
+        'إذا كنت بحاجة إلى الدعم',
+        style: TextStyle(fontSize: 14),
       ),
       TextButton(
-          onPressed: () {},
-          child: Text(
-            "click here",
-            style: TextStyle(color: AppColor.primaryColor),
-          ))
+        onPressed: () {},
+        child: Text(
+          "اضغط هنا",
+          style: TextStyle(color: AppColor.primaryColor),
+        ),
+      )
     ]);
   }
 }

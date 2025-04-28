@@ -1,10 +1,10 @@
-import 'package:doctors_appointment/core/assets_helper/app_vectors.dart';
-import 'package:doctors_appointment/core/router/router.dart';
-import 'package:doctors_appointment/core/style/app_color.dart';
-import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/assets_helper/app_vectors.dart';
+import '../../../../core/router/router.dart';
+import '../../../../core/style/app_color.dart';
+import '../../../../core/style/text_style.dart';
 import '../../../../core/widgets/base_button.dart';
 
 class SigninOrLogin extends StatelessWidget {
@@ -12,70 +12,89 @@ class SigninOrLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? Colors.black : const Color(0xFFF9FAFB);
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+
     return Scaffold(
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+      backgroundColor: backgroundColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // الصورة والعنوان
+            Expanded(
+              flex: 5,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(AppVectors.logo),
-                  const SizedBox(
-                    height: 50,
+                  const SizedBox(height: 40),
+                  SvgPicture.asset(
+                    AppVectors.logo,
+                    height: size.height * 0.2,
                   ),
-                  const Text(
-                    "قم بالتسجل للحصول على جميع الميزات",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 26),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "تطبيق Doccure App  يوفر تجربه حجز مواعيد طبيه امنه وسريعه وفريده",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff797979),
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      "مرحباً بك في Doccure!",
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: BasicAppButton(
-                          onPressed: () {
-                            GoRouter.of(context).push(AppRouter.KSignup);
-                          },
-                          title: "SignUp",
-                          height: 70,
-                        ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      "قم بالتسجيل أو تسجيل الدخول للحصول على تجربة حجز مواعيد طبية آمنة، سريعة وفريدة من نوعها.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
+                        height: 1.5,
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: TextButton(
-                          child: Text(
-                            "Sign in",
-                            style: TextStyles.Bold19.copyWith(
-                                color: AppColor.primaryColor),
-                          ),
-                          onPressed: () {
-                            GoRouter.of(context).push(AppRouter.KSignin);
-                          },
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
             ),
-          )
-        ],
+
+            // الأزرار
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BasicAppButton(
+                      onPressed: () {
+                        GoRouter.of(context).push(AppRouter.KSignup);
+                      },
+                      title: "إنشاء حساب",
+                      height: 56,
+                    ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () {
+                        GoRouter.of(context).push(AppRouter.KSignin);
+                      },
+                      child: Text(
+                        "تسجيل الدخول",
+                        style: TextStyles.Bold19.copyWith(
+                          color: AppColor.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

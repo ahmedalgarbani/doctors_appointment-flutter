@@ -11,14 +11,13 @@ class DoctorHorizantalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal, // لجعل الـ Listview أفقي
+      scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(allDoctors.length, (index) {
-          // عرض زوج من الأطباء في السطر الواحد
           if (index % 2 == 0) {
             return Padding(
               padding:
-                  const EdgeInsets.only(right: 16), // إضافة مسافة بين العناصر
+                  const EdgeInsets.only(right: 16),
               child: Row(
                 children: [
                   DoctorHorizantalListCard(
@@ -28,7 +27,7 @@ class DoctorHorizantalList extends StatelessWidget {
                     },
                     doctorModel: allDoctors[index],
                   ),
-                  const SizedBox(width: 16), // إضافة المسافة بين البطاقات
+                  const SizedBox(width: 16),
                   if (index + 1 < allDoctors.length)
                     DoctorHorizantalListCard(
                       onPress: () {

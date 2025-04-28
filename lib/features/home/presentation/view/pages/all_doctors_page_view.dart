@@ -27,22 +27,27 @@ class _AllDoctorsPageViewState extends State<AllDoctorsPageView> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: isDarkMode
+            ? Colors.black
+            : Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: Text(
           "All Doctors",
-          style: TextStyles.Bold16.copyWith(color: Colors.black),
+          style: TextStyles.Bold16.copyWith(
+              color: isDarkMode
+                  ? Colors.white
+                  : Colors.black),
         ),
         actions: [
           UnActiveItem(
             icon: Icons.sort,
             onPressed: () {
-              _showFilterBottomSheet(
-                context,
-              );
+              _showFilterBottomSheet(context);
             },
           )
         ],
@@ -84,7 +89,8 @@ class _AllDoctorsPageViewState extends State<AllDoctorsPageView> {
           top: Radius.circular(20),
         ),
       ),
-      backgroundColor: AppColor.whiteBackgrond,
+      backgroundColor:
+          AppColor.whiteBackgrond,
       isScrollControlled: true,
       builder: (context) => const FilterBottomSheet(),
     );

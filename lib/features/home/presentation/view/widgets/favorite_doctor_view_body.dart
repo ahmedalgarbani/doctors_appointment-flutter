@@ -7,10 +7,23 @@ import '../../../data/models/speciality_response/doctor.dart';
 class FavoriteDoctorViewBody extends StatelessWidget {
   const FavoriteDoctorViewBody({super.key, required this.allDoctors});
   final List<Doctor> allDoctors;
+
   @override
   Widget build(BuildContext context) {
+    // تحديد اللون بناءً على وضع الجهاز
+    Color textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
+    Color containerColor = Theme.of(context).brightness == Brightness.dark
+        ? AppColor.darkBackground
+        : AppColor.secondaryColor;
+    Color iconColor = Theme.of(context).brightness == Brightness.dark
+        ? AppColor.primaryColor
+        : AppColor.primaryColor;
+
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -18,29 +31,31 @@ class FavoriteDoctorViewBody extends StatelessWidget {
               children: [
                 Text(
                   "Favorites Doctors",
-                  style: TextStyles.Black20Bold.copyWith(color: Colors.black),
+                  style: TextStyles.Black20Bold.copyWith(color: textColor),
                 ),
                 const Spacer(),
                 Container(
                   height: 50,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColor.secondaryColor),
+                    borderRadius: BorderRadius.circular(12),
+                    color: containerColor,
+                  ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: const Center(
+                  child: Center(
                     child: Icon(
                       Icons.sort,
-                      color: AppColor.primaryColor,
+                      color: iconColor,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
           DoctorHorizantalList(
             allDoctors: allDoctors,
-          )
+            isGrid: true,
+          ),
         ],
       ),
     );

@@ -23,17 +23,24 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
 
   @override
   Widget build(BuildContext context) {
+    // تحديد ما إذا كان الوضع داكنًا أو فاتحًا
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-        _buildProfileHeader(context),
+        _buildProfileHeader(context, isDarkMode),
         const SizedBox(height: 24),
         _buildSectionCard(
           title: "الإعدادات",
           children: [
             _buildListTile(Icons.person, "تعديل بيانات المستخدم", onTap: () {
               // GoRouter.of(context).push(AppRouter.KEditProfileView);
-            }),
+            }, isDarkMode: isDarkMode),
+            _buildListTile(Icons.lock, "تعديل كلمة المرور", onTap: () {
+              // GoRouter.of(context).push(AppRouter.KChangePasswordView);
+              // يمكنك استبدال هذه السطر بتوجيهك إلى صفحة تغيير كلمة المرور
+            }, isDarkMode: isDarkMode),
           ],
         ),
         const SizedBox(height: 16),
@@ -42,8 +49,9 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
           children: [
             _buildListTile(Icons.favorite, "المفضلة", onTap: () {
               GoRouter.of(context).push(AppRouter.KFavoriteDoctorView);
-            }),
-            _buildListTile(Icons.calendar_today, "مواعيدي", onTap: () {}),
+            }, isDarkMode: isDarkMode),
+            _buildListTile(Icons.calendar_today, "مواعيدي",
+                onTap: () {}, isDarkMode: isDarkMode),
           ],
         ),
         const SizedBox(height: 16),
@@ -52,26 +60,33 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
           children: [
             _buildListTile(Icons.notifications, "الإشعارات", onTap: () {
               GoRouter.of(context).push(AppRouter.KNotificationPageView);
-            }),
-            _buildListTile(Icons.palette, "المظهر", onTap: () {}),
+            }, isDarkMode: isDarkMode),
+            _buildListTile(Icons.palette, "المظهر",
+                onTap: () {}, isDarkMode: isDarkMode),
           ],
         ),
         const SizedBox(height: 16),
         _buildSectionCard(
           title: "عن التطبيق",
           children: [
-            _buildListTile(Icons.privacy_tip, "سياسة الخصوصية", onTap: () {}),
-            _buildListTile(Icons.description, "شروط الاستخدام", onTap: () {}),
-            _buildListTile(Icons.info, "من نحن", onTap: () {}),
+            _buildListTile(Icons.privacy_tip, "سياسة الخصوصية",
+                onTap: () {}, isDarkMode: isDarkMode),
+            _buildListTile(Icons.description, "شروط الاستخدام",
+                onTap: () {}, isDarkMode: isDarkMode),
+            _buildListTile(Icons.info, "من نحن",
+                onTap: () {}, isDarkMode: isDarkMode),
           ],
         ),
         const SizedBox(height: 16),
         _buildSectionCard(
           title: "التواصل",
           children: [
-            _buildListTile(Icons.support_agent, "تواصل معنا", onTap: () {}),
-            _buildListTile(Icons.star, "تقييم", onTap: () {}),
-            _buildListTile(Icons.share, "مشاركة", onTap: () {}),
+            _buildListTile(Icons.support_agent, "تواصل معنا",
+                onTap: () {}, isDarkMode: isDarkMode),
+            _buildListTile(Icons.star, "تقييم",
+                onTap: () {}, isDarkMode: isDarkMode),
+            _buildListTile(Icons.share, "مشاركة",
+                onTap: () {}, isDarkMode: isDarkMode),
           ],
         ),
         const SizedBox(height: 16),
@@ -88,8 +103,10 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
               },
               textColor: Colors.red,
               iconColor: Colors.red,
+              isDarkMode: isDarkMode,
             ),
-            _buildListTile(Icons.help, "الأسئلة الشائعة", onTap: () {}),
+            _buildListTile(Icons.help, "الأسئلة الشائعة",
+                onTap: () {}, isDarkMode: isDarkMode),
           ],
         ),
         const SizedBox(height: 24),
@@ -111,7 +128,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
     );
   }
 
-  Widget _buildProfileHeader(BuildContext context) {
+  Widget _buildProfileHeader(BuildContext context, bool isDarkMode) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -123,6 +140,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
+            color: isDarkMode ? Colors.black : Colors.white,
             child: const Padding(
               padding: EdgeInsets.fromLTRB(24, 70, 24, 24),
               child: Column(
@@ -163,7 +181,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
           child: Center(
             child: Container(
               padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
                 boxShadow: [
@@ -219,15 +237,20 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
     VoidCallback? onTap,
     Color? textColor,
     Color? iconColor,
+    bool isDarkMode = false,
   }) {
     return ListTile(
-      leading: Icon(icon, color: iconColor ?? Theme.of(context).primaryColor),
+      leading: Icon(icon,
+          color: iconColor ??
+              (isDarkMode ? Colors.white : Theme.of(context).primaryColor)),
       title: Text(
         title,
-        style: TextStyle(color: textColor ?? Colors.black),
+        style: TextStyle(
+            color: textColor ?? (isDarkMode ? Colors.white : Colors.black)),
         textAlign: TextAlign.right,
       ),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      trailing: Icon(Icons.arrow_forward_ios,
+          size: 16, color: isDarkMode ? Colors.white : Colors.black),
       onTap: onTap,
     );
   }

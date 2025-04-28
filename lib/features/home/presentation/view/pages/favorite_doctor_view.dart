@@ -19,7 +19,6 @@ class FavoriteDoctorView extends StatelessWidget {
             return FavoriteDoctorViewBody(allDoctors: allDoctors ?? []);
           }
           return const SizedBox();
-          
         },
         listener: (BuildContext context, FavoritesState state) {
           if (state is FavoritesFailure) {

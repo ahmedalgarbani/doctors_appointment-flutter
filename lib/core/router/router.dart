@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctors_appointment/features/Splash/presenttation/view/splash_page.dart';
 import 'package:doctors_appointment/features/auth/presentation/view/signup_page_view.dart';
 import 'package:doctors_appointment/features/auth/presentation/view/signin_page_view.dart';
@@ -63,9 +65,15 @@ abstract class AppRouter {
         builder: (context, state) => const AllSpecialtiesView(),
       ),
       GoRoute(
-        path: KFavoriteDoctorView,
-        builder: (context, state) => const FavoriteDoctorView(),
-      ),
+          path: KFavoriteDoctorView,
+          builder: (context, state) {
+            var extra = state.extra as dynamic;
+            log(extra.toString());
+            log(extra.toString());
+            return FavoriteDoctorView(
+              isSetting: extra?['isSetting'] as bool,
+            );
+          }),
       GoRoute(
         path: KCheckOutDonePageView,
         builder: (context, state) => const CheckoutDonePageView(),

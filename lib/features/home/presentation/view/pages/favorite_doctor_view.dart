@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteDoctorView extends StatelessWidget {
-  const FavoriteDoctorView({super.key});
+  const FavoriteDoctorView({super.key, this.isSetting});
+  final bool? isSetting;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,10 @@ class FavoriteDoctorView extends StatelessWidget {
       body: BlocConsumer<FavoritesCubit, FavoritesState>(
         builder: (context, state) {
           if (state is FavoritesLoaded) {
-            return FavoriteDoctorViewBody(allDoctors: state.favoritesDoctor!);
+            return FavoriteDoctorViewBody(
+              allDoctors: state.favoritesDoctor!,
+              isSetting: isSetting,
+            );
           } else if (state is FavoritesLoading) {
             var allDoctors = context.watch<FavoritesCubit>().favorites;
             return FavoriteDoctorViewBody(allDoctors: allDoctors ?? []);

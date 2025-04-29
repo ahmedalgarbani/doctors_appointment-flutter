@@ -2,11 +2,6 @@ import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:flutter/material.dart';
 
 class HospitalCard extends StatelessWidget {
-  final String name;
-  final String location;
-  final double price;
-  final List<Map<String, dynamic>> schedules;
-
   const HospitalCard({
     super.key,
     required this.name,
@@ -14,6 +9,11 @@ class HospitalCard extends StatelessWidget {
     required this.price,
     required this.schedules,
   });
+
+  final String location;
+  final String name;
+  final double price;
+  final List<Map<String, dynamic>> schedules;
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +30,17 @@ class HospitalCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.grey[200],
-                  child: Icon(Icons.local_hospital, color: AppColor.primaryColor),
+                  child:
+                      Icon(Icons.local_hospital, color: AppColor.primaryColor),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      Text(name,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16)),
                       const SizedBox(height: 4),
                       Text(location, style: TextStyle(color: Colors.grey[600])),
                     ],
@@ -46,28 +49,33 @@ class HospitalCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            const Text('المواعيد المتاحة:', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text('المواعيد المتاحة:',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             ...schedules.map((schedule) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${schedule['day']}:', style: const TextStyle(fontWeight: FontWeight.w500)),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, top: 4),
-                    child: Text(
-                      '${schedule['time']} (المواعيد المتاحة: ${schedule['slots']})',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${schedule['day']}:',
+                          style: const TextStyle(fontWeight: FontWeight.w500)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, top: 4),
+                        child: Text(
+                          '${schedule['time']} (المواعيد المتاحة: ${schedule['slots']})',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
             const SizedBox(height: 8),
             const Text('السعر:', style: TextStyle(fontWeight: FontWeight.bold)),
             Text('\$$price',
-                style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 18)),
+                style: const TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18)),
           ],
         ),
       ),

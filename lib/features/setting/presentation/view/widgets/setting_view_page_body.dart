@@ -48,7 +48,9 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
           title: "الأقسام",
           children: [
             _buildListTile(Icons.favorite, "المفضلة", onTap: () {
-              GoRouter.of(context).push(AppRouter.KFavoriteDoctorView);
+              GoRouter.of(context).push(AppRouter.KFavoriteDoctorView,extra: {
+                "isSetting":true
+              });
             }, isDarkMode: isDarkMode),
             _buildListTile(Icons.calendar_today, "مواعيدي",
                 onTap: () {}, isDarkMode: isDarkMode),
@@ -67,25 +69,9 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
         ),
         const SizedBox(height: 16),
         _buildSectionCard(
-          title: "عن التطبيق",
-          children: [
-            _buildListTile(Icons.privacy_tip, "سياسة الخصوصية",
-                onTap: () {}, isDarkMode: isDarkMode),
-            _buildListTile(Icons.description, "شروط الاستخدام",
-                onTap: () {}, isDarkMode: isDarkMode),
-            _buildListTile(Icons.info, "من نحن",
-                onTap: () {}, isDarkMode: isDarkMode),
-          ],
-        ),
-        const SizedBox(height: 16),
-        _buildSectionCard(
           title: "التواصل",
           children: [
             _buildListTile(Icons.support_agent, "تواصل معنا",
-                onTap: () {}, isDarkMode: isDarkMode),
-            _buildListTile(Icons.star, "تقييم",
-                onTap: () {}, isDarkMode: isDarkMode),
-            _buildListTile(Icons.share, "مشاركة",
                 onTap: () {}, isDarkMode: isDarkMode),
           ],
         ),
@@ -105,24 +91,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
               iconColor: Colors.red,
               isDarkMode: isDarkMode,
             ),
-            _buildListTile(Icons.help, "الأسئلة الشائعة",
-                onTap: () {}, isDarkMode: isDarkMode),
           ],
-        ),
-        const SizedBox(height: 24),
-        Center(
-          child: Column(
-            children: [
-              const Text("Version 1.0.3", style: TextStyle(color: Colors.grey)),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Terms & Privacy",
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            ],
-          ),
         ),
       ],
     );

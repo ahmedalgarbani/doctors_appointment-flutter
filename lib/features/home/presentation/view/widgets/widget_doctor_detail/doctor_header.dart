@@ -35,7 +35,7 @@ class DoctorHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(doctor.fullName ?? '',
+                    Text('د. ${doctor.fullName ?? 'غير معروف'}',
                         style: TextStyles.Regular16.copyWith(
                             fontWeight: FontWeight.bold)),
                     Text(doctor.subTitle ?? 'التخصص غير معروف',

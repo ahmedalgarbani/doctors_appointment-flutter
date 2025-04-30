@@ -52,8 +52,9 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
-                  builder: (_) =>
-                      DoctorScedualBottomSheet(doctorModel: widget.doctorModel),
+                  builder: (_) => DoctorScedualBottomSheet(
+                    doctorModel: widget.doctorModel,
+                  ),
                 );
               },
               title: 'احجز موعد',
@@ -65,7 +66,10 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
               controller: _tabController,
               children: [
                 OverviewTab(doctor: widget.doctorModel),
-                const LocationsTab(),
+                LocationsTab(
+                    doctorId: widget.doctorModel.id != null
+                        ? widget.doctorModel.id!.toInt()
+                        : 0),
                 const ReviewsTab(),
               ],
             ),

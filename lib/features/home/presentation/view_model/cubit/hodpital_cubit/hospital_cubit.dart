@@ -10,15 +10,20 @@ class HospitalCubit extends Cubit<HospitalState> {
 
   HospitalCubit(this.repository) : super(HospitalInitial());
 
-  Future<void> fetchHospitals(int doctorId) async {
-    this.doctorId = doctorId;
-    emit(HospitalLoading());
-    
-    final result = await repository.getDoctorHospitals(doctorId);
-    
-    result.fold(
-      (failure) => emit(HospitalError(failure.errorMessage)),
-      (hospitals) => emit(HospitalLoaded(hospitals)),
-    );
-  }
+ Future<void> fetchHospitals(int doctorId) async {
+  this.doctorId = doctorId;
+  if (isClosed) return; // تأكد من أن الـ Cubit غير مغلق قبل إصدار الحالة
+
+  emit(HospitalLoading());
+  
+  final result = await repository.getDoctorHospitals(doctorId);
+  
+  if (isClosed) return; // تأكد مرة أخرى من أن الـ Cubit غير مغلق قبل إصدار الحالة النهائية
+
+  result.fold(
+    (failure) => emit(HospitalError(failure.errorMessage)),
+    (hospitals) => emit(HospitalLoaded(hospitals)),
+  );
+}
+
 }

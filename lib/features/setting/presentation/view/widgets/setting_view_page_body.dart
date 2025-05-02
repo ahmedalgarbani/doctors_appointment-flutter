@@ -35,11 +35,10 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
           title: "الإعدادات",
           children: [
             _buildListTile(Icons.person, "تعديل بيانات المستخدم", onTap: () {
-              // GoRouter.of(context).push(AppRouter.KEditProfileView);
+              GoRouter.of(context).push(AppRouter.KEditProfileView);
             }, isDarkMode: isDarkMode),
             _buildListTile(Icons.lock, "تعديل كلمة المرور", onTap: () {
-              // GoRouter.of(context).push(AppRouter.KChangePasswordView);
-              // يمكنك استبدال هذه السطر بتوجيهك إلى صفحة تغيير كلمة المرور
+              GoRouter.of(context).push(AppRouter.KChangePasswordView);
             }, isDarkMode: isDarkMode),
           ],
         ),
@@ -48,9 +47,8 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
           title: "الأقسام",
           children: [
             _buildListTile(Icons.favorite, "المفضلة", onTap: () {
-              GoRouter.of(context).push(AppRouter.KFavoriteDoctorView,extra: {
-                "isSetting":true
-              });
+              GoRouter.of(context).push(AppRouter.KFavoriteDoctorView,
+                  extra: {"isSetting": true});
             }, isDarkMode: isDarkMode),
             _buildListTile(Icons.calendar_today, "مواعيدي",
                 onTap: () {}, isDarkMode: isDarkMode),

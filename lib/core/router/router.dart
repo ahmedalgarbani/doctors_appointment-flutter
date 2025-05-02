@@ -5,6 +5,8 @@ import 'package:doctors_appointment/features/auth/presentation/view/signup_page_
 import 'package:doctors_appointment/features/auth/presentation/view/signin_page_view.dart';
 import 'package:doctors_appointment/features/checkout/presentation/view/pages/check_out_page_view.dart';
 import 'package:doctors_appointment/features/checkout/presentation/view/pages/checkout_done_page_view.dart';
+import 'package:doctors_appointment/features/edit_profile/presentation/view/pages/change_password_view.dart';
+import 'package:doctors_appointment/features/edit_profile/presentation/view/pages/edit_profile_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/all_specialties_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/doctor_detail_view.dart';
 import 'package:doctors_appointment/features/home/presentation/view/pages/favorite_doctor_view.dart';
@@ -33,6 +35,8 @@ abstract class AppRouter {
   static const String KNotificationPageView = '/KNotificationPageView';
   static const String KallDoctors = '/KallDoctors';
   static const String KSigninOrSignUp = '/KSigninOrSignUp';
+  static const String KEditProfileView = '/KEditProfileView';
+  static const String KChangePasswordView = '/KChangePasswordView';
 
   static final router = GoRouter(
     routes: [
@@ -114,6 +118,14 @@ abstract class AppRouter {
             textString: extra as String?,
           );
         },
+      ),
+      GoRoute(
+        path: KEditProfileView,
+        builder: (context, state) => const EditProfileView(),
+      ),
+      GoRoute(
+        path: KChangePasswordView,
+        builder: (context, state) => const ChangePasswordView(),
       ),
     ],
   );

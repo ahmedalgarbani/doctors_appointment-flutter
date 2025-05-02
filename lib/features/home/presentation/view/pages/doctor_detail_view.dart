@@ -35,46 +35,52 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('تفاصيل الطبيب'),
-        centerTitle: true,
-        backgroundColor: AppColor.primaryColor,
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          DoctorHeader(doctor: widget.doctorModel),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: CustomButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (_) => DoctorScedualBottomSheet(
-                    doctorModel: widget.doctorModel,
-                  ),
-                );
-              },
-              title: 'احجز موعد',
+    return Directionality(
+      textDirection: TextDirection.rtl, // تحديد الاتجاه من اليمين إلى اليسار
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('تفاصيل الطبيب'),
+          centerTitle: true,
+          backgroundColor: AppColor.primaryColor,
+          elevation: 0,
+        ),
+        body: Column(
+          children: [
+            DoctorHeader(doctor: widget.doctorModel),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (_) => Directionality(
+                      textDirection: TextDirection.rtl, // RTL للبوتوم شيت
+                      child: DoctorScedualBottomSheet(
+                        doctorModel: widget.doctorModel,
+                      ),
+                    ),
+                  );
+                },
+                title: 'احجز موعد',
+              ),
             ),
-          ),
-          DoctorTabBar(controller: _tabController),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                OverviewTab(doctor: widget.doctorModel),
-                LocationsTab(
-                    doctorId: widget.doctorModel.id != null
-                        ? widget.doctorModel.id!.toInt()
-                        : 0),
-                const ReviewsTab(),
-              ],
-            ),
-          )
-        ],
+            DoctorTabBar(controller: _tabController),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  OverviewTab(doctor: widget.doctorModel),
+                  LocationsTab(
+                      doctorId: widget.doctorModel.id != null
+                          ? widget.doctorModel.id!.toInt()
+                          : 0),
+                  const ReviewsTab(),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

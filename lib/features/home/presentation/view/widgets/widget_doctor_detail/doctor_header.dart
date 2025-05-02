@@ -38,7 +38,7 @@ class DoctorHeader extends StatelessWidget {
                     Text('د. ${doctor.fullName ?? 'غير معروف'}',
                         style: TextStyles.Regular16.copyWith(
                             fontWeight: FontWeight.bold)),
-                    Text(doctor.subTitle ?? 'التخصص غير معروف',
+                    Text(doctor.specialtyName ?? 'التخصص غير معروف',
                         style:
                             TextStyles.Regular16.copyWith(color: Colors.grey)),
                     const SizedBox(height: 8),

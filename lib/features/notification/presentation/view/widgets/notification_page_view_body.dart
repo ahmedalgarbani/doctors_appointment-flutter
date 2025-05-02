@@ -8,71 +8,41 @@ class NotificationPageViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     if (notifications.isEmpty) {
-      return const Center(child: Text("No notifications."));
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.notifications_off_outlined,
+              size: 48,
+              color: isDarkMode ? Colors.grey[500] : Colors.grey[400],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "لا توجد إشعارات",
+              style: TextStyle(
+                fontSize: 16,
+                color: isDarkMode ? Colors.grey[400] : Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      );
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
       itemCount: notifications.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final noti = notifications[index];
-
-        return NotificationCardItem(
-          title: _getTitleByType(noti.notificationType),
-          subtitle: noti.message,
-          color: _getColorByType(noti.notificationType),
-          iconData: _getIconByType(noti.notificationType),
+        return NotificationItem(
+          notification: noti,
           isRead: noti.status == '1',
         );
       },
     );
-  }
-
-  // Helpers to customize look based on notification_type
-  String _getTitleByType(String type) {
-    switch (type) {
-      case '0':
-        return 'Information';
-      case '1':
-        return 'Warning';
-      case '2':
-        return 'Success';
-      case '3':
-        return 'Error';
-      default:
-        return 'Notification';
-    }
-  }
-
-  Color _getColorByType(String type) {
-    switch (type) {
-      case '0':
-        return Colors.blueGrey;
-      case '1':
-        return Colors.orange;
-      case '2':
-        return Colors.green;
-      case '3':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  IconData _getIconByType(String type) {
-    switch (type) {
-      case '0':
-        return Icons.info;
-      case '1':
-        return Icons.warning_amber_rounded;
-      case '2':
-        return Icons.check_circle;
-      case '3':
-        return Icons.error;
-      default:
-        return Icons.notifications;
-    }
   }
 }

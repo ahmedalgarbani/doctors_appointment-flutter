@@ -51,7 +51,6 @@ class PaymentRepositoryImpl implements PaymentRepository {
   Future<Either<Failure, void>> makeappointment(
       {Map<String, dynamic>? data}) async {
     try {
-      log(data.toString());
       final response = await _apiService.post(
         EndPoints.createBooking,
         data: data,
@@ -59,7 +58,6 @@ class PaymentRepositoryImpl implements PaymentRepository {
 
       if (response.statusCode == 201 || response.statusCode == 200) {
         final booking = response.data;
-        log("booking --s--s-s-s- ${booking}");
         final paymentSuccess = await makeRelatedPayment(data: {
           "booking": booking["id"],
           "payment_method": booking['payment_method'],
@@ -83,7 +81,6 @@ class PaymentRepositoryImpl implements PaymentRepository {
             errorMessage: e.response?.data.toString() ?? 'Unknown error'),
       );
     } catch (e) {
-      log(e.toString());
       log(ServerFailure(errorMessage: 'Something went wrong: $e').toString());
       return Left(
         ServerFailure.fromResponse(404, e),

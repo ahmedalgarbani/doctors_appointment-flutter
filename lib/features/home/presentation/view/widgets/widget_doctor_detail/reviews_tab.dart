@@ -40,6 +40,8 @@ class _ReviewsTabState extends State<ReviewsTab> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
+      listenWhen: (previous, current) => current is ReviewSuccess || current is ReviewFailure,
+      buildWhen: (previous, current) => current is ReviewLoading || current is ReviewSuccess,
       listener: (context, state) {
         if (state is ReviewSuccess) {
           

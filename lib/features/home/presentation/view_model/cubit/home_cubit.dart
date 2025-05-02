@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
 import 'package:doctors_appointment/features/home/domain/repositories/home_repository.dart';
+import '../../../data/models/review_request.dart';
 import '../../../data/models/speciality_response/speciality_response.dart';
 import 'home_state.dart';
 
@@ -61,6 +62,22 @@ class HomeCubit extends Cubit<HomeState> {
           doctors: allDoctors, specialties: allSpecialties));
     } catch (e) {
       emit(HomeFailure("Failed to fetch home features: ${e.toString()}"));
+    }
+  }
+
+
+
+  Future<void> submitDoctorReview(ReviewRequest review) async {
+    emit(ReviewLoading());
+    try {
+      final submittedReview = await _homeRepository.addReview(review: review);
+      if (submittedReview != null) {
+        emit(ReviewSuccess(submittedReview));
+      } else {
+        emit(ReviewFailure("تعذر إرسال المراجعة، يرجى المحاولة لاحقًا."));
+      }
+    } catch (e) {
+      emit(ReviewFailure("حدث خطأ: ${e.toString()}"));
     }
   }
 }

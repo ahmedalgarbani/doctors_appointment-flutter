@@ -1,4 +1,3 @@
-import 'package:doctors_appointment/core/assets_helper/app_image.dart';
 import 'package:doctors_appointment/features/appointment/presentation/viewModel/cubit/appointment_cubit.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';

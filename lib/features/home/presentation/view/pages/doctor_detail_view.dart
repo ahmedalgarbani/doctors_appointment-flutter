@@ -75,7 +75,7 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
                       doctorId: widget.doctorModel.id != null
                           ? widget.doctorModel.id!.toInt()
                           : 0),
-                  const ReviewsTab(),
+                   ReviewsTab(doctor: widget.doctorModel),
                 ],
               ),
             )

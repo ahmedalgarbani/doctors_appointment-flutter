@@ -13,9 +13,9 @@ class HospitalCubit extends Cubit<HospitalState> {
   Future<void> fetchHospitals(int doctorId) async {
     this.doctorId = doctorId;
     emit(HospitalLoading());
-
+    
     final result = await repository.getDoctorHospitals(doctorId);
-
+    
     result.fold(
       (failure) => emit(HospitalError(failure.errorMessage)),
       (hospitals) => emit(HospitalLoaded(hospitals)),

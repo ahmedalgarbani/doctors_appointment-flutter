@@ -1,5 +1,4 @@
 import 'package:doctors_appointment/core/services/get_it.dart';
-import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/features/notification/domain/repositories/notification_repo.dart';
 import 'package:doctors_appointment/features/notification/presentation/view/widgets/notification_page_view_body_bloc_consumer.dart';
 import 'package:doctors_appointment/features/notification/presentation/view_model/cubit/notification_cubit.dart';
@@ -11,22 +10,37 @@ class NotificationPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.grey[900] : const Color(0xFFF9FAFB),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: isDarkMode ? Colors.grey[800] : Colors.white,
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Notifications",
-          style: TextStyles.Bold16.copyWith(color: Colors.black),
+          "الإشعارات",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+          textAlign: TextAlign.right, // محاذاة النص لليمين
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: isDarkMode ? Colors.white : Colors.black),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+        child: Directionality(
+          // إضافة Directionality لتحديد اتجاه النص
+          textDirection: TextDirection.rtl,
           child: BlocProvider(
-            create: (context) => NotificationCubit(getIt.get<NotificationRepository>()),
-            child: NotificationPageViewBodyBlocConsumer(),
+            create: (context) =>
+                NotificationCubit(getIt.get<NotificationRepository>()),
+            child: const NotificationPageViewBodyBlocConsumer(),
           ),
         ),
       ),

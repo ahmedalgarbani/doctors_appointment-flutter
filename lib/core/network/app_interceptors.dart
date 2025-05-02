@@ -1,16 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctors_appointment/core/constant/constant.dart';
 import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/core/network/status_code.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 
-import '../../features/auth/presentation/view_model/cubit/auth_cubit.dart';
-import '../router/router.dart';
 import '../services/api_service.dart';
 import '../services/get_it.dart';
 import 'end_points.dart';

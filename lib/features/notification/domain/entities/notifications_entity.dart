@@ -1,6 +1,3 @@
-
-
-
 class NotificationsEntity {
   final String message;
   final String status;
@@ -12,5 +9,3 @@ class NotificationsEntity {
     required this.notificationType,
   });
 }
-
-

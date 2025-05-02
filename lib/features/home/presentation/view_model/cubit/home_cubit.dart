@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';

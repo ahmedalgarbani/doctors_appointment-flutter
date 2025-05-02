@@ -6,34 +6,63 @@ import 'package:go_router/go_router.dart';
 
 class DoctorHorizantalList extends StatelessWidget {
   final List<Doctor> allDoctors;
-  DoctorHorizantalList({Key? key, required this.allDoctors}) : super(key: key);
+  final bool isGrid;
+
+  const DoctorHorizantalList({
+    Key? key,
+    required this.allDoctors,
+    this.isGrid = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (isGrid) {
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(8),
+        itemCount: allDoctors.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.57,
+        ),
+        itemBuilder: (context, index) {
+          return DoctorHorizantalListCard(
+            onPress: () {
+              GoRouter.of(context)
+                  .push(AppRouter.KDoctorDetail, extra: allDoctors[index]);
+            },
+            doctorModel: allDoctors[index],
+          );
+        },
+      );
+    }
+
+    // العرض الأفقي التقليدي
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal, // لجعل الـ Listview أفقي
+      scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(allDoctors.length, (index) {
-          // عرض زوج من الأطباء في السطر الواحد
           if (index % 2 == 0) {
             return Padding(
-              padding:
-                  const EdgeInsets.only(right: 16), // إضافة مسافة بين العناصر
+              padding: const EdgeInsets.only(right: 16),
               child: Row(
                 children: [
                   DoctorHorizantalListCard(
                     onPress: () {
                       GoRouter.of(context).push(AppRouter.KDoctorDetail,
-                          extra: allDoctors[index] as Doctor);
+                          extra: allDoctors[index]);
                     },
                     doctorModel: allDoctors[index],
                   ),
-                  const SizedBox(width: 16), // إضافة المسافة بين البطاقات
+                  const SizedBox(width: 16),
                   if (index + 1 < allDoctors.length)
                     DoctorHorizantalListCard(
                       onPress: () {
                         GoRouter.of(context).push(AppRouter.KDoctorDetail,
-                            extra: allDoctors[index + 1] as Doctor);
+                            extra: allDoctors[index + 1]);
                       },
                       doctorModel: allDoctors[index + 1],
                     ),
@@ -41,7 +70,7 @@ class DoctorHorizantalList extends StatelessWidget {
               ),
             );
           }
-          return Container(); 
+          return Container(); // تخطي العناصر الفردية غير المتناسبة
         }),
       ),
     );

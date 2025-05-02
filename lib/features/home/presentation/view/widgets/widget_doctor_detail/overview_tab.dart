@@ -17,7 +17,7 @@ class OverviewTab extends StatelessWidget {
           Text('نبذة عن الطبيب:', style: TextStyles.Regular16.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           Text(
-            doctor.subTitle ?? 'لا توجد نبذة عن الطبيب.',
+            doctor.about ?? 'لا توجد نبذة عن الطبيب.',
             style: TextStyles.Regular16.copyWith(color: Colors.grey),
           ),
         ],

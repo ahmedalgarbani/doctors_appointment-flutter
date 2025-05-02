@@ -82,7 +82,7 @@ class DoctorHorizantalListCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    doctorModel.fullName ?? 'تخصص غير محدد',
+                    doctorModel.specialtyName ?? 'تخصص غير محدد',
                     style: const TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 13,

@@ -7,13 +7,13 @@ import 'pricing.dart';
 import 'review.dart';
 import 'schedule.dart';
 
-class 
-Doctor extends Equatable {
+class Doctor extends Equatable {
   final num? id;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final dynamic deletedAt;
   final String? fullName;
+  final String? specialtyName;
   final String? birthday;
   final String? photo;
   final num? gender;
@@ -33,6 +33,7 @@ Doctor extends Equatable {
     this.updatedAt,
     this.deletedAt,
     this.fullName,
+    this.specialtyName,
     this.birthday,
     this.photo,
     this.gender,
@@ -57,6 +58,7 @@ Doctor extends Equatable {
             : DateTime.parse(data['updated_at'] as String),
         deletedAt: data['deleted_at'] as dynamic,
         fullName: data['full_name'] as String?,
+        specialtyName: data['specialty_name'] as String?,
         birthday: data['birthday'] as String?,
         photo: data['photo'] as String?,
         gender: data['gender'] as num?,
@@ -87,6 +89,7 @@ Doctor extends Equatable {
         'full_name': fullName,
         'birthday': birthday,
         'photo': photo,
+        'specialty_name': specialtyName,
         'gender': gender,
         'experience_years': experienceYears,
         'sub_title': subTitle,
@@ -122,6 +125,7 @@ Doctor extends Equatable {
     num? gender,
     num? experienceYears,
     String? subTitle,
+    String? specialtyName,
     String? about,
     bool? showAtHome,
     List<Hospital>? hospitals,
@@ -136,6 +140,7 @@ Doctor extends Equatable {
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
       fullName: fullName ?? this.fullName,
+      specialtyName: specialtyName ?? this.specialtyName,
       birthday: birthday ?? this.birthday,
       photo: photo ?? this.photo,
       gender: gender ?? this.gender,
@@ -166,6 +171,7 @@ Doctor extends Equatable {
       photo,
       gender,
       experienceYears,
+      specialtyName,
       subTitle,
       about,
       showAtHome,
@@ -176,6 +182,4 @@ Doctor extends Equatable {
       rating,
     ];
   }
-
-  get name => null;
 }

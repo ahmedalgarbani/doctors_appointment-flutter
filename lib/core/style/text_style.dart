@@ -15,4 +15,21 @@ abstract class TextStyles {
       color: Color.fromARGB(255, 0, 0, 0),
       fontSize: 12,
       fontWeight: FontWeight.bold);
+
+  static const TextStyle SemiBold14 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  );
+
+  // حجم 12 - نص عادي
+  static const TextStyle Regular12 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+  );
+
+  // حجم 14 - نص عادي
+  static const TextStyle Regular14 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
 }

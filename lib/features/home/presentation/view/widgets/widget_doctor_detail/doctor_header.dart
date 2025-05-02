@@ -35,14 +35,21 @@ class DoctorHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(doctor.fullName ?? '', style: TextStyles.Regular16.copyWith(fontWeight: FontWeight.bold)),
-                    Text(doctor.subTitle ?? 'التخصص غير معروف', style: TextStyles.Regular16.copyWith(color: Colors.grey)),
+                    Text('د. ${doctor.fullName ?? 'غير معروف'}',
+                        style: TextStyles.Regular16.copyWith(
+                            fontWeight: FontWeight.bold)),
+                    Text(doctor.specialtyName ?? 'التخصص غير معروف',
+                        style:
+                            TextStyles.Regular16.copyWith(color: Colors.grey)),
                     const SizedBox(height: 8),
                     Row(
                       children: List.generate(5, (index) {
                         return Icon(
                           Icons.star_rounded,
-                          color: (doctor.rating != null && index < doctor.rating!.toInt()) ? Colors.amber : Colors.grey[300],
+                          color: (doctor.rating != null &&
+                                  index < doctor.rating!.toInt())
+                              ? Colors.amber
+                              : Colors.grey[300],
                           size: 18,
                         );
                       }),

@@ -1,7 +1,9 @@
 
 import 'package:dartz/dartz.dart';
 
+import '../../features/home/data/models/review_request.dart';
 import '../../features/home/data/models/speciality_response/doctor.dart';
+import '../../features/home/data/models/speciality_response/review.dart';
 import '../../features/home/data/models/speciality_response/speciality_response.dart';
 import '../error/failure.dart';
 
@@ -13,4 +15,5 @@ abstract class DatabaseService {
   Future<Either<Failure, bool>> addNewFavorite({required int doctorId});
   Future<bool> removeFavorite({required int doctorId});
   Future<bool> isFavorite({required int doctorId, required int patientId});
+  Future<Review?> addReview({required ReviewRequest review});
 }

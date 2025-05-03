@@ -1,4 +1,3 @@
-import 'package:doctors_appointment/features/appointment/presentation/viewModel/cubit/appointment_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -56,29 +55,32 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          ChosenDoctor(bookeddoctor: widget.bookingDetail),
-          const SizedBox(height: 20),
-          PaymentMethod(
-            paymentData: widget.paymentMethod,
-            onChange: (value) {
-              setState(() {
-                choice = value;
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          _buildPaymentDetails(),
-          const SizedBox(height: 20),
-          _buildForm(),
-          const Spacer(),
-          CustomButton(
-            onPressed: _onSubmit,
-            title: "Complete",
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            ChosenDoctor(bookeddoctor: widget.bookingDetail),
+            const SizedBox(height: 20),
+            PaymentMethod(
+              paymentData: widget.paymentMethod,
+              onChange: (value) {
+                setState(() {
+                  choice = value;
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            _buildPaymentDetails(),
+            const SizedBox(height: 20),
+            _buildForm(),
+            const SizedBox(height: 30),
+            CustomButton(
+              height: 50,
+              onPressed: _onSubmit,
+              title: "Complete",
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -97,7 +99,7 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            method.description ,
+            method.description,
             style: TextStyles.Bold16.copyWith(color: Colors.redAccent),
             textAlign: TextAlign.center,
           ),
@@ -107,11 +109,11 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
             style: TextStyles.Bold12.copyWith(color: Colors.black),
           ),
           Text(
-            "Account Number : ${method.accountNumber }",
+            "Account Number : ${method.accountNumber}",
             style: TextStyles.Bold12.copyWith(color: Colors.black),
           ),
           Text(
-            "Iban Number : ${method.iban }",
+            "Iban Number : ${method.iban}",
             style: TextStyles.Bold12.copyWith(color: Colors.black),
           ),
         ],
@@ -182,8 +184,6 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
         buildSnackbar(context, "You should login");
         // GoRouter.of(context).pushReplacement(AppRouter.KSignin);
       }
-
-     
     } else {
       setState(() {
         _autovalidateMode = AutovalidateMode.always;

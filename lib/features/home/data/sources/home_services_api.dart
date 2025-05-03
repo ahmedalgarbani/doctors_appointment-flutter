@@ -4,6 +4,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:doctors_appointment/core/network/end_points.dart';
 import 'package:doctors_appointment/core/services/database_service.dart';
+import 'package:doctors_appointment/features/home/data/models/review_request.dart';
+import 'package:doctors_appointment/features/home/data/models/speciality_response/review.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/services/api_service.dart';
@@ -12,6 +14,7 @@ import '../models/speciality_response/doctor.dart';
 import '../models/speciality_response/speciality_response.dart';
 
 class HomeServicesApi extends DatabaseService {
+  final _dio = getIt.get<ApiService>();
   @override
   Future<Either<Failure, bool>> addNewFavorite({required int doctorId}) async {
     try {
@@ -77,6 +80,35 @@ class HomeServicesApi extends DatabaseService {
       return Future.value(true);
     } catch (e) {
       return Future.value(false);
+    }
+  }
+
+  @override
+  Future<Review?> addReview({required ReviewRequest review}) async {
+    try {
+      final response = await _dio.post(
+        EndPoints.reviews,
+        data: {
+          'doctor': review.doctor,
+          'rating': review.rating,
+          'review': review.review,
+        },
+      );
+
+      if (response.statusCode == 201) {
+        print('✅ Review submitted successfully');
+        return Review.fromMap(response.data);
+      } else {
+        print('⚠️ Unexpected response: ${response.statusCode}');
+        return null;
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        print('❌ Error: ${e.response?.data}');
+      } else {
+        print('❌ Dio error: ${e.message}');
+      }
+      return null;
     }
   }
 }

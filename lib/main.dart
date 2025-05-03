@@ -22,7 +22,7 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await Pref.init();
   setup();
-  int authPatientId = await Pref.getInt(KauthUserId);
+  await Pref.getInt(KauthUserId);
   runApp(
     MultiBlocProvider(
       providers: [

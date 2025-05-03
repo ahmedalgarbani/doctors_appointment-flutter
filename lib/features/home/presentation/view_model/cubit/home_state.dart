@@ -1,5 +1,6 @@
 import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
 import 'package:equatable/equatable.dart';
+import '../../../data/models/speciality_response/review.dart';
 import '../../../data/models/speciality_response/speciality_response.dart';
 
 abstract class HomeState extends Equatable {
@@ -63,4 +64,20 @@ class HomeFailure extends HomeState {
 
   @override
   List<Object> get props => [message];
+}
+
+
+
+class ReviewLoading extends HomeState {}
+
+class ReviewSuccess extends HomeState {
+  final Review review;
+
+  ReviewSuccess(this.review);
+}
+
+class ReviewFailure extends HomeState {
+  final String error;
+
+  ReviewFailure(this.error);
 }

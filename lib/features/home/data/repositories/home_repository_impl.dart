@@ -3,7 +3,9 @@ import 'package:doctors_appointment/core/services/database_service.dart';
 import 'package:doctors_appointment/features/home/domain/repositories/home_repository.dart';
 
 import '../../../../core/error/failure.dart';
+import '../models/review_request.dart';
 import '../models/speciality_response/doctor.dart';
+import '../models/speciality_response/review.dart';
 import '../models/speciality_response/speciality_response.dart';
 
 class HomeRepositoryImpl extends HomeRepository {
@@ -19,6 +21,10 @@ class HomeRepositoryImpl extends HomeRepository {
   @override
   Future<List<Doctor>?> getAllFavourites() async {
     return await _databaseService.getAllFavourites();
+  }
+  @override
+  Future<Review?> addReview({required ReviewRequest review}) async {
+    return await _databaseService.addReview(review: review);
   }
 
   @override

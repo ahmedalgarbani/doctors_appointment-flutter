@@ -1,3 +1,4 @@
+//doctor_model.dart
 class DoctorModel {
   final int? id;
   final String name;

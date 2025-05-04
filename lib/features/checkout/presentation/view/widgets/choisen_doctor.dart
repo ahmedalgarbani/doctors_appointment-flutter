@@ -1,4 +1,3 @@
-
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/features/home/data/models/speciality_response/hospital.dart';
 import 'package:flutter/material.dart';

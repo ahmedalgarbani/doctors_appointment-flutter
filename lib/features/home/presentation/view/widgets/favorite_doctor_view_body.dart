@@ -1,4 +1,4 @@
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_horizantal_list.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/all_doctor_horizantal_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/style/app_color.dart';
@@ -11,12 +11,12 @@ class FavoriteDoctorViewBody extends StatelessWidget {
     required this.allDoctors,
     this.isSetting = false,
   });
+
   final List<Doctor> allDoctors;
   final bool? isSetting;
 
   @override
   Widget build(BuildContext context) {
-    // تحديد اللون بناءً على وضع الجهاز
     Color textColor = Theme.of(context).brightness == Brightness.dark
         ? Colors.white
         : Colors.black;
@@ -35,11 +35,11 @@ class FavoriteDoctorViewBody extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 22),
             child: Row(
               children: [
-                isSetting == true
-                    ? IconButton(
-                        onPressed: () => GoRouter.of(context).pop(),
-                        icon: Icon(Icons.arrow_back_ios))
-                    : SizedBox(),
+                if (isSetting == true)
+                  IconButton(
+                    onPressed: () => GoRouter.of(context).pop(),
+                    icon: const Icon(Icons.arrow_back_ios),
+                  ),
                 Text(
                   "Favorites Doctors",
                   style: TextStyles.Black20Bold.copyWith(color: textColor),
@@ -63,9 +63,28 @@ class FavoriteDoctorViewBody extends StatelessWidget {
               ],
             ),
           ),
-          DoctorHorizantalList(
-            allDoctors: allDoctors,
-            isGrid: true,
+
+          // ✅ استخدام الواجهة العمودية المفصلة
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            itemCount: allDoctors.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 16),
+            itemBuilder: (context, index) {
+              final doctor = allDoctors[index];
+              return DoctorListItem(
+                doctor: doctor,
+                onPressed: () {
+                  // الانتقال إلى صفحة تفاصيل الطبيب
+                  // يمكن تعديلها حسب التوجيه الموجود لديك
+                },
+                onBookingPressed: () {
+                  // تنفيذ الحجز للطبيب
+                  // يمكن تعديلها حسب التطبيق لديك
+                },
+              );
+            },
           ),
         ],
       ),

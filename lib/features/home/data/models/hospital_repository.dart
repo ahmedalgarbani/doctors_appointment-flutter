@@ -1,3 +1,5 @@
+//hospital_repository.dart
+
 import 'package:dartz/dartz.dart';
 import 'package:doctors_appointment/core/error/failure.dart';
 import 'package:doctors_appointment/core/models/hospital_model.dart';

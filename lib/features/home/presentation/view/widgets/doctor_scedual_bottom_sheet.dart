@@ -184,11 +184,11 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             DatePickerInputField(
-                hintText: "birthDate",
-                onDateSelected: (date) {
-                  _bookingDate = DateFormat('yyyy-MM-dd').format(date);
-                },
-              ),
+              hintText: "birthDate",
+              onDateSelected: (date) {
+                _bookingDate = DateFormat('yyyy-MM-dd').format(date);
+              },
+            ),
             const SizedBox(height: 20),
             const Text(
               'Days',
@@ -251,7 +251,6 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
                     _selectedTime != null &&
                     _selectedDay_id != null &&
                     _selectedTime_id != null) {
-                     
                   GoRouter.of(context).pushReplacement(
                     AppRouter.KCheckOutPageView,
                     extra: {

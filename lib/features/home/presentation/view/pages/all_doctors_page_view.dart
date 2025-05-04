@@ -1,14 +1,14 @@
-import 'package:doctors_appointment/core/style/text_style.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/in_active_item.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/top_rating_doctor/all_doctors_page_view_body.dart';
-import 'package:doctors_appointment/features/search/presentation/view_model/cubit/search_cubit.dart';
-import 'package:doctors_appointment/features/search/presentation/view_model/cubit/search_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/style/app_color.dart';
-import '../../../../search/presentation/view/widgets/filter_bottom_sheet.dart';
-import '../../../data/models/speciality_response/doctor.dart';
+import 'package:doctors_appointment/core/style/app_color.dart';
+import 'package:doctors_appointment/core/style/text_style.dart';
+import 'package:doctors_appointment/features/home/presentation/view/widgets/in_active_item.dart';
+import 'package:doctors_appointment/features/search/presentation/view/widgets/filter_bottom_sheet.dart';
+import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
+import 'package:doctors_appointment/features/search/presentation/view_model/cubit/search_cubit.dart';
+import 'package:doctors_appointment/features/search/presentation/view_model/cubit/search_state.dart';
 
 class AllDoctorsPageView extends StatefulWidget {
   const AllDoctorsPageView({super.key, this.allDoctors});
@@ -31,51 +31,47 @@ class _AllDoctorsPageViewState extends State<AllDoctorsPageView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: isDarkMode
-            ? Colors.black
-            : Colors.transparent,
+        backgroundColor: isDarkMode ? Colors.black : Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "All Doctors",
+          "جميع الأطباء",
           style: TextStyles.Bold16.copyWith(
-              color: isDarkMode
-                  ? Colors.white
-                  : Colors.black),
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
         ),
         actions: [
           UnActiveItem(
             icon: Icons.sort,
-            onPressed: () {
-              _showFilterBottomSheet(context);
-            },
-          )
+            onPressed: () => _showFilterBottomSheet(context),
+          ),
         ],
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: BlocConsumer<SearchCubit, SearchState>(
-              listener: (context, state) {
-            // if (state is SearchFailure) {
-            //   buildSnackbar(context, state.message);
-            // }
-          }, builder: (context, state) {
-            if (state is SearchedDataFilter) {
-              return AllDoctorsPageViewBody(
-                doctors: state.searchedDataFiltered ?? [],
-              );
-            } else if (state is SearchEmpty) {
-              return Text("no data came ");
-            } else {
-              return AllDoctorsPageViewBody(
-                doctors:
-                    widget.allDoctors?.length == 0 || widget.allDoctors == null
-                        ? []
-                        : widget.allDoctors!,
-              );
-            }
-          }),
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is SearchedDataFilter) {
+                return AllDoctorsPageViewBody(
+                  doctors: state.searchedDataFiltered ?? [],
+                  onBookingPressed: (doctorId, hospitalId) {
+                    // تنفيذ الحجز هنا
+                  },
+                );
+              } else if (state is SearchEmpty) {
+                return const Center(child: Text("لا توجد بيانات متاحة"));
+              } else {
+                return AllDoctorsPageViewBody(
+                  doctors: widget.allDoctors ?? [],
+                  onBookingPressed: (doctorId, hospitalId) {
+                    // تنفيذ الحجز هنا
+                  },
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -85,12 +81,9 @@ class _AllDoctorsPageViewState extends State<AllDoctorsPageView> {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      backgroundColor:
-          AppColor.whiteBackgrond,
+      backgroundColor: AppColor.whiteBackgrond,
       isScrollControlled: true,
       builder: (context) => const FilterBottomSheet(),
     );

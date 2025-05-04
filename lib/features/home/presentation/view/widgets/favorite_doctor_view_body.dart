@@ -51,8 +51,7 @@ class FavoriteDoctorViewBody extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     color: containerColor,
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Center(
                     child: Icon(
                       Icons.sort,

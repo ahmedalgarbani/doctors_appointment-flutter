@@ -1,4 +1,5 @@
 import 'package:doctors_appointment/core/router/router.dart';
+import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -91,6 +92,28 @@ class DoctorHorizantalListCard extends StatelessWidget {
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(width: 4),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 4,
+                    children: [
+                      Text(
+                        '${doctorModel.experienceYears ?? 0} سنوات خبرة',
+                        style: TextStyles.Regular12.copyWith(
+                          fontFamily: 'Cairo',
+                          color: Colors.grey,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Icon(
+                        Icons.work_outline,
+                        size: 14,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Divider(

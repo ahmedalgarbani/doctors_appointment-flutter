@@ -10,6 +10,7 @@ class DatePickerInputField extends StatefulWidget {
     this.initialDate,
     this.firstDate,
     this.lastDate,
+    this.isBooking = false, // ✅ متغير جديد
   });
 
   final Function(DateTime) onDateSelected;
@@ -17,6 +18,7 @@ class DatePickerInputField extends StatefulWidget {
   final DateTime? initialDate;
   final DateTime? firstDate;
   final DateTime? lastDate;
+  final bool isBooking; // ✅
 
   @override
   State<DatePickerInputField> createState() => _DatePickerInputFieldState();
@@ -27,13 +29,15 @@ class _DatePickerInputFieldState extends State<DatePickerInputField> {
 
   void _pickDate() async {
     final DateTime now = DateTime.now();
-    final DateTime today = DateTime(now.year, now.month, now.day); // بدون وقت
+    final DateTime today = DateTime(now.year, now.month, now.day);
 
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: widget.initialDate ?? today,
-      firstDate: widget.firstDate ?? today, // ✅ يبدأ من اليوم فقط
-      lastDate: widget.lastDate ?? DateTime(2100), // يمكنك تحديد حد أقصى لاحقًا
+      firstDate: widget.isBooking
+          ? widget.firstDate ?? today // ✅ لا يسمح بالتواريخ الماضية
+          : widget.firstDate ?? DateTime(1900),
+      lastDate: widget.lastDate ?? DateTime(2100),
     );
 
     if (pickedDate != null) {
@@ -54,8 +58,7 @@ class _DatePickerInputFieldState extends State<DatePickerInputField> {
           decoration: InputDecoration(
             hintText: _selectedDate == null
                 ? widget.hintText
-                : DateFormat('yyyy-MM-dd')
-                    .format(DateTime.parse(_selectedDate!)),
+                : DateFormat('yyyy-MM-dd').format(DateTime.parse(_selectedDate!)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(1),
               borderSide: BorderSide(

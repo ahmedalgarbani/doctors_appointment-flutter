@@ -184,7 +184,10 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             DatePickerInputField(
-              hintText: "birthDate",
+              hintText: "Select Booking Date",
+              firstDate: DateTime.now(), // ✅ لا يسمح بالتواريخ السابقة
+              lastDate: DateTime.now()
+                  .add(const Duration(days: 30)), // ✅ اختياري: 30 يوم فقط
               onDateSelected: (date) {
                 _bookingDate = DateFormat('yyyy-MM-dd').format(date);
               },

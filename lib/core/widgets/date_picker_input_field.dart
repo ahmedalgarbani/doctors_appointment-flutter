@@ -26,11 +26,14 @@ class _DatePickerInputFieldState extends State<DatePickerInputField> {
   String? _selectedDate;
 
   void _pickDate() async {
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day); // بدون وقت
+
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: widget.initialDate ?? DateTime.now(),
-      firstDate: widget.firstDate ?? DateTime(1900),
-      lastDate: widget.lastDate ?? DateTime(2100),
+      initialDate: widget.initialDate ?? today,
+      firstDate: widget.firstDate ?? today, // ✅ يبدأ من اليوم فقط
+      lastDate: widget.lastDate ?? DateTime(2100), // يمكنك تحديد حد أقصى لاحقًا
     );
 
     if (pickedDate != null) {
@@ -51,7 +54,8 @@ class _DatePickerInputFieldState extends State<DatePickerInputField> {
           decoration: InputDecoration(
             hintText: _selectedDate == null
                 ? widget.hintText
-                : DateFormat('yyyy-MM-dd').format(DateTime.parse(_selectedDate!)), 
+                : DateFormat('yyyy-MM-dd')
+                    .format(DateTime.parse(_selectedDate!)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(1),
               borderSide: BorderSide(

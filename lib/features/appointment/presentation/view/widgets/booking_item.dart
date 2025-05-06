@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../../../core/style/text_style.dart';
@@ -19,10 +18,7 @@ class BookingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPress ??
-          () {
-            
-          },
+      onTap: onPress ?? () {},
       child: Card(
         elevation: 2,
         shape: RoundedRectangleBorder(

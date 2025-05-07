@@ -86,7 +86,6 @@ class _HomePageViewState extends State<HomePageView> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     List<Widget> _pages = [
       HomePageViewCubit(),

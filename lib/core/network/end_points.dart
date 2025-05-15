@@ -19,4 +19,5 @@ class EndPoints {
   static const String doctor_filter = "doctors/filter/";
   static const String reviews = "reviews/";
   static const String payment = "payment/";
+  static const String change_password = "change-password/";
 }

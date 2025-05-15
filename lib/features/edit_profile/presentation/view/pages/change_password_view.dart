@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../logic/changepassword.dart';
+import '../../../logic/profile_method.dart';
 import '/core/style/app_color.dart';
 
 class ChangePasswordView extends StatefulWidget {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../../../logic/profile_method.dart';
+import '../../../logic/profile_model.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
@@ -12,23 +15,67 @@ class EditProfileView extends StatefulWidget {
 class _EditProfileViewState extends State<EditProfileView> {
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController();
-
-  File? _image;
   final picker = ImagePicker();
 
-  // نموذج البيانات الأولي
-  String firstName = "أحمد";
-  String lastName = "محمد";
-  String email = "ahmed@example.com";
-  String phone = "+967 777 123 456";
-  String address = "شارع التحرير";
-  String city = "صنعاء";
-  String state = "التحرير";
-  DateTime birthDate = DateTime(1990, 1, 1); 
-  String gender = "ذكر";
-  String age = "33";
-  String bloodGroup = "A+";
-  String notes = "";
+  bool _isLoading = true;
+  UserProfile? _profile;
+  File? _image;
+
+  // Profile fields
+  String firstName = '';
+  String lastName = '';
+  String email = '';
+  String phone = '';
+  String address = '';
+  String city = '';
+  String state = '';
+  DateTime birthDate = DateTime.now();
+  String gender = '';
+  String bloodGroup = '';
+  String notes = '';
+
+  // Mapping between backend values and UI dropdown values
+  static const Map<String, String> genderBackendToUi = {
+    'male': 'ذكر',
+    'female': 'أنثى',
+  };
+
+  static const Map<String, String> genderUiToBackend = {
+    'ذكر': 'male',
+    'أنثى': 'female',
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    try {
+      final profile = await ProfileMethod.getProfile();
+      setState(() {
+        _profile = profile;
+        firstName = profile.firstName;
+        lastName = profile.lastName;
+        email = profile.email;
+        phone = profile.mobileNumber;
+        address = profile.address;
+        city = profile.city ?? '';
+        state = profile.state ?? '';
+        birthDate =
+            DateTime.tryParse(profile.birthDate.toString()) ?? DateTime.now();
+        gender = genderBackendToUi[profile.gender.toLowerCase()] ?? '';
+        bloodGroup = profile.bloodGroup;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("فشل تحميل البيانات")),
+      );
+    }
+  }
 
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -39,7 +86,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     }
   }
 
-  // دالة لفتح تقويم اختيار التاريخ
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -61,8 +107,7 @@ class _EditProfileViewState extends State<EditProfileView> {
               ),
             ),
           ),
-          child: Directionality(
-            textDirection: TextDirection.rtl, // لجعل التقويم يبدأ من اليمين
+          child: Container(
             child: child!,
           ),
         );
@@ -71,33 +116,59 @@ class _EditProfileViewState extends State<EditProfileView> {
     if (picked != null && picked != birthDate) {
       setState(() {
         birthDate = picked;
-        // تحديث العمر تلقائياً عند تغيير تاريخ الميلاد
-        age = (DateTime.now().year - birthDate.year).toString();
       });
     }
   }
 
-  void _saveProfile() {
+  void _saveProfile() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // TODO: Send data to backend or Cubit
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('تم حفظ التعديلات بنجاح'),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
+
+      if (_profile == null) return;
+
+      final updatedProfile = _profile!.copyWith(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        mobileNumber: phone,
+        address: address,
+        city: city,
+        state: state,
+        birthDate: birthDate.toIso8601String(),
+        gender: genderUiToBackend[gender] ?? '',
+        bloodGroup: bloodGroup,
+        age: DateTime.now().year - birthDate.year,
       );
+
+      try {
+        await ProfileMethod.updateProfile(updatedProfile);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('تم حفظ التعديلات بنجاح'),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('فشل حفظ التعديلات')),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -111,8 +182,8 @@ class _EditProfileViewState extends State<EditProfileView> {
           ),
         ],
       ),
-      body: Directionality(
-        textDirection: TextDirection.rtl,
+      body: Container(
+        // textDirection: TextDirection.RTL,
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
@@ -121,7 +192,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // صورة الملف الشخصي
+                // Profile picture
                 Center(
                   child: Stack(
                     clipBehavior: Clip.none,
@@ -167,9 +238,11 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                // معلومات الشخصية
+
+                // Personal Information
                 _buildSectionHeader("المعلومات الشخصية"),
                 const SizedBox(height: 16),
+
                 Row(
                   children: [
                     Expanded(
@@ -183,7 +256,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: _buildTextField(
-                        "الاسم الأخير",
+                        "اسم العائلة",
                         initialValue: lastName,
                         onSaved: (val) => lastName = val!,
                         icon: Icons.person_outline,
@@ -192,6 +265,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ],
                 ),
                 const SizedBox(height: 16),
+
                 _buildTextField(
                   "البريد الإلكتروني",
                   keyboardType: TextInputType.emailAddress,
@@ -200,6 +274,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   icon: Icons.email_outlined,
                 ),
                 const SizedBox(height: 16),
+
                 _buildTextField(
                   "رقم الهاتف",
                   keyboardType: TextInputType.phone,
@@ -208,7 +283,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                   icon: Icons.phone_outlined,
                 ),
                 const SizedBox(height: 16),
-                // حقل تاريخ الميلاد الجديد مع زر التقويم
+
+                // Birth date field
                 InkWell(
                   onTap: () => _selectDate(context),
                   child: InputDecorator(
@@ -227,7 +303,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${birthDate.year}-${birthDate.month.toString().padLeft(2, '0')}-${birthDate.day.toString().padLeft(2, '0')}",
+                          DateFormat('yyyy-MM-dd').format(birthDate),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Icon(
@@ -239,14 +315,17 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ),
                 ),
                 const SizedBox(height: 16),
+
                 Row(
                   children: [
                     Expanded(
                       child: _buildDropdown(
                         "الجنس",
                         ["ذكر", "أنثى"],
-                        value: gender,
-                        onChanged: (val) => setState(() => gender = val!),
+                        value: gender.isEmpty ? null : gender,
+                        onChanged: (val) {
+                          if (val != null) setState(() => gender = val);
+                        },
                         icon: Icons.transgender,
                       ),
                     ),
@@ -255,18 +334,21 @@ class _EditProfileViewState extends State<EditProfileView> {
                       child: _buildTextField(
                         "العمر",
                         keyboardType: TextInputType.number,
-                        initialValue: age,
-                        onSaved: (val) => age = val!,
+                        initialValue:
+                            (DateTime.now().year - birthDate.year).toString(),
+                        onSaved: (val) {},
                         icon: Icons.cake_outlined,
-                        readOnly: true, // جعل حقل العمر للقراءة فقط
+                        readOnly: true,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 30),
-                // العنوان
+
+                // Address
                 _buildSectionHeader("العنوان"),
                 const SizedBox(height: 16),
+
                 _buildTextField(
                   "العنوان",
                   initialValue: address,
@@ -274,6 +356,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   icon: Icons.location_on_outlined,
                 ),
                 const SizedBox(height: 16),
+
                 Row(
                   children: [
                     Expanded(
@@ -287,7 +370,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: _buildTextField(
-                        "المديرية",
+                        "الولاية",
                         initialValue: state,
                         onSaved: (val) => state = val!,
                         icon: Icons.map_outlined,
@@ -296,9 +379,11 @@ class _EditProfileViewState extends State<EditProfileView> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                // معلومات طبية
+
+                // Medical Information
                 _buildSectionHeader("معلومات طبية"),
                 const SizedBox(height: 16),
+
                 _buildDropdown(
                   "فصيلة الدم",
                   ["A-", "A+", "B-", "B+", "AB-", "AB+", "O-", "O+"],
@@ -307,15 +392,11 @@ class _EditProfileViewState extends State<EditProfileView> {
                   icon: Icons.bloodtype_outlined,
                 ),
                 const SizedBox(height: 16),
-                _buildTextField(
-                  "ملاحظات",
-                  initialValue: notes,
-                  onSaved: (val) => notes = val!,
-                  maxLines: 3,
-                  icon: Icons.notes_outlined,
-                ),
+
+               
                 const SizedBox(height: 30),
-                // زر الحفظ
+
+                // Save button
                 ElevatedButton(
                   onPressed: _saveProfile,
                   style: ElevatedButton.styleFrom(
@@ -378,6 +459,8 @@ class _EditProfileViewState extends State<EditProfileView> {
         ),
         alignLabelWithHint: true,
       ),
+      validator: (value) =>
+          value == null || value.isEmpty ? 'هذا الحقل مطلوب' : null,
       onSaved: onSaved,
     );
   }
@@ -385,7 +468,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   Widget _buildDropdown(
     String label,
     List<String> items, {
-    required String value,
+    required String? value,
     required void Function(String?) onChanged,
     IconData? icon,
   }) {
@@ -414,6 +497,8 @@ class _EditProfileViewState extends State<EditProfileView> {
       icon: Icon(Icons.arrow_drop_down,
           color: Theme.of(context).textTheme.bodyLarge?.color),
       alignment: Alignment.centerRight,
+      validator: (value) =>
+          value == null || value.isEmpty ? 'هذا الحقل مطلوب' : null,
     );
   }
 }

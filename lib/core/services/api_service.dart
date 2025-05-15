@@ -31,7 +31,7 @@ class ApiService extends ApiConsumer {
       return response;
     } on DioException catch (e) {
       log(e.toString());
-      throw ServerFailure.fromDiorError(e);
+      throw e;
     } catch (ex) {
       log(ex.toString());
       throw Exception(ex.toString());

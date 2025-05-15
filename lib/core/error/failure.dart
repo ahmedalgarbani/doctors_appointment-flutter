@@ -70,4 +70,47 @@ class ServerFailure extends Failure {
           errorMessage: 'There was an error, please try again');
     }
   }
+
+  factory ServerFailure.fromResponseError(DioException error) {
+    try {
+      if (error.response?.data is Map<String, dynamic>) {
+        final data = error.response!.data;
+
+        if (data.containsKey('detail')) {
+          return ServerFailure(errorMessage: data['detail']);
+        }
+
+        if (data.containsKey('old_password')) {
+          return ServerFailure(errorMessage: data['old_password'][0]);
+        }
+
+        if (data.isNotEmpty) {
+          final errors = data.entries.map((entry) {
+            final value = entry.value;
+            if (value is List && value.isNotEmpty) {
+              return "${entry.key}: ${value.first}";
+            } else {
+              return "${entry.key}: $value";
+            }
+          }).join("\n");
+
+          return ServerFailure(errorMessage: errors);
+        }
+      }
+
+      return ServerFailure(
+          errorMessage: "حدث خطأ غير متوقع. الرجاء المحاولة لاحقاً.");
+    } catch (e) {
+      log(e.toString());
+      log(e.toString());
+      log(e.toString());
+      log(e.toString());
+      log(e.toString());
+      return ServerFailure(
+          errorMessage: "فشل في الاتصال بالخادم."); // this print
+    }
+  }
+
+  @override
+  String toString() => errorMessage;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../logic/changepassword.dart';
 import '/core/style/app_color.dart';
 
 class ChangePasswordView extends StatefulWidget {
@@ -17,27 +18,57 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   String oldPassword = '';
   String newPassword = '';
   String confirmPassword = '';
+  final oldPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   // متغيرات لإظهار/إخفاء كلمة المرور
   bool _showOldPassword = false;
   bool _showNewPassword = false;
   bool _showConfirmPassword = false;
+  @override
+  void dispose() {
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
-  void _changePassword() {
+  void _changePassword() async {
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      // TODO: إرسال البيانات للخادم أو Cubit
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('تم تغيير كلمة المرور بنجاح'),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          backgroundColor: AppColor.primaryColor,
-        ),
-      );
-      Navigator.pop(context);
+      try {
+        await ProfileMethod.changePassword(
+          oldPassword: oldPasswordController.text,
+          newPassword: newPasswordController.text,
+        );
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('تم تغيير كلمة المرور بنجاح'),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              backgroundColor: AppColor.primaryColor,
+            ),
+          );
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(e.toString()),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -77,43 +108,42 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                
+
                 // كلمة المرور القديمة
                 _buildSectionHeader("تغيير كلمة المرور"),
                 const SizedBox(height: 16),
-                
+
+                // كلمة المرور القديمة
                 _buildPasswordField(
                   "كلمة المرور الحالية",
-                  onSaved: (val) => oldPassword = val!,
+                  controller: oldPasswordController,
                   obscureText: !_showOldPassword,
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _showOldPassword ? Icons.visibility : Icons.visibility_off,
-                      color: theme.hintColor,
+                      _showOldPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     onPressed: () {
-                      setState(() {
-                        _showOldPassword = !_showOldPassword;
-                      });
+                      setState(() => _showOldPassword = !_showOldPassword);
                     },
                   ),
                 ),
                 const SizedBox(height: 16),
-                
-                // كلمة المرور الجديدة
+
+// كلمة المرور الجديدة
                 _buildPasswordField(
                   "كلمة المرور الجديدة",
-                  onSaved: (val) => newPassword = val!,
+                  controller: newPasswordController,
                   obscureText: !_showNewPassword,
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _showNewPassword ? Icons.visibility : Icons.visibility_off,
-                      color: theme.hintColor,
+                      _showNewPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     onPressed: () {
-                      setState(() {
-                        _showNewPassword = !_showNewPassword;
-                      });
+                      setState(() => _showNewPassword = !_showNewPassword);
                     },
                   ),
                   validator: (value) {
@@ -127,32 +157,36 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   },
                 ),
                 const SizedBox(height: 16),
-                
-                // تأكيد كلمة المرور الجديدة
+
+// تأكيد كلمة المرور
                 _buildPasswordField(
                   "تأكيد كلمة المرور الجديدة",
-                  onSaved: (val) => confirmPassword = val!,
+                  controller: confirmPasswordController,
                   obscureText: !_showConfirmPassword,
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _showConfirmPassword ? Icons.visibility : Icons.visibility_off,
-                      color: theme.hintColor,
+                      _showConfirmPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     onPressed: () {
-                      setState(() {
-                        _showConfirmPassword = !_showConfirmPassword;
-                      });
+                      setState(
+                          () => _showConfirmPassword = !_showConfirmPassword);
                     },
                   ),
                   validator: (value) {
-                    if (value != newPassword) {
-                      return 'كلمة المرور غير متطابقة';
+                    if (value == null || value.isEmpty) {
+                      return 'الرجاء تأكيد كلمة المرور';
+                    }
+                    if (value != newPasswordController.text) {
+                      return 'كلمتا المرور غير متطابقتين';
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 30),
-                
+
+                const SizedBox(height: 16),
+
                 // زر الحفظ
                 ElevatedButton(
                   onPressed: _changePassword,
@@ -188,12 +222,13 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
 
   Widget _buildPasswordField(
     String label, {
-    required void Function(String?) onSaved,
+    required TextEditingController controller,
     required bool obscureText,
     required Widget suffixIcon,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
+      controller: controller,
       textAlign: TextAlign.right,
       obscureText: obscureText,
       decoration: InputDecoration(
@@ -202,9 +237,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Theme.of(context).dividerColor,
-          ),
         ),
         fillColor: Theme.of(context).cardColor,
         contentPadding: const EdgeInsets.symmetric(
@@ -212,7 +244,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           vertical: 14,
         ),
       ),
-      onSaved: onSaved,
       validator: validator,
       inputFormatters: [
         FilteringTextInputFormatter.deny(RegExp(r'\s')), // منع المسافات

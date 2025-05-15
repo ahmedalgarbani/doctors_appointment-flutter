@@ -24,15 +24,15 @@ class SpecialistCard extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
+          Text("تخصص", style: TextStyles.Bold16),
+          SizedBox(
+            height: 5,
+          ),
           Text(specialistModel!.name!, style: TextStyles.Bold16),
           SizedBox(
             height: 5,
           ),
-          Text("speciality", style: TextStyles.Bold16),
-          SizedBox(
-            height: 5,
-          ),
-          Text("${specialistModel!.doctors?.length} doctors",
+          Text("${specialistModel!.doctors?.length} اطباء",
               style: TextStyles.Bold16)
         ],
       ),

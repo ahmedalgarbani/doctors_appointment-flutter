@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/core/network/end_points.dart';
 import 'package:doctors_appointment/features/home/data/models/speciality_response/review.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,12 @@ class ReviewItem extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 20,
-            backgroundImage: review.profilePicture != null
-                ? NetworkImage(review.profilePicture ?? '')
-                : AssetImage(AppImage.doctor01),
+            backgroundImage: (review.profilePicture != null &&
+                    review.profilePicture!.isNotEmpty)
+                ? NetworkImage(review.profilePicture!.startsWith('http')
+                    ? review.profilePicture!
+                    : '${EndPoints.imageBaseUrl}${review.profilePicture}')
+                : const AssetImage(AppImage.doctor01) as ImageProvider,
           ),
           const SizedBox(width: 12),
           Expanded(

@@ -17,12 +17,12 @@ class TabHeaderButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         TabHeaderItem(
-          title: "Upcoming",
+          title: "قادم",
           isActive: activeTab == 0,
           onTap: () => onTabChange(0),
         ),
         TabHeaderItem(
-          title: "Past",
+          title: "ماضي",
           isActive: activeTab == 1,
           onTap: () => onTabChange(1),
         ),

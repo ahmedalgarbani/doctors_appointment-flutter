@@ -5,8 +5,8 @@ class NotificationModel {
   final String status;
   final String notificationType;
   final String createdAt;
-  final String senderName;     // ✅
-  final String senderEmail;    // ✅
+  final String senderName;
+  final String senderEmail;
 
   NotificationModel({
     required this.message,
@@ -23,8 +23,8 @@ class NotificationModel {
       status: json['status'],
       notificationType: json['notification_type'],
       createdAt: json['created_at'],
-      senderName: json['sender_name'],     // ✅
-      senderEmail: json['sender_email'],   // ✅
+      senderName: json['sender_name'],
+      senderEmail: json['sender_email'],
     );
   }
 

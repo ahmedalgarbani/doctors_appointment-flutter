@@ -51,14 +51,14 @@ class BookingItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'Doctor: ${bookingModel.doctor_name}',
+                      'د. ${bookingModel.doctor_name}',
                       style: TextStyles.Bold12.copyWith(color: Colors.grey),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'Date: ${bookingModel.bookingDate}',
+                      'تاريخ: ${bookingModel.bookingDate}',
                       style: TextStyles.Bold12.copyWith(color: Colors.black),
                     ),
                     const SizedBox(height: 5),

@@ -27,7 +27,7 @@ class _AppointmentPageViewBodyState extends State<AppointmentPageViewBody> {
     return Column(
       children: [
         HomePageHeader(
-          title: "My Appointment",
+          title: "حجوزاتي",
           iconData: Icons.add_circle,
           onPressed: () {
             GoRouter.of(context).push(AppRouter.KHomePage);

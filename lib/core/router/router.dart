@@ -3,6 +3,10 @@ import 'dart:developer';
 import 'package:doctors_appointment/features/Splash/presenttation/view/splash_page.dart';
 import 'package:doctors_appointment/features/auth/presentation/view/signup_page_view.dart';
 import 'package:doctors_appointment/features/auth/presentation/view/signin_page_view.dart';
+import 'package:doctors_appointment/features/blog/data/model/blog_model.dart';
+import 'package:doctors_appointment/features/blog/presentation/cubit/blog_cubit.dart';
+import 'package:doctors_appointment/features/blog/presentation/view/pages/blog_detail_page.dart';
+import 'package:doctors_appointment/features/blog/presentation/view/pages/blog_list_page.dart';
 import 'package:doctors_appointment/features/checkout/presentation/view/pages/check_out_page_view.dart';
 import 'package:doctors_appointment/features/checkout/presentation/view/pages/checkout_done_page_view.dart';
 import 'package:doctors_appointment/features/edit_profile/presentation/view/pages/change_password_view.dart';
@@ -15,6 +19,7 @@ import 'package:doctors_appointment/features/home/presentation/view/pages/all_do
 import 'package:doctors_appointment/features/notification/presentation/view/pages/notification_page_view.dart';
 import 'package:doctors_appointment/features/onBoarding/presenttation/view/OnBoarding.dart';
 import 'package:doctors_appointment/features/search/presentation/view/pages/search_page_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/data/models/speciality_response/doctor.dart';
@@ -37,6 +42,8 @@ abstract class AppRouter {
   static const String KSigninOrSignUp = '/KSigninOrSignUp';
   static const String KEditProfileView = '/KEditProfileView';
   static const String KChangePasswordView = '/KChangePasswordView';
+  static const String KBlogListPage = '/KBlogListPage';
+  static const String KBlogDetailPage = '/KBlogDetailPage';
 
   static final router = GoRouter(
     routes: [
@@ -126,6 +133,21 @@ abstract class AppRouter {
       GoRoute(
         path: KChangePasswordView,
         builder: (context, state) => const ChangePasswordView(),
+      ),
+      GoRoute(
+  path: AppRouter.KBlogListPage,
+  builder: (context, state) => BlocProvider(
+    create: (_) => BlogCubit(),
+    child: const BlogListPage(),
+  ),
+),
+
+      GoRoute(
+        path: KBlogDetailPage,
+        builder: (context, state) {
+          final post = state.extra as BlogPost;
+          return BlogDetailPage(post: post);
+        },
       ),
     ],
   );

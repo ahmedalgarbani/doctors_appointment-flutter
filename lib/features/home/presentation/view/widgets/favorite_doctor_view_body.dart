@@ -41,7 +41,7 @@ class FavoriteDoctorViewBody extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                 Text(
-                  "Favorites Doctors",
+                  "الاطباء المفضلين",
                   style: TextStyles.Black20Bold.copyWith(color: textColor),
                 ),
                 const Spacer(),
@@ -51,7 +51,8 @@ class FavoriteDoctorViewBody extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     color: containerColor,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Center(
                     child: Icon(
                       Icons.sort,

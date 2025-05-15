@@ -148,7 +148,7 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Hospitals',
+              'المستشفى',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
@@ -180,11 +180,11 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
             ),
             const SizedBox(height: 20),
             const Text(
-              'Booking Date',
+              'تاريخ الحجز',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             DatePickerInputField(
-              hintText: "Select Booking Date",
+              hintText: "حدد تاريخ الحجز",
               isBooking: true,
               firstDate: DateTime.now(),
               lastDate: DateTime.now().add(const Duration(days: 30)),
@@ -194,7 +194,7 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
             ),
             const SizedBox(height: 20),
             const Text(
-              'Days',
+              'اليوم',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
@@ -220,7 +220,7 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
             const SizedBox(height: 20),
             if (_selectedDay != null) ...[
               const Text(
-                'Times',
+                'الوقت',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
@@ -247,7 +247,7 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
             ],
             CustomButton(
               height: 55,
-              title: "Apply",
+              title: "حجز",
               onPressed: () {
                 if (_selectedHospital != null &&
                     _selectedDay != null &&
@@ -276,7 +276,7 @@ class _DoctorScedualBottomSheetState extends State<DoctorScedualBottomSheet> {
             TextButton(
               onPressed: _clearSelections,
               child: Text(
-                "Clear the Filter",
+                "مسح الفلتر",
                 style: TextStyles.Bold12.copyWith(color: Colors.grey),
               ),
             ),

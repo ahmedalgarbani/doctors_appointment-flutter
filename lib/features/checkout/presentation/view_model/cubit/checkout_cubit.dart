@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import '../../../data/models/booking_payment_temp.dart';
 import '../../../data/repositories/payment_repository.dart';
 import 'checkout_state.dart';
 
@@ -34,10 +35,10 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       emit(CheckoutFailure(message: "cannot fetch payments method"));
     }
   }
-Future<bool> makeappointment({Map<String, dynamic>? data}) async {
-  log(data.toString());
+Future<bool> makeappointment({BookingPaymentTemp? bookingtemp}) async {
+  log(bookingtemp.toString());
   try {
-    final result = await paymentRepository.makeappointment(data: data!);
+    final result = await paymentRepository.makeappointment(bookingtemp: bookingtemp);
 
     return result.fold(
       (failure) {

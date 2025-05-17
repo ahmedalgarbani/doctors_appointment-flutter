@@ -7,6 +7,7 @@ import 'package:doctors_appointment/core/network/end_points.dart';
 import 'package:doctors_appointment/core/services/get_it.dart';
 
 import '../../../../core/services/api_service.dart';
+import '../../data/models/booking_payment_temp.dart';
 import '../../data/models/payment_method_model.dart';
 import '../../data/repositories/payment_repository.dart';
 
@@ -49,11 +50,19 @@ class PaymentRepositoryImpl implements PaymentRepository {
 
   @override
   Future<Either<Failure, void>> makeappointment(
-      {Map<String, dynamic>? data}) async {
+      {BookingPaymentTemp? bookingtemp}) async {
     try {
-      final response = await _apiService.post(
+      final formData = await bookingtemp!.toFormData();
+
+      final response = await _apiService.postFormData(
         EndPoints.createBooking,
-        data: data,
+        data: formData,
+        options: Options(
+          headers: {
+            "Content-Type":
+                "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+          },
+        ),
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
@@ -95,7 +104,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
         "payment_method": data['payment_method'],
         "payment_subtotal": data['payment_subtotal'],
         "payment_totalamount": data['payment_totalamount'],
-        "payment_notes": "Paid from mobile app",
+        "payment_notes": "Paid from mobile app"
       };
 
       final response = await _apiService.post(

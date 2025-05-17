@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:doctors_appointment/features/checkout/data/models/booking_payment_temp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/helpers/save_image_to_system_file.dart';
+import '../../../../../core/widgets/image_picker_input.dart';
 import '../../../../home/data/models/speciality_response/doctor.dart';
 import '../../../../home/data/models/speciality_response/hospital.dart';
 import 'payment_method.dart';
@@ -33,6 +38,7 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
   late String senderName;
   late String transactionNumber;
   late String doctorPrice;
+  late File _pickImage;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
@@ -125,37 +131,7 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
     return Form(
       autovalidateMode: _autovalidateMode,
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            onSaved: (value) => senderName = value!,
-            validator: (value) =>
-                value!.isEmpty ? "Sender Name is required" : null,
-            decoration: InputDecoration(
-              labelText: "Enter sender name",
-              labelStyle: TextStyles.Bold12.copyWith(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: _buildOutLinedBorder(),
-              focusedBorder: _buildOutLinedBorder(),
-            ),
-          ),
-          const SizedBox(height: 15),
-          TextFormField(
-            onSaved: (value) => transactionNumber = value!,
-            validator: (value) =>
-                value!.isEmpty ? "Transaction Number is required" : null,
-            decoration: InputDecoration(
-              labelText: "Enter a Transaction Number",
-              labelStyle: TextStyles.Bold12.copyWith(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: _buildOutLinedBorder(),
-              focusedBorder: _buildOutLinedBorder(),
-            ),
-          ),
-        ],
-      ),
+      child: _buildImagePicker(),
     );
   }
 
@@ -163,18 +139,20 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final cubit = context.read<CheckoutCubit>();
-      final result = await cubit.makeappointment(data: {
-        "doctor": widget.bookingDetail['doctor'].id,
-        "hospital": widget.bookingDetail['hospital'].id,
-        "appointment_date": widget.bookingDetail['day_id'],
-        "appointment_time": widget.bookingDetail['time_id'],
-        "booking_date": widget.bookingDetail['booking_date'],
-        "amount": doctorPrice,
-        "payment_method": widget.paymentMethod[choice].id,
-        "transfer_number": transactionNumber,
-        "sender_name": senderName,
-        "payment_notes": "paid from mobile app",
-      });
+      final imagePath = await saveImageToSystemFile(imageFile: _pickImage);
+
+      final result = await cubit.makeappointment(
+        bookingtemp: BookingPaymentTemp(
+            doctor: widget.bookingDetail['doctor'].id,
+            hospital: widget.bookingDetail['hospital'].id,
+            appointmentDate: widget.bookingDetail['day_id'],
+            appointmentTime: widget.bookingDetail['time_id'],
+            amount: doctorPrice,
+            booking_date: widget.bookingDetail['booking_date'],
+            paymentMethod: widget.paymentMethod[choice].id,
+            paymentNotes: "paid from mobile app",
+            paymentReceiptPath: imagePath),
+      );
 
       if (!mounted) return;
 
@@ -189,6 +167,12 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
         _autovalidateMode = AutovalidateMode.always;
       });
     }
+  }
+
+  Widget _buildImagePicker() {
+    return ImagePickerInputField(
+      onImageSelected: (image) => _pickImage = image!,
+    );
   }
 
   OutlineInputBorder _buildOutLinedBorder() {

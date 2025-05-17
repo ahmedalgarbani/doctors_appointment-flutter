@@ -108,11 +108,6 @@ class Patient {
       "address": address,
       "birth_date": birthDate,
       "gender": gender,
-      "join_date": joinDate,
-      "weight": "155",
-      "height": "66",
-      "age": "99",
-      "blood_group": "A-"
     };
 
     if (profilePicture != null) {

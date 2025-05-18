@@ -2,7 +2,6 @@ import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/features/home/data/models/speciality_response/doctor.dart';
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_image.dart';
-import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/doctor_item_list.dart';
 import 'package:flutter/material.dart';
 
 class DoctorHeader extends StatelessWidget {

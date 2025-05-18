@@ -21,15 +21,10 @@ class _HomePageViewCubitState extends State<HomePageViewCubit> {
     context.read<HomeCubit>().getHomeFeatures();
     context.read<FavoritesCubit>().getAllFavorites();
   }
-  checkStatus() async {
-    await context.read<AuthCubit>().loadAuthUserId();
-    await context.read<AuthCubit>().isAuth;
-    log("user status ${context.read<AuthCubit>().isAuth}");
-  }
+  
   @override
   void initState() {
     getHomeFeatures();
-    checkStatus();
 
     super.initState();
   }

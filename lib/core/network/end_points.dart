@@ -1,6 +1,6 @@
 class EndPoints {
-  static const String imageBaseUrl = "http://192.168.8.200:8000";
-  static const String baseUrl = "http://192.168.8.200:8000/api/";
+  static const String imageBaseUrl = "http://192.168.8.175:8000";
+  static const String baseUrl = "http://192.168.8.175:8000/api/";
   static const String refreshToken = "token/refresh/";
   static const String login = "login/";
   static const String logout = "logout/";

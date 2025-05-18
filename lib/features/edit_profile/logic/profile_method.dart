@@ -58,6 +58,7 @@ class ProfileMethod {
     try {
       final response = await dio.put(
         EndPoints.profile,
+        data: 
         profile.toJson(),
       );
 

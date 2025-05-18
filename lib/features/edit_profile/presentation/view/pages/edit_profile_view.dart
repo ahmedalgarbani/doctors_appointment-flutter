@@ -1,7 +1,3 @@
-import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/address_section.dart';
-import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/medical_info_section.dart';
-import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/personal_info_section.dart';
-import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/profile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +10,12 @@ class EditProfileView extends StatelessWidget {
 
   @override
   State<EditProfileView> createState() => _EditProfileViewState();
+  
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
 }
 
 class _EditProfileViewState extends State<EditProfileView> {

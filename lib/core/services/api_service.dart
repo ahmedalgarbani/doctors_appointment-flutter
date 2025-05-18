@@ -4,6 +4,7 @@ import 'package:doctors_appointment/core/network/dio_consumer.dart';
 import 'package:doctors_appointment/core/services/get_it.dart';
 import 'package:flutter/widgets.dart';
 import '../network/api_consumer.dart';
+import 'dart:developer';
 
 class ApiService extends ApiConsumer {
   final Dio _dio = DioConsumer(client: getIt.get<Dio>()).client;

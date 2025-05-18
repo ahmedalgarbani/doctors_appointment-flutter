@@ -13,19 +13,10 @@ class BlogDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('تفاصيل المقال', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('تفاصيل المقال',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.share),
-            onPressed: () => _sharePost(context),
-          ),
-          IconButton(
-            icon: Icon(Icons.bookmark_border),
-            onPressed: () => _bookmarkPost(),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -62,9 +53,11 @@ class BlogDetailPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.broken_image, size: 60, color: Colors.grey[500]),
+                          Icon(Icons.broken_image,
+                              size: 60, color: Colors.grey[500]),
                           SizedBox(height: 8),
-                          Text('تعذر تحميل الصورة', style: TextStyle(color: Colors.grey[600])),
+                          Text('تعذر تحميل الصورة',
+                              style: TextStyle(color: Colors.grey[600])),
                         ],
                       ),
                     ),
@@ -87,7 +80,7 @@ class BlogDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // محتوى المقال
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -102,24 +95,25 @@ class BlogDetailPage extends StatelessWidget {
                       height: 1.3,
                     ),
                   ),
-                  
+
                   SizedBox(height: 16),
-                  
+
                   // معلومات النشر
                   Row(
                     children: [
                       // CircleAvatar(
                       //   radius: 16,
                       //   backgroundImage: NetworkImage(post.authorImageUrl ?? ''),
-                      //   child: post.authorImageUrl == null 
+                      //   child: post.authorImageUrl == null
                       //       ? Icon(Icons.person, size: 16)
                       //       : null,
                       // ),
                       SizedBox(width: 8),
-                     
+
                       Spacer(),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: theme.primaryColor.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
@@ -134,9 +128,9 @@ class BlogDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   SizedBox(height: 24),
-                  
+
                   // محتوى المقال
                   Text(
                     post.content,
@@ -145,9 +139,9 @@ class BlogDetailPage extends StatelessWidget {
                       wordSpacing: 1,
                     ),
                   ),
-                  
+
                   SizedBox(height: 32),
-                  
+
                   // إحصائيات المقال
                   Container(
                     padding: EdgeInsets.all(16),
@@ -158,15 +152,14 @@ class BlogDetailPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildStatItem(Icons.remove_red_eye, '${post.views} مشاهدة'),
-                        // _buildStatItem(Icons.favorite_border, '${post.likes} إعجاب'),
-                        // _buildStatItem(Icons.comment, '${post.comments} تعليق'),
+                        _buildStatItem(
+                            Icons.remove_red_eye, '${post.views} مشاهدة'),
                       ],
                     ),
                   ),
-                  
+
                   SizedBox(height: 24),
-                  
+
                   // وسوم المقال
                   // if (post.tags != null && post.tags!.isNotEmpty) ...[
                   //   Wrap(
@@ -181,33 +174,11 @@ class BlogDetailPage extends StatelessWidget {
                   //   ),
                   //   SizedBox(height: 24),
                   // ],
-                  
-                  // زر المشاركة
-                  Center(
-                    child: ElevatedButton.icon(
-                      icon: Icon(Icons.share),
-                      label: Text('مشاركة المقال'),
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () => _sharePost(context),
-                    ),
-                  ),
                 ],
               ),
             ),
           ],
         ),
-      ),
-      
-      // زر التعليقات العائم
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _navigateToComments(context),
-        child: Icon(Icons.comment),
-        tooltip: 'التعليقات',
       ),
     );
   }
@@ -223,18 +194,7 @@ class BlogDetailPage extends StatelessWidget {
     );
   }
 
-  void _sharePost(BuildContext context) {
-    // تنفيذ مشاركة المقال
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('جاري إعداد المقال للمشاركة...')),
-    );
-  }
-
   void _bookmarkPost() {
     // تنفيذ حفظ المقال
-  }
-
-  void _navigateToComments(BuildContext context) {
-    // التنقل إلى قسم التعليقات
   }
 }

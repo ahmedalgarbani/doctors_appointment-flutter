@@ -49,8 +49,8 @@ void main() async {
           create: (_) => SearchCubit(getIt.get<SearchRepository>()),
         ),
         BlocProvider(
-        create: (_) => BlogCubit(),
-      ),
+          create: (_) => BlogCubit()..fetchBlogPosts(),
+        ),
       ],
       child: const MyApp(),
     ),

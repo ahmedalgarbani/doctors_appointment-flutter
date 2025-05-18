@@ -9,7 +9,7 @@ class BlogCard extends StatelessWidget {
   const BlogCard({
     required this.post,
     required this.onTap,
-    this.cardHeight = 320, 
+    this.cardHeight = 320,
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +34,7 @@ class BlogCard extends StatelessWidget {
           ],
         ),
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(), 
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

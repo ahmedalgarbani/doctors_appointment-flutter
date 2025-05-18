@@ -12,18 +12,18 @@ class BlogInitial extends BlogState {}
 class BlogLoading extends BlogState {}
 
 class BlogLoaded extends BlogState {
-  final List<BlogPost> posts;
-
   const BlogLoaded(this.posts);
+
+  final List<BlogPost> posts;
 
   @override
   List<Object> get props => [posts];
 }
 
 class BlogError extends BlogState {
-  final String message;
-
   const BlogError(this.message);
+
+  final String message;
 
   @override
   List<Object> get props => [message];

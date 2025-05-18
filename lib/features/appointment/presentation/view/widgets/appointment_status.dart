@@ -2,53 +2,114 @@ import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentStatusWidget extends StatelessWidget {
-  final String status;
+  final AppointmentStatus status;
+  final bool compactMode;
 
-  final List<Map<String, dynamic>> statusList = [
-    {
-      'code': 0,
-      'name': 'pending',
-      'color': Colors.orange,
-    },
-    {
-      'code': 1,
-      'name': 'confirmed',
-      'color': Colors.green,
-    },
-    {
-      'code': 2,
-      'name': 'cancelled',
-      'color': Colors.red,
-    },
-    {
-      'code': 3,
-      'name': 'completed',
-      'color': const Color.fromARGB(255, 0, 72, 255),
-    },
-  ];
-
-  AppointmentStatusWidget({super.key, required this.status});
+  const AppointmentStatusWidget({
+    super.key,
+    required this.status,
+    this.compactMode = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final statusData = statusList.firstWhere(
-      (e) => e['name'].toLowerCase() == status.toLowerCase(), 
-      orElse: () => {'name': 'Unknown', 'color': Colors.grey},
-    );
+    final statusData = _statusData[status] ?? _unknownStatus;
+    final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: compactMode
+          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 3)
+          : const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: (statusData['color'] as Color).withOpacity(0.2),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        statusData['name'] as String,
-        style: TextStyles.Bold12.copyWith(
-          color: statusData['color'] as Color,
-          fontSize: 10,
+        color: statusData.color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(
+          color: statusData.color.withOpacity(0.3),
+          width: 0.5,
         ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (!compactMode) ...[
+            Icon(
+              statusData.icon,
+              size: 14,
+              color: statusData.color,
+            ),
+            const SizedBox(width: 4),
+          ],
+          Text(
+            _getLocalizedStatusName(context, statusData.name),
+            style: TextStyles.Bold12.copyWith(
+              color: statusData.color,
+              fontSize: compactMode ? 10 : 12,
+            ),
+          ),
+        ],
       ),
     );
   }
+
+  String _getLocalizedStatusName(BuildContext context, String status) {
+    // يمكنك استبدال هذا بمنظومة الترجمة الخاصة بك
+    return switch (status.toLowerCase()) {
+      'pending' => 'قيد الانتظار',
+      'confirmed' => 'مؤكد',
+      'cancelled' => 'ملغى',
+      'completed' => 'مكتمل',
+      _ => 'غير معروف',
+    };
+  }
+
+  // تعريف بيانات الحالات بشكل أكثر احترافية
+  static const _statusData = {
+    AppointmentStatus.pending: _StatusData(
+      name: 'pending',
+      color: Colors.orange,
+      icon: Icons.access_time_outlined,
+    ),
+    AppointmentStatus.confirmed: _StatusData(
+      name: 'confirmed',
+      color: Colors.green,
+      icon: Icons.check_circle_outline,
+    ),
+    AppointmentStatus.cancelled: _StatusData(
+      name: 'cancelled',
+      color: Colors.red,
+      icon: Icons.cancel_outlined,
+    ),
+    AppointmentStatus.completed: _StatusData(
+      name: 'completed',
+      color: Colors.blue,
+      icon: Icons.verified_outlined,
+    ),
+  };
+
+  static const _unknownStatus = _StatusData(
+    name: 'unknown',
+    color: Colors.grey,
+    icon: Icons.help_outline,
+  );
+}
+
+// أنواع الحالات كـ enum لتحسين سلامة الكود
+enum AppointmentStatus {
+  pending,
+  confirmed,
+  cancelled,
+  completed,
+}
+
+// نموذج بيانات الحالة
+class _StatusData {
+  final String name;
+  final Color color;
+  final IconData icon;
+
+  const _StatusData({
+    required this.name,
+    required this.color,
+    required this.icon,
+  });
 }

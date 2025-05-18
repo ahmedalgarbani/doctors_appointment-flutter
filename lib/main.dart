@@ -2,6 +2,7 @@ import 'package:doctors_appointment/core/helpers/shared_prefrace.dart';
 import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/services/get_it.dart';
 import 'package:doctors_appointment/core/style/app_theme.dart';
+import 'package:doctors_appointment/features/blog/presentation/cubit/blog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/constant/constant.dart';
@@ -47,6 +48,9 @@ void main() async {
         BlocProvider(
           create: (_) => SearchCubit(getIt.get<SearchRepository>()),
         ),
+        BlocProvider(
+          create: (_) => BlogCubit()..fetchBlogPosts(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -61,6 +65,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       theme: AppThemeManager.lightTheme,
       darkTheme: AppThemeManager.darkTheme,
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       routerConfig: AppRouter.router,
     );

@@ -1,3 +1,4 @@
+//section_title.dart
 import 'package:doctors_appointment/core/style/app_color.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:flutter/material.dart';

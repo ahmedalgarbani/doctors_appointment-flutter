@@ -1,3 +1,7 @@
+import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/address_section.dart';
+import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/medical_info_section.dart';
+import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/personal_info_section.dart';
+import 'package:doctors_appointment/features/edit_profile/presentation/view/widgets/profile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,7 +9,7 @@ import 'dart:io';
 import '../../../logic/profile_method.dart';
 import '../../../logic/profile_model.dart';
 
-class EditProfileView extends StatefulWidget {
+class EditProfileView extends StatelessWidget {
   const EditProfileView({super.key});
 
   @override
@@ -174,13 +178,6 @@ class _EditProfileViewState extends State<EditProfileView> {
       appBar: AppBar(
         title: const Text("تعديل الملف الشخصي"),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: _saveProfile,
-            tooltip: 'حفظ التعديلات',
-          ),
-        ],
       ),
       body: Container(
         // textDirection: TextDirection.RTL,

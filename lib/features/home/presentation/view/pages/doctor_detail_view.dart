@@ -55,7 +55,7 @@ class _DoctorDetailViewState extends State<DoctorDetailView>
                   showModalBottomSheet(
                     context: context,
                     builder: (_) => Directionality(
-                      textDirection: TextDirection.rtl, // RTL للبوتوم شيت
+                      textDirection: TextDirection.rtl, 
                       child: DoctorScedualBottomSheet(
                         doctorModel: widget.doctorModel,
                       ),

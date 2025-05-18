@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:doctors_appointment/core/style/text_style.dart';
 import 'package:doctors_appointment/features/notification/domain/entities/notifications_entity.dart';
+import 'package:intl/intl.dart';
 
 class NotificationItem extends StatelessWidget {
   final NotificationsEntity notification;
@@ -72,7 +73,7 @@ class NotificationItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "2023-05-15\n10:30 AM",
+                  _formatDate(notification.createdAt),
                   textAlign: TextAlign.end,
                   style: TextStyles.Regular12.copyWith(
                     color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
@@ -100,14 +101,14 @@ class NotificationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "من: محمد أحمد",
+                    "من: ${notification.senderName}",
                     style: TextStyles.Regular12.copyWith(
                       color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "mohamed@example.com",
+                    notification.senderEmail,
                     style: TextStyles.Regular12.copyWith(
                       color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
                     ),
@@ -115,6 +116,7 @@ class NotificationItem extends StatelessWidget {
                 ],
               ),
             ),
+            
           ],
         ),
       ),
@@ -165,5 +167,15 @@ class NotificationItem extends StatelessWidget {
       default:
         return 'إشعار';
     }
+  }
+}
+
+String _formatDate(String rawDate) {
+  try {
+    final DateTime parsedDate = DateTime.parse(rawDate);
+    final formattedDate = DateFormat('yyyy-MM-dd\nhh:mm a').format(parsedDate);
+    return formattedDate;
+  } catch (e) {
+    return rawDate;
   }
 }

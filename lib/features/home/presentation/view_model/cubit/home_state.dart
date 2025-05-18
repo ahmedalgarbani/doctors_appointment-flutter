@@ -37,6 +37,7 @@ class SpecialtiesLoaded extends HomeState {
   @override
   List<Object> get props => [specialties];
 }
+
 class DoctorsLoaded extends HomeState {
   final List<Doctor> doctors;
 
@@ -65,8 +66,6 @@ class HomeFailure extends HomeState {
   @override
   List<Object> get props => [message];
 }
-
-
 
 class ReviewLoading extends HomeState {}
 

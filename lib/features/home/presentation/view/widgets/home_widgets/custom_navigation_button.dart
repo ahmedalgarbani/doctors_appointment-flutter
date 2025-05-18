@@ -17,7 +17,7 @@ class CustomNavigationButton extends StatelessWidget {
     Icons.person
   ];
 
-  final List<String> labels = ['home', 'history', 'favorite', 'profile'];
+  final List<String> labels = ['الرئيسية', 'الحجوزات', 'المفضل', 'الاعدادات'];
   @override
   Widget build(BuildContext context) {
     return Container(

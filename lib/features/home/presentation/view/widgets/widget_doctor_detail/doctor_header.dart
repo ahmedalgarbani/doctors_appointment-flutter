@@ -60,7 +60,6 @@ class DoctorHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 15),
-          DoctorItemList(doctorModel: doctor),
         ],
       ),
     );

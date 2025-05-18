@@ -5,17 +5,11 @@ import 'dart:io';
 import '../../../logic/profile_method.dart';
 import '../../../logic/profile_model.dart';
 
-class EditProfileView extends StatelessWidget {
+class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
 
   @override
   State<EditProfileView> createState() => _EditProfileViewState();
-  
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
 }
 
 class _EditProfileViewState extends State<EditProfileView> {
@@ -180,6 +174,13 @@ class _EditProfileViewState extends State<EditProfileView> {
       appBar: AppBar(
         title: const Text("تعديل الملف الشخصي"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _saveProfile,
+            tooltip: 'حفظ التعديلات',
+          ),
+        ],
       ),
       body: Container(
         // textDirection: TextDirection.RTL,
@@ -392,7 +393,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                 ),
                 const SizedBox(height: 16),
 
-               
                 const SizedBox(height: 30),
 
                 // Save button

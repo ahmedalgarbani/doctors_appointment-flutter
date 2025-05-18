@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:doctors_appointment/features/home/presentation/view/widgets/home_widgets/home_page_view_body.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../auth/presentation/view_model/cubit/auth_cubit.dart';
 import '../../view_model/cubit/home_cubit.dart';
 
 
@@ -18,9 +21,16 @@ class _HomePageViewCubitState extends State<HomePageViewCubit> {
     context.read<HomeCubit>().getHomeFeatures();
     context.read<FavoritesCubit>().getAllFavorites();
   }
+  checkStatus() async {
+    await context.read<AuthCubit>().loadAuthUserId();
+    await context.read<AuthCubit>().isAuth;
+    log("user status ${context.read<AuthCubit>().isAuth}");
+  }
   @override
   void initState() {
     getHomeFeatures();
+    checkStatus();
+
     super.initState();
   }
   @override

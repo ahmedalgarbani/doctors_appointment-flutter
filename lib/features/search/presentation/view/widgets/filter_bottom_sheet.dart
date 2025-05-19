@@ -84,7 +84,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Draggable handle
+          // المقبض العلوي
           Container(
             width: 40,
             height: 4,
@@ -95,12 +95,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             ),
           ),
 
-          // Header
+          // العنوان
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Filter Doctors',
+                'تصفية الأطباء',
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -115,7 +115,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           const SizedBox(height: 16),
           Divider(color: theme.dividerColor),
 
-          // Move filter sections above the button row
           _buildRatingFilter(theme),
           const SizedBox(height: 24),
           _buildGenderFilter(theme),
@@ -123,7 +122,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           _buildSpecialtiesFilter(theme, specialties),
           const SizedBox(height: 24),
 
-          // Action buttons section moved below the filters
+          // أزرار الإجراءات
           Row(
             children: [
               Expanded(
@@ -136,7 +135,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   ),
                   onPressed: clearFilters,
                   child: Text(
-                    'Clear',
+                    'مسح',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.error,
                     ),
@@ -155,7 +154,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   ),
                   onPressed: applyFilters,
                   child: Text(
-                    'Apply Filters',
+                    'تطبيق التصفية',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.onPrimary,
                     ),
@@ -174,7 +173,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Rating',
+          'التقييم',
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -220,11 +219,17 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   }
 
   Widget _buildGenderFilter(ThemeData theme) {
+    final genderLabels = {
+      'Male': 'ذكر',
+      'Female': 'أنثى',
+      'Other': 'أخرى',
+    };
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Gender',
+          'الجنس',
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -232,12 +237,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         const SizedBox(height: 12),
         Wrap(
           spacing: 8,
-          children: ['Male', 'Female', 'Other'].map((gender) {
-            final isSelected = activeFilters['Gender']!.contains(gender);
+          children: genderLabels.keys.map((genderKey) {
+            final isSelected = activeFilters['Gender']!.contains(genderKey);
             return ChoiceChip(
-              label: Text(gender),
+              label: Text(genderLabels[genderKey]!),
               selected: isSelected,
-              onSelected: (_) => _toggleFilter('Gender', gender),
+              onSelected: (_) => _toggleFilter('Gender', genderKey),
               selectedColor: theme.colorScheme.primary.withOpacity(0.1),
               labelStyle: theme.textTheme.bodyMedium?.copyWith(
                 color: isSelected
@@ -266,7 +271,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Specialties',
+          'التخصصات',
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),

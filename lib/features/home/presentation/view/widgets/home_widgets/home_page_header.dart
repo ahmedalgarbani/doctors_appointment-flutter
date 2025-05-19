@@ -20,15 +20,23 @@ class HomePageHeader extends StatelessWidget {
       elevation: 0,
       color: Colors.white,
       child: ListTile(
-        title: Text(
-          title ?? "Docuure app",
-          style: TextStyles.Bold16.copyWith(color: Colors.black),
-        ),
+        // title: Text(
+        //   title ?? "موعدي",
+        //   style: TextStyles.Bold16.copyWith(color: Colors.black),
+        // ),
         contentPadding: EdgeInsets.zero,
-        leading: ClipOval(
-          child: SizedBox(
-              height: 40, width: 40, child: SvgPicture.asset(AppVectors.logo)),
+        leading: Container(
+          padding: const EdgeInsets.all(4),
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Image.asset(
+            'assets/images/MyApp/loge.png',
+            fit: BoxFit.contain,
+            height: 40,
+          ),
         ),
+
         trailing: Container(
           width: 50,
           height: 50,

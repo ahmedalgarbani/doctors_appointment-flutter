@@ -35,10 +35,10 @@ class HomePageViewBody extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
-          
+
           // SectionsTitle للتخصصات
           SectionsTitle(
-            title: "Specialty",
+            title: "التخصصات",
             onPressed: () {
               GoRouter.of(context).push(AppRouter.KAllSpecialitesView);
             },
@@ -72,7 +72,7 @@ class HomePageViewBody extends StatelessWidget {
               if (state is DoctorsLoaded)
                 return Column(children: [
                   SectionsTitle(
-                    title: "Doctors",
+                    title: "الأطباء",
                     onPressed: () {
                       GoRouter.of(context)
                           .push(AppRouter.KallDoctors, extra: state.doctors);
@@ -90,7 +90,7 @@ class HomePageViewBody extends StatelessWidget {
 
           // Blog Section باستخدام SectionsTitle
           SectionsTitle(
-            title: "Latest Articles",
+            title: "المقالات",
             onPressed: () {
               GoRouter.of(context).push(AppRouter.KBlogListPage);
             },

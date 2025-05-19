@@ -19,6 +19,8 @@ import '../../../../../core/helpers/build_snacbar.dart';
 import 'package:doctors_appointment/features/checkout/data/models/payment_method_model.dart';
 import 'package:doctors_appointment/features/checkout/presentation/view/widgets/choisen_doctor.dart';
 
+// ... (بقية الاستيرادات كما هي)
+
 class CheckOutPageViewBody extends StatefulWidget {
   const CheckOutPageViewBody({
     super.key,
@@ -83,7 +85,7 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
             CustomButton(
               height: 50,
               onPressed: _onSubmit,
-              title: "Complete",
+              title: "إكمال",
             ),
           ],
         ),
@@ -111,15 +113,15 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
           ),
           const SizedBox(height: 10),
           Text(
-            "Account Name : ${method.accountName}",
+            "اسم الحساب : ${method.accountName}", 
             style: TextStyles.Bold12.copyWith(color: Colors.black),
           ),
           Text(
-            "Account Number : ${method.accountNumber}",
+            "رقم الحساب : ${method.accountNumber}",
             style: TextStyles.Bold12.copyWith(color: Colors.black),
           ),
           Text(
-            "Iban Number : ${method.iban}",
+            "رقم الآيبان : ${method.iban}", 
             style: TextStyles.Bold12.copyWith(color: Colors.black),
           ),
         ],
@@ -150,7 +152,7 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
             amount: doctorPrice,
             booking_date: widget.bookingDetail['booking_date'],
             paymentMethod: widget.paymentMethod[choice].id,
-            paymentNotes: "paid from mobile app",
+            paymentNotes: "تم الدفع من خلال تطبيق الجوال",
             paymentReceiptPath: imagePath),
       );
 
@@ -159,8 +161,7 @@ class _CheckOutPageViewBodyState extends State<CheckOutPageViewBody> {
       if (result) {
         GoRouter.of(context).pushReplacement(AppRouter.KCheckOutDonePageView);
       } else {
-        buildSnackbar(context, "You should login");
-        // GoRouter.of(context).pushReplacement(AppRouter.KSignin);
+        buildSnackbar(context, "يجب عليك تسجيل الدخول");
       }
     } else {
       setState(() {

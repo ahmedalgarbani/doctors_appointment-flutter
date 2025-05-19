@@ -30,12 +30,12 @@ class EmptyAppointmentView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            "You don't have an appointment",
+            "ليس لديك موعد حاليًا",
             style: TextStyles.Bold16.copyWith(color: Colors.black),
           ),
           const Spacer(),
           CustomButton(
-            title: "Book Appointment Now",
+            title: "احجز موعدًا الآن",
             onPressed: () {
               GoRouter.of(context).push(AppRouter.KHomePage);
             },

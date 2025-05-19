@@ -91,43 +91,43 @@ class _NotificationPageViewBodyBlocConsumerState
                 child: NotificationPageViewBody(
                     notifications: state.notifications),
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: isDarkMode ? Colors.grey[800] : Colors.white,
-                  border: Border(
-                    top: BorderSide(
-                      color: isDarkMode ? Colors.grey[700]! : Colors.grey[200]!,
-                      width: 1,
-                    ),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF59E0B),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.done_all, size: 18),
-                          SizedBox(width: 8),
-                          Text("تمييز الكل كمقروء"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.all(10),
+              //   decoration: BoxDecoration(
+              //     color: isDarkMode ? Colors.grey[800] : Colors.white,
+              //     border: Border(
+              //       top: BorderSide(
+              //         color: isDarkMode ? Colors.grey[700]! : Colors.grey[200]!,
+              //         width: 1,
+              //       ),
+              //     ),
+              //   ),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       ElevatedButton(
+              //         style: ElevatedButton.styleFrom(
+              //           backgroundColor: const Color(0xFFF59E0B),
+              //           foregroundColor: Colors.white,
+              //           padding: const EdgeInsets.symmetric(
+              //               horizontal: 16, vertical: 12),
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(8),
+              //           ),
+              //         ),
+              //         onPressed: () {},
+              //         child: const Row(
+              //           mainAxisSize: MainAxisSize.min,
+              //           children: [
+              //             Icon(Icons.done_all, size: 18),
+              //             SizedBox(width: 8),
+              //             Text("تمييز الكل كمقروء"),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           );
         } else if (state is NotificationError) {

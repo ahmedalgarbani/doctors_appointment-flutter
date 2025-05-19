@@ -3,6 +3,7 @@ import 'package:doctors_appointment/core/router/router.dart';
 import 'package:doctors_appointment/core/services/get_it.dart';
 import 'package:doctors_appointment/core/style/app_theme.dart';
 import 'package:doctors_appointment/features/blog/presentation/cubit/blog_cubit.dart';
+import 'package:doctors_appointment/features/setting/presentation/controller/cubit/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/constant/constant.dart';
@@ -51,6 +52,9 @@ void main() async {
         BlocProvider(
           create: (_) => BlogCubit()..fetchBlogPosts(),
         ),
+        BlocProvider(
+          create: (_) => ThemeCubit(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -62,12 +66,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: AppThemeManager.lightTheme,
-      darkTheme: AppThemeManager.darkTheme,
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter.router,
+    return BlocBuilder<ThemeCubit, ThemeMode>(
+      builder: (context, themeMode) {
+        return MaterialApp.router(
+          theme: AppThemeManager.lightTheme,
+          darkTheme: AppThemeManager.darkTheme,
+          themeMode: themeMode,
+          debugShowCheckedModeBanner: false,
+          routerConfig: AppRouter.router,
+        );
+      },
     );
   }
 }

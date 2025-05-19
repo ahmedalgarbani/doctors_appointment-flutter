@@ -28,7 +28,7 @@ class _AllSpecialtiesViewState extends State<AllSpecialtiesView> {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          "Specialist Doctor",
+          "كل التخصصات",
           style: TextStyles.Black20Bold.copyWith(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,

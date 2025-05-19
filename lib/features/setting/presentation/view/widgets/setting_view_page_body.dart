@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:doctors_appointment/features/appointment/presentation/viewModel/cubit/appointment_cubit.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';
+import 'package:doctors_appointment/features/setting/presentation/controller/cubit/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -74,10 +75,42 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
             _buildListTile(Icons.notifications, "الإشعارات", onTap: () {
               GoRouter.of(context).push(AppRouter.KNotificationPageView);
             }, isDarkMode: isDarkMode),
-            _buildListTile(Icons.palette, "المظهر",
-                onTap: () {}, isDarkMode: isDarkMode),
+            BlocBuilder<ThemeCubit, ThemeMode>(
+              builder: (context, themeMode) {
+                final isDark = themeMode == ThemeMode.dark;
+
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.palette,
+                      color: isDarkMode
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
+                    ),
+                    title: Text(
+                      isDark ? "الوضع الداكن" : "الوضع الفاتح",
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                    trailing: Switch(
+                      value: isDark,
+                      onChanged: (_) {
+                        context.read<ThemeCubit>().toggleTheme();
+                      },
+                      activeColor: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
+       
         const SizedBox(height: 16),
         _buildSectionCard(
           children: [

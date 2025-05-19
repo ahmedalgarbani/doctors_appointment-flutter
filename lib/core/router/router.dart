@@ -22,6 +22,7 @@ import 'package:doctors_appointment/features/search/presentation/view/pages/sear
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/appointment/presentation/view/pages/appointment_page_view.dart';
 import '../../features/home/data/models/speciality_response/doctor.dart';
 
 abstract class AppRouter {
@@ -44,6 +45,7 @@ abstract class AppRouter {
   static const String KChangePasswordView = '/KChangePasswordView';
   static const String KBlogListPage = '/KBlogListPage';
   static const String KBlogDetailPage = '/KBlogDetailPage';
+  static const String KAppointment = '/KAppointment';
 
   static final router = GoRouter(
     routes: [
@@ -61,6 +63,10 @@ abstract class AppRouter {
       GoRoute(
         path: KHomePage,
         builder: (context, state) => HomePageView(),
+      ),
+      GoRoute(
+        path: KAppointment,
+        builder: (context, state) => AppointmentPageView(),
       ),
       GoRoute(
         path: KCheckOutPageView,
@@ -135,13 +141,12 @@ abstract class AppRouter {
         builder: (context, state) => const ChangePasswordView(),
       ),
       GoRoute(
-  path: AppRouter.KBlogListPage,
-  builder: (context, state) => BlocProvider(
-    create: (_) => BlogCubit(),
-    child: const BlogListPage(),
-  ),
-),
-
+        path: AppRouter.KBlogListPage,
+        builder: (context, state) => BlocProvider(
+          create: (_) => BlogCubit(),
+          child: const BlogListPage(),
+        ),
+      ),
       GoRoute(
         path: KBlogDetailPage,
         builder: (context, state) {

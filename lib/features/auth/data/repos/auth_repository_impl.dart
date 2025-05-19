@@ -34,4 +34,9 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<bool> logout() async {
     return await _authService.logout();
   }
+
+  @override
+  Future<Map<String, dynamic>?> getAuthUserData() async {
+    return await _authService.getAuthUserData();
+  }
 }

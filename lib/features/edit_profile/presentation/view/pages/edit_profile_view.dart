@@ -31,14 +31,13 @@ class _EditProfileViewState extends State<EditProfileView> {
   String state = '';
   DateTime birthDate = DateTime.now();
   String gender = '';
-  String bloodGroup = '';
   String notes = '';
 
-  // Mapping between backend values and UI dropdown values
-  static const Map<String, String> genderBackendToUi = {
-    'male': 'ذكر',
-    'female': 'أنثى',
-  };
+  // // Mapping between backend values and UI dropdown values
+  // static const Map<String, String> genderBackendToUi = {
+  //   'male': 'ذكر',
+  //   'female': 'أنثى',
+  // };
 
   static const Map<String, String> genderUiToBackend = {
     'ذكر': 'male',
@@ -65,8 +64,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         state = profile.state ?? '';
         birthDate =
             DateTime.tryParse(profile.birthDate.toString()) ?? DateTime.now();
-        gender = genderBackendToUi[profile.gender.toLowerCase()] ?? '';
-        bloodGroup = profile.bloodGroup;
+        gender = genderUiToBackend[profile.gender.toLowerCase()] ?? '';
         _isLoading = false;
       });
     } catch (e) {
@@ -136,7 +134,6 @@ class _EditProfileViewState extends State<EditProfileView> {
         state: state,
         birthDate: birthDate.toIso8601String(),
         gender: genderUiToBackend[gender] ?? '',
-        bloodGroup: bloodGroup,
         age: DateTime.now().year - birthDate.year,
       );
 
@@ -321,7 +318,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                     Expanded(
                       child: _buildDropdown(
                         "الجنس",
-                        ["ذكر", "أنثى"],
+                        ["male", "female"],
                         value: gender.isEmpty ? null : gender,
                         onChanged: (val) {
                           if (val != null) setState(() => gender = val);
@@ -381,17 +378,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                 const SizedBox(height: 30),
 
                 // Medical Information
-                _buildSectionHeader("معلومات طبية"),
-                const SizedBox(height: 16),
-
-                _buildDropdown(
-                  "فصيلة الدم",
-                  ["A-", "A+", "B-", "B+", "AB-", "AB+", "O-", "O+"],
-                  value: bloodGroup,
-                  onChanged: (val) => setState(() => bloodGroup = val!),
-                  icon: Icons.bloodtype_outlined,
-                ),
-                const SizedBox(height: 16),
 
                 const SizedBox(height: 30),
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctors_appointment/features/appointment/presentation/viewModel/cubit/appointment_cubit.dart';
 import 'package:doctors_appointment/features/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:doctors_appointment/features/home/presentation/view_model/cubit/home_cubit.dart';
@@ -14,15 +16,26 @@ class SettingViewPageBody extends StatefulWidget {
 }
 
 class _SettingViewPageBodyState extends State<SettingViewPageBody> {
+  Map<String, dynamic>? data;
+
   @override
   void initState() {
     super.initState();
-    // context.read<AuthCubit>().loadAuthUserId();
+    getData();
+  }
+
+  Future<void> getData() async {
+    try {
+      data = await context.read<AuthCubit>().getAuthUserData();
+      log("User Data: $data");
+      setState(() {});
+    } catch (e) {
+      log("Error fetching user data: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // تحديد ما إذا كان الوضع داكنًا أو فاتحًا
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return ListView(
@@ -49,8 +62,9 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
               GoRouter.of(context).push(AppRouter.KFavoriteDoctorView,
                   extra: {"isSetting": true});
             }, isDarkMode: isDarkMode),
-            _buildListTile(Icons.calendar_today, "مواعيدي",
-                onTap: () {}, isDarkMode: isDarkMode),
+            _buildListTile(Icons.calendar_today, "مواعيدي", onTap: () {
+              GoRouter.of(context).push(AppRouter.KAppointment);
+            }, isDarkMode: isDarkMode),
           ],
         ),
         const SizedBox(height: 16),
@@ -61,14 +75,6 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
               GoRouter.of(context).push(AppRouter.KNotificationPageView);
             }, isDarkMode: isDarkMode),
             _buildListTile(Icons.palette, "المظهر",
-                onTap: () {}, isDarkMode: isDarkMode),
-          ],
-        ),
-        const SizedBox(height: 16),
-        _buildSectionCard(
-          title: "التواصل",
-          children: [
-            _buildListTile(Icons.support_agent, "تواصل معنا",
                 onTap: () {}, isDarkMode: isDarkMode),
           ],
         ),
@@ -95,6 +101,10 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
   }
 
   Widget _buildProfileHeader(BuildContext context, bool isDarkMode) {
+    final name = data?['name'] ?? 'الاسم غير متاح';
+    final email = data?['email'] ?? 'البريد الإلكتروني غير متاح';
+    final phone = data?['mobile_number'] ?? 'رقم الهاتف غير متاح';
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -107,30 +117,30 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
               borderRadius: BorderRadius.circular(16),
             ),
             color: isDarkMode ? Colors.black : Colors.white,
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(24, 70, 24, 24),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 70, 24, 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "John Smith",
-                    style: TextStyle(
+                    name,
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Text(
-                    "AhmedMohamed@gmail.com",
-                    style: TextStyle(
+                    email,
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   Text(
-                    "+967 777 123 456",
-                    style: TextStyle(
+                    phone,
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
                     ),
@@ -147,7 +157,7 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
           child: Center(
             child: Container(
               padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
                 boxShadow: [
@@ -206,17 +216,23 @@ class _SettingViewPageBodyState extends State<SettingViewPageBody> {
     bool isDarkMode = false,
   }) {
     return ListTile(
-      leading: Icon(icon,
-          color: iconColor ??
-              (isDarkMode ? Colors.white : Theme.of(context).primaryColor)),
+      leading: Icon(
+        icon,
+        color: iconColor ??
+            (isDarkMode ? Colors.white : Theme.of(context).primaryColor),
+      ),
       title: Text(
         title,
         style: TextStyle(
-            color: textColor ?? (isDarkMode ? Colors.white : Colors.black)),
+          color: textColor ?? (isDarkMode ? Colors.white : Colors.black),
+        ),
         textAlign: TextAlign.right,
       ),
-      trailing: Icon(Icons.arrow_forward_ios,
-          size: 16, color: isDarkMode ? Colors.white : Colors.black),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        size: 16,
+        color: isDarkMode ? Colors.white : Colors.black,
+      ),
       onTap: onTap,
     );
   }

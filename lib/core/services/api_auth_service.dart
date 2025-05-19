@@ -45,7 +45,7 @@ class ApiAuthService extends AuthService {
 
   @override
   Future deleteUser(int id) {
-    // TODO: implement deleteUser
+    //  TODO: implement deleteUser
     throw UnimplementedError();
   }
 
@@ -142,12 +142,32 @@ class ApiAuthService extends AuthService {
       }
     } on DioException catch (ex) {
       return Left(ServerFailure.fromDiorError(ex));
-    }on ServerFailure catch(e){
-      return Left(ServerFailure.fromResponse(401,e));
-
-    }catch(e){
-      return Left(ServerFailure.fromResponse(401,e));
-
+    } on ServerFailure catch (e) {
+      return Left(ServerFailure.fromResponse(401, e));
+    } catch (e) {
+      return Left(ServerFailure.fromResponse(401, e));
     }
+  }
+
+  @override
+  Future<Map<String, dynamic>?> getAuthUserData() async {
+    try {
+      final response = await getIt.get<ApiService>().get(EndPoints.profile);
+      log("ahmed ssssssssssssssss --- ${response.data['result']}");
+      if (response.statusCode == 200) {
+        final data = response.data['result'];
+        return {
+          "name": "${data['first_name']} ${data['last_name'] ?? ''}".trim(),
+          "email": data['email'],
+          "mobile_number": data['mobile_number'],
+          // "image": data['profile_picture'],
+        };
+      }
+    } catch (e) {
+      print("Error in getAuthUserData: $e");
+      return null;
+    }
+
+    return null;
   }
 }

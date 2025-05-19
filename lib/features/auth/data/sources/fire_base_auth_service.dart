@@ -43,4 +43,10 @@ class FireBaseAuthService extends AuthService {
     // TODO: implement setAuthUserId
     throw UnimplementedError();
   }
+  
+  @override
+  Future<Map<String, dynamic>> getAuthUserData() {
+    // TODO: implement getAuthUserData
+    throw UnimplementedError();
+  }
 }

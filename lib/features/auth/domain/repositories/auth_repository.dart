@@ -14,6 +14,7 @@ abstract class AuthRepository {
   Future<int?> getAuthUserId();
 
   Future<void> setAuthUserId(int userId);
+  Future<Map<String, dynamic>?> getAuthUserData();
 
   Future<bool> logout();
 }

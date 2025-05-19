@@ -64,6 +64,7 @@ class AuthCubit extends Cubit<AuthCubitState> {
     emit(AuthCubitLoading());
 
     final int? userId = await _authRepository.getAuthUserId();
+    log(userId.toString());
     if (userId != null && userId > 0) {
       isAuth = true;
       Pref.setInt(KauthUserId, userId);
@@ -83,6 +84,14 @@ class AuthCubit extends Cubit<AuthCubitState> {
       emit(AuthCubitLoaded(isAuthenticated: isAuth, authUserId: null));
     } else {
       emit(AuthCubitFailure("Failed to logout, please try again."));
+    }
+  }
+
+  Future<Map<String, dynamic>?> getAuthUserData() async {
+    try {
+      return await _authRepository.getAuthUserData();
+    } catch (e) {
+      return null;
     }
   }
 }
